@@ -1,0 +1,35 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head"></head>
+<body>
+<div class="wrapper">
+  <header th:replace="fragments/header"></header>
+  <main>
+    <section class="admin-dashboard">
+      <h1>Admin Dashboard</h1>
+      <h2>Manage Opportunities</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody th:each="opportunity : ${opportunities}">
+        <tr>
+          <td th:text="${opportunity.title}">Title</td>
+          <td th:text="${opportunity.description}">Description</td>
+          <td>
+            <a th:href="@{/opportunity/edit/{id}(id=${opportunity.id})}" class="btn">Edit</a>
+            <a th:href="@{/opportunity/delete/{id}(id=${opportunity.id})}" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <footer th:replace="fragments/footer"></footer>
+</div>
+</body>
+</html>

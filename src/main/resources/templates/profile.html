@@ -1,0 +1,18 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head"></head>
+<body>
+<header th:replace="fragments/header"></header>
+
+<main>
+  <div class="container">
+    <h2>Your Profile</h2>
+    <p>Welcome, <span th:text="${#authentication.name}">User</span>!</p>
+    <p>View and update your volunteer preferences, check your activity, or explore new opportunities.</p>
+
+    <a th:href="@{/volunteer-opportunities}" class="btn btn-primary">Explore Opportunities</a>
+  </div>
+</main>
+
+<footer th:replace="fragments/footer"></footer>
+</body>
+</html>

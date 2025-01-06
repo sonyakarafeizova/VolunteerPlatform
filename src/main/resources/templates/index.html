@@ -1,0 +1,16 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head"></head>
+<body>
+<header th:replace="fragments/header"></header>
+
+<main>
+    <div class="container">
+        <h1>Welcome to the Volunteer Platform!</h1>
+        <p>Join us in making a difference in the world through volunteering opportunities!</p>
+        <a th:href="@{/register}" class="btn btn-primary">Get Started</a>
+    </div>
+</main>
+
+<footer th:replace="fragments/footer"></footer>
+</body>
+</html>
