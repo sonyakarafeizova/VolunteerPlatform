@@ -1,10 +1,17 @@
-
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head"></head>
 <body>
 <div class="wrapper">
   <header th:replace="fragments/header"></header>
   <main>
+    <div class="banner mb-4">
+      <div class="container d-flex align-items-center h-100">
+        <div class="banner-content">
+          <h1 class="display-4">Admin Dashboard</h1>
+          <p class="lead">Manage your opportunities and content</p>
+        </div>
+      </div>
+    </div>
     <section class="admin-dashboard">
       <h1>Admin Dashboard</h1>
       <h2>Manage Opportunities</h2>
@@ -16,13 +23,14 @@
           <th>Actions</th>
         </tr>
         </thead>
-        <tbody th:each="opportunity : ${opportunities}">
+        <!--/*@thymesVar id="causes" type=""*/-->
+        <tbody th:each="cause : ${causes}">
         <tr>
-          <td th:text="${opportunity.title}">Title</td>
-          <td th:text="${opportunity.description}">Description</td>
+          <td th:text="${causes.title}">Title</td>
+          <td th:text="${causes.description}">Description</td>
           <td>
-            <a th:href="@{/opportunity/edit/{id}(id=${opportunity.id})}" class="btn">Edit</a>
-            <a th:href="@{/opportunity/delete/{id}(id=${opportunity.id})}" class="btn btn-danger">Delete</a>
+            <a th:href="@{/causes/edit/{id}(id=${opportunity.id})}" class="btn">Edit</a>
+            <a th:href="@{/causes/delete/{id}(id=${opportunity.id})}" class="btn btn-danger">Delete</a>
           </td>
         </tr>
         </tbody>

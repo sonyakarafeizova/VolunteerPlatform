@@ -1,0 +1,89 @@
+package com.volunteerplatform.web;
+
+import com.volunteerplatform.model.UserRoles;
+import com.volunteerplatform.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+@Controller
+@RequiredArgsConstructor
+public class UserController {
+
+    private final UserService userService;
+
+
+    @GetMapping("/users/register")
+    public String viewRegister(Model model) {
+        if (!model.containsAttribute("registerData")) {
+            model.addAttribute("registerData", new UserRegisterDTO());
+        }
+
+        model.addAttribute("roles", UserRoles.values()); // Populate roles for dropdown (optional)
+
+        return "register";
+    }
+
+
+    @PostMapping("/users/register")
+    public String doRegister(
+            @Valid @ModelAttribute("registerData") UserRegisterDTO data,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("registerData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
+
+            return "redirect:/users/register";
+        }
+
+        try {
+            userService.register(data);
+            redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
+            return "redirect:/users/login";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/users/register";
+        }
+    }
+
+
+    @GetMapping("users/login")
+    public ModelAndView viewLogin() {
+        ModelAndView modelAndView = new ModelAndView("login");
+
+        modelAndView.addObject("loginData", new UserLoginDTO());
+
+        return modelAndView;
+    }
+
+
+    @GetMapping("users/login-error")
+    public ModelAndView viewLoginError() {
+        ModelAndView modelAndView = new ModelAndView("login");
+
+        modelAndView.addObject("showErrorMessage", true);
+        modelAndView.addObject("loginData", new UserLoginDTO());
+
+        return modelAndView;
+    }
+
+
+    @GetMapping("users/profile")
+    public ModelAndView profile() {
+        ModelAndView modelAndView = new ModelAndView("profile");
+
+        modelAndView.addObject("profileData", userService.getProfileData());
+
+        return modelAndView;
+    }
+}

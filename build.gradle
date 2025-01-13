@@ -28,6 +28,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation 'org.modelmapper:modelmapper:3.2.0'
 
+    // Spring Security
     // https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
     implementation 'org.springframework.security:spring-security-crypto'
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
@@ -41,6 +42,13 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+
+    
+    // If you need test support for security
+    testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

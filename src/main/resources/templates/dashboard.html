@@ -1,20 +1,53 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/head"></head>
-<body>
-<header th:replace="fragments/header"></header>
-
-<main>
-    <div class="container">
-        <h2>Admin Dashboard</h2>
-        <p>Manage platform content, users, and volunteer opportunities here.</p>
-
-        <div class="admin-controls">
-            <a th:href="@{/manage/users}" class="btn btn-secondary">Manage Users</a>
-            <a th:href="@{/manage/opportunities}" class="btn btn-secondary">Manage Opportunities</a>
+<body class="bg-light">
+    <div class="wrapper">
+        <header th:replace="fragments/header"></header>
+        
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h2 class="card-title">Welcome, <span sec:authentication="name">User</span>!</h2>
+                            <p class="card-text">Your role: <span sec:authentication="principal.authorities">ROLE</span></p>
+                            
+                            <!-- Admin-only section -->
+                            <div sec:authorize="hasRole('ADMIN')" class="mt-4">
+                                <h3>Administrative Actions</h3>
+                                <div class="list-group">
+                                    <a th:href="@{/admin/users}" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-users me-2"></i>Manage Users
+                                    </a>
+                                    <a th:href="@{/admin/settings}" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-cog me-2"></i>System Settings
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- User stats section -->
+                            <div class="row mt-4">
+                                <div class="col-md-4">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Last Login</h5>
+                                            <p class="card-text" th:text="${#temporals.format(#temporals.createNow(), 'dd MMM yyyy HH:mm')}">
+                                                Date
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Add more stat cards as needed -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</main>
 
-<footer th:replace="fragments/footer"></footer>
+        <footer th:replace="fragments/footer"></footer>
+    </div>
 </body>
 </html>

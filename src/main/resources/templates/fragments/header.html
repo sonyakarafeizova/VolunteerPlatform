@@ -1,49 +1,44 @@
-<header th:fragment="header">
-  <nav class="main-nav">
-    <ul>
-      <li>
-        <a th:href="@{/}">Home</a>
-      </li>
+<header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <nav class="main-nav">
+        <ul>
+            <li>
+                <a th:href="@{/}">Home</a>
+            </li>
+            <!--            <th:block th:unless="${@userHelperService.isAuthenticated()}">-->
+            <th:block sec:authorize="!isAuthenticated()">
 
-      <!-- If user is NOT authenticated -->
-      <th:block sec:authorize="!isAuthenticated()">
-        <li>
-          <a th:href="@{/users/login}">Login</a>
-        </li>
-        <li>
-          <a th:href="@{/users/register}">Register</a>
-        </li>
-        <li>
-          <a th:href="@{/about}">About</a>
-        </li>
-      </th:block>
+                <li>
+                    <a th:href="@{/users/login}">Login</a>
+                </li>
+                <li>
+                    <a th:href="@{/users/register}">Register</a>
+                </li>
+                <li>
+                    <a th:href="@{/about}">About</a>
+                </li>
+            </th:block>
 
-      <!-- If user is authenticated -->
-      <th:block sec:authorize="isAuthenticated()">
-        <li>
-          <a th:href="@{/dashboard}">Dashboard</a>
-        </li>
-        <li>
-          <a th:href="@{/events}">Events</a>
-        </li>
-        <li>
-          <a th:href="@{/profile}">Profile</a>
-        </li>
-
-        <!-- Admin Access -->
-        <li sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/admin}">Admin</a>
-        </li>
-
-        <!-- Logout -->
-        <li>
-          <form
-                  th:method="POST"
-                  th:action="@{/users/logout}">
-            <button type="submit">Logout</button>
-          </form>
-        </li>
-      </th:block>
-    </ul>
-  </nav>
+            <!--            <th:block th:if="${@userHelperService.isAuthenticated()}">-->
+            <th:block sec:authorize="isAuthenticated()">
+                <li>
+                    <a th:href="@{/add-cause}">Add new cause</a>
+                </li>
+                <li>
+                    <a th:href="@{/users/profile}">Profile</a>
+                </li>
+                <!--                <li th:if="@userHelperService.hasRole('ADMIN')">-->
+                <li sec:authorize="hasRole('ADMIN')">
+                    <a href="/">Admin</a>
+                </li>
+                <li>
+                    <form
+                            th:method="POST"
+                            th:action="@{/users/logout}"
+                    >
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
 </header>
