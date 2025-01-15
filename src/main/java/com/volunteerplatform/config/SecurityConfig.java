@@ -12,24 +12,37 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/home", "/users/register", "/users/login", 
-                               "/css/**", "/js/**", "/images/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/users/login")
-                .loginProcessingUrl("/users/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/users/login-error")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
-        
-        return http.build();
+        return http
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+                .authorizeHttpRequests(
+                        authorizeRequest -> {
+                            // Allow access to common static resources (css, js, images, etc.)
+                            authorizeRequest
+                                    .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                                    // Allow some specific pages without authentication
+                                    .requestMatchers("/", "/users/login", "/users/login-error", "/users/register", "/about").permitAll()
+                                    .requestMatchers("/api/hello-world", "/api/comments/").permitAll()
+                                    // Secure all other requests
+                                    .anyRequest().authenticated();
+                        }
+                )
+                .formLogin(
+                        formLogin -> {
+                            formLogin.loginPage("/users/login");
+                            formLogin.usernameParameter("username");
+                            formLogin.passwordParameter("password");
+                            formLogin.defaultSuccessUrl("/", true);
+                            formLogin.failureUrl("/users/login-error");
+                        }
+                )
+                .logout(
+                        logout -> {
+                            logout.logoutUrl("/users/logout");
+                            logout.logoutSuccessUrl("/");
+                            logout.invalidateHttpSession(true);
+                        }
+                )
+                .build();
     }
-} 
+}

@@ -11,23 +11,29 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserHelperService {
+    private static final String ROLE_PREFIX = "ROLE_";
     private final UserRepository userRepository;
-    public boolean isAuthenticated() {
-        Authentication authentication = getAuthentication();
-        return authentication != null && authentication.getAuthorities().stream()
-                .noneMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ANONYMOUS"));
-    }
-
-    public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
-    }
 
     public User getUser() {
         return userRepository.findByUsername(getUserDetails().getUsername())
                 .orElse(null);
     }
 
-    private UserDetails getUserDetails() {
+    public boolean hasRole(String role) {
+        return getAuthentication().getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(ROLE_PREFIX + role));
+    }
+
+    public UserDetails getUserDetails() {
         return (UserDetails) getAuthentication().getPrincipal();
+    }
+
+    public boolean isAuthenticated() {
+
+        return !hasRole("ANONYMOUS");
+    }
+
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

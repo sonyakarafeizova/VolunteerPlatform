@@ -10,7 +10,7 @@
             <div class="causes-list" th:each="opportunity : ${causes}">
                 <div class="causes-card">
                     <h2 th:text="${causes.title}">Causes Title</h2>
-                    <p th:text="${causes.description}">Opportunity Description</p>
+                    <p th:text="${causes.description}">Cause Description</p>
                     <a th:href="@{/causes/{id}(id=${causes.id})}" class="btn">Learn More</a>
                 </div>
             </div>

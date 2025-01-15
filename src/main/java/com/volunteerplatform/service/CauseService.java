@@ -31,4 +31,7 @@ public class CauseService {
     public void deleteCause(Long id) {
         causeRepository.deleteById(id);
     }
+
+
+
 }

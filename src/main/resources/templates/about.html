@@ -1,10 +1,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
 <head th:replace="fragments/head"></head>
 <body>
-<header th:replace="fragments/header"></header>
+<div class="wrapper">
+    <!-- Navigation -->
+    <header th:replace="fragments/header"></header>
 
-<main>
-    <div class="container">
+    <div class="info">
+        <div></div>
+        <div>
         <h4>About Us</h4>
         <p>
             Welcome to our Volunteer Platform, where we bring together compassionate individuals and organizations
@@ -25,9 +29,12 @@
             Join us in this journey of compassion and collaboration. Explore our platform, find a cause close to your heart,
             and become a part of a vibrant community dedicated to change.
         </p>
+        </div>
+        <div></div>
     </div>
-</main>
 
-<footer th:replace="fragments/footer"></footer>
+</div>
+<!-- Wrapper Ends -->
 </body>
+<footer th:replace="fragments/footer"></footer>
 </html>
