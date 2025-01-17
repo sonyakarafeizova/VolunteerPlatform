@@ -1,60 +1,56 @@
 package com.volunteerplatform.web;
 
-import com.volunteerplatform.model.Cause;
+import com.volunteerplatform.model.Level;
 import com.volunteerplatform.service.CauseService;
+import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
+import com.volunteerplatform.web.dto.AddCauseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/causes")
 public class CauseController {
     private final CauseService causeService;
 
-    @GetMapping
-    public String listCauses(Model model) {
-        List<Cause> causes = causeService.getAllCauses();
-        model.addAttribute("causes", causes);
-        return "cause/list";
-    }
+@GetMapping("/causes")
+public String causes(Model model) {
+        List<CauseShortInfoDTO> causes = causeService.getAll();
 
-    @GetMapping("/create")
-    public String showCreateForm(Model model) {
-        model.addAttribute("cause", new Cause());
-        return "cause/create";
-    }
+        model.addAttribute("allCauses", causes);
 
-    @PostMapping("/create")
-    public String createCause(@Valid @ModelAttribute Cause cause, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "cause/create";
+        return "causes";
         }
-        causeService.createCause(cause);
-        redirectAttributes.addFlashAttribute("message", "Cause created successfully!");
-        return "redirect:/causes";
-    }
 
-    @GetMapping("/{id}")
-    public String viewCause(@PathVariable Long id, Model model) {
-        Cause cause = causeService.getCauseById(id);
-        if (cause == null) {
-            return "redirect:/causes";
+@GetMapping("add-route")
+public ModelAndView addRoute() {
+        ModelAndView modelAndView = new ModelAndView("add-route");
+
+        modelAndView.addObject("route", new CauseShortInfoDTO());
+        modelAndView.addObject("levels", Level.values());
+        return modelAndView;
         }
-        model.addAttribute("cause", cause);
-        return "cause/view";
-    }
 
-    @PostMapping("/delete/{id}")
-    public String deleteCause(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        causeService.deleteCause(id);
-        redirectAttributes.addFlashAttribute("message", "Cause deleted successfully!");
-        return "redirect:/causes";
-    }
-}
+
+@ModelAttribute("causeData")
+public AddCauseDTO routeData() {
+        return new AddCauseDTO();
+        }
+
+
+
+@GetMapping("cause/{id}")
+public ModelAndView details(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("cause-details");
+
+        modelAndView.addObject("cause", causeService.getDetails(id));
+
+        return modelAndView;
+        }
+ }

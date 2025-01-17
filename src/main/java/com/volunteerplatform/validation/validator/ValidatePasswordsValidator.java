@@ -1,7 +1,7 @@
 package com.volunteerplatform.validation.validator;
 
 import com.volunteerplatform.validation.annotation.ValidatePasswords;
-import com.volunteerplatform.web.UserRegisterDTO;
+import com.volunteerplatform.web.dto.UserRegisterDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;

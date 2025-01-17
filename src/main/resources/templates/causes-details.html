@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/head"></head>
 <body>
 <div class="wrapper">
     <header th:replace="fragments/header"></header>
     <main>
-        <section class="causes-details">
-            <h1 th:text="${causes.title}">Causes Title</h1>
-            <p th:text="${causes.description}">Full causes description</p>
+        <section class="cause-info-center">
+            <h1 th:text="${cause}" id="cause-name"></h1>
+            <p th:text="${cause}">Full causes description</p>
             <p><strong>Location:</strong> <span th:text="${causes.location}">Location</span></p>
             <p><strong>Date:</strong> <span th:text="${causes.date}">Event Date</span></p>
             <a href="/apply" class="btn">Apply Now</a>

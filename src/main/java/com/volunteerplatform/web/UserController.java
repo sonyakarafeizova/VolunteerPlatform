@@ -2,6 +2,8 @@ package com.volunteerplatform.web;
 
 import com.volunteerplatform.model.UserRoles;
 import com.volunteerplatform.service.UserService;
+import com.volunteerplatform.web.dto.UserLoginDTO;
+import com.volunteerplatform.web.dto.UserRegisterDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

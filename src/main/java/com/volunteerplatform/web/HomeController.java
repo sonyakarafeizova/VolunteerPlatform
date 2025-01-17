@@ -20,6 +20,7 @@ public class HomeController {
         double sofiaTemp = new Random().nextDouble();
 
         model.addAttribute("sofiaTemperature", sofiaTemp);
+        model.addAttribute("causes", causeService.getAllCauses());
 
 
         return "index";

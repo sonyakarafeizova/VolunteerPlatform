@@ -3,7 +3,7 @@ package com.volunteerplatform.service;
 import com.volunteerplatform.data.CommentRepository;
 import com.volunteerplatform.model.Comment;
 import com.volunteerplatform.service.dtos.CreateCommentApiDTO;
-import com.volunteerplatform.web.CreateCommentDTO;
+import com.volunteerplatform.web.dto.CreateCommentDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

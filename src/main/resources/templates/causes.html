@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/head"></head>
 <body>
 <div class="wrapper">
@@ -7,7 +8,7 @@
     <main>
         <section class="causes">
             <h1>Volunteer Causes</h1>
-            <div class="causes-list" th:each="opportunity : ${causes}">
+            <div class="causes-list" th:each="cause : ${causes}">
                 <div class="causes-card">
                     <h2 th:text="${causes.title}">Causes Title</h2>
                     <p th:text="${causes.description}">Cause Description</p>

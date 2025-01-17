@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 
 <head th:replace="fragments/head :: head"></head>
 <body>
@@ -7,12 +8,14 @@
     <!-- Navigation -->
     <header th:replace="fragments/header :: header"></header>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Top Container -->
+    <section class="top-container">
         <div class="showcase">
             <h1>Welcome to Our Volunteer Platform!</h1>
             <p>We connect volunteers with causes that make a difference.</p>
             <a th:href="@{/users/register}" class="btn">Join Us</a>
+
+
         </div>
         <div class="top-box top-box-a">
             <h4>Weather in Sofia</h4>
@@ -20,39 +23,33 @@
             <img id="box-a-img" src="https://static-00.iconduck.com/assets.00/sun-symbol-emoji-2048x2048-wityey4r.png"
                  height="150px" alt="">
         </div>
-        <div class="top-box top-box-b">
-            <h4>Weather in Varna</h4>
-            <h4><span th:text="${varnaTemperature}">12</span><span>&#8451;</span></h4>
-            <img id="box-b-img" src="/images/cloudy.png" height="150px" alt="">
-        </div>
+
     </section>
 
-    <!-- Options Section -->
+    <!-- Boxes Section -->
     <section class="boxes">
-        <a th:href="@{/projects/education}" class="box">
+        <a th:href="@{/causes/health}" class="box">
             <img src="/images/education.jpg" alt="Education">
-            <h3>Education</h3>
-            <p>Support educational projects.</p>
+            <h3>Health</h3>
+            <p>Support health-related projects.</p>
         </a>
-        <a th:href="@{/projects/environment}" class="box">
+        <a th:href="@{/causes/environment}" class="box">
             <img src="/images/environment.jpg" alt="Environment">
             <h3>Environment</h3>
             <p>Help preserve the environment.</p>
         </a>
-        <a th:href="@{/projects/community}" class="box">
+        <a th:href="@{/causes/community}" class="box">
             <img src="/images/community.jpg" alt="Community">
             <h3>Community</h3>
             <p>Support local initiatives.</p>
         </a>
     </section>
 
-    <!-- Featured Cause Section -->
-    <section class="featured-cause">
-        <img th:src="${featuredCause.imageUrl}" alt="Featured Cause">
+    <!-- Info Section -->
+    <section class="cause">
         <div>
-            <h2 th:text="${featuredCause.name}">Featured Cause</h2>
-            <p th:text="${featuredCause.description}">Description of the cause...</p>
-            <a th:href="@{/cause/{id}(id=${featuredCause.id})}" class="btn">Learn More</a>
+            <h2>Our Mission</h2>
+            <p>Our mission is to connect volunteers with causes that make a difference.</p>
         </div>
     </section>
 

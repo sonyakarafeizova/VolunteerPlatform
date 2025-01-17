@@ -3,7 +3,7 @@ package com.volunteerplatform.service;
 import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.dtos.UserProfileDto;
-import com.volunteerplatform.web.UserRegisterDTO;
+import com.volunteerplatform.web.dto.UserRegisterDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
