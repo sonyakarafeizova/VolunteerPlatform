@@ -1,0 +1,28 @@
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .boxes {
+        flex-direction: column;
+    }
+
+    .box {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .featured-cause {
+        flex-direction: column;
+    }
+
+    .gallery {
+        flex-direction: column;
+    }
+
+    .gallery img {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}

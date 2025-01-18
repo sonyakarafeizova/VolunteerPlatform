@@ -1,13 +1,14 @@
 /* General Styles */
 :root {
-    --primary: #4CAF50;
-    --dark: #333;
-    --light: #fff;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --lightGray: rgba(241, 241, 241, 0.8);
-    --accent: #ff9800;
+    --primary: #4a90e2; /* Light blue for primary elements */
+    --dark: #2c3e50;    /* Deep blue for text and dark elements */
+    --light: #f7f9fc;   /* Soft light blue/white for backgrounds */
+    --shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    --lightGray: rgba(230, 236, 245, 0.8); /* Subtle light blue-gray */
+    --accent: #57d9ff; /* Bright accent blue */
 }
 
+/* Global Styles */
 html {
     box-sizing: border-box;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
@@ -15,10 +16,12 @@ html {
 }
 
 body {
-    background: linear-gradient(to bottom, #f9f9f9, #e3f2fd);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+    background-image: url("static/images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: var(--dark);
 }
 
 /* Navigation */
@@ -181,4 +184,42 @@ footer {
     margin-top: 2rem;
     border-radius: 5px;
     box-shadow: var(--shadow);
+}
+
+/* Language Selector */
+/* Style the form inside the navigation bar */
+.main-nav .nav-item form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between label and dropdown */
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem; /* Slightly smaller font size */
+    color: var(--light); /* Match text color with navigation */
+}
+
+/* Style the label */
+.main-nav .nav-item form label {
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Style the dropdown (select element) */
+.main-nav .nav-item form select {
+    border: 1px solid var(--lightGray); /* Subtle border for the dropdown */
+    border-radius: 5px;
+    background: var(--light); /* Match the dropdown background */
+    color: var(--dark); /* Dropdown text color */
+    padding: 0.3rem 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+
+/* Position the form */
+.main-nav .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto; /* Push the language form to the right */
 }
