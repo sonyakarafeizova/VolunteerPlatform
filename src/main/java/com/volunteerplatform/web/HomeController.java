@@ -17,6 +17,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
+
         double sofiaTemp = new Random().nextDouble();
 
         model.addAttribute("sofiaTemperature", sofiaTemp);
@@ -29,7 +30,7 @@ public class HomeController {
 
 
     @GetMapping("/about")
-    public ModelAndView index() {
+    public ModelAndView about() {
         return new ModelAndView("about");
     }
 

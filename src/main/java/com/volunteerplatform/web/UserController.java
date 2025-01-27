@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class UserController {
 
     @PostMapping("/users/register")
     public String doRegister(
-            @Valid @ModelAttribute("registerData") UserRegisterDTO data,
+            @Valid UserRegisterDTO data,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
@@ -45,17 +44,10 @@ public class UserController {
             redirectAttributes.addFlashAttribute("registerData", data);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
 
-            return "redirect:/users/register";
+            return "redirect:register";
         }
-
-        try {
-            userService.register(data);
-            redirectAttributes.addFlashAttribute("successMessage", "Registration successful!");
-            return "redirect:/users/login";
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/users/register";
-        }
+        userService.register(data);
+        return "redirect:/users/login";
     }
 
 

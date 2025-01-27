@@ -20,7 +20,7 @@ public class SecurityConfig {
                             authorizeRequest
                                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                     .requestMatchers("/","/home", "/users/login", "/users/login-error", "/users/register", "/about").permitAll()
-                                    .requestMatchers("/api/hello-world", "/api/comments/").permitAll()
+                                    //.requestMatchers("/api/hello-world", "/api/comments/").permitAll()
                                     .requestMatchers("/js/**", "/css/**").permitAll()
                                     .anyRequest().authenticated();
                         }

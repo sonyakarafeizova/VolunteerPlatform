@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/head"></head>
@@ -25,7 +26,7 @@
                                 id="inputUsername"
                                 class="form-control"
                                 aria-describedby="usernameHelpInline">
-                        <small th:errors="*{username}" id="usernameUniqueError"
+                        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="usernameUniqueError"
                                class=" bg-danger text-white rounded">Username is already occupied</small>
 
                     </div>

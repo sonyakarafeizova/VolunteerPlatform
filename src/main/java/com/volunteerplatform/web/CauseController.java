@@ -17,40 +17,46 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class CauseController {
+
     private final CauseService causeService;
 
-@GetMapping("/causes")
-public String causes(Model model) {
+    @GetMapping("/causes")
+    public String causes(Model model) {
         List<CauseShortInfoDTO> causes = causeService.getAll();
 
         model.addAttribute("allCauses", causes);
 
         return "causes";
-        }
+    }
 
-@GetMapping("add-route")
-public ModelAndView addRoute() {
-        ModelAndView modelAndView = new ModelAndView("add-route");
+    @GetMapping("add-cause")
+    public ModelAndView addCause() {
 
-        modelAndView.addObject("route", new CauseShortInfoDTO());
+        ModelAndView modelAndView = new ModelAndView("add-cause");
+
+        modelAndView.addObject("cause", new CauseShortInfoDTO());
         modelAndView.addObject("levels", Level.values());
+
         return modelAndView;
-        }
+
+    }
 
 
-@ModelAttribute("causeData")
-public AddCauseDTO routeData() {
+    @ModelAttribute("causeData")
+    public AddCauseDTO causeData() {
         return new AddCauseDTO();
+    }
+
+
+
+
+        @GetMapping("cause/{id}")
+        public ModelAndView details (@PathVariable Long id){
+
+            ModelAndView modelAndView = new ModelAndView("cause-details");
+
+            modelAndView.addObject("cause", causeService.getDetails(id));
+
+            return modelAndView;
         }
-
-
-
-@GetMapping("cause/{id}")
-public ModelAndView details(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("cause-details");
-
-        modelAndView.addObject("cause", causeService.getDetails(id));
-
-        return modelAndView;
-        }
- }
+    }

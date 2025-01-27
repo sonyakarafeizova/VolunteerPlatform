@@ -24,7 +24,7 @@ public class UserRegisterDTO {
     @Size(min = 5, max = 200)
     private String fullName;
 
-    @Email(regexp = ".*@.*")
+    @Email
     @UniqueEmail
     private String email;
 

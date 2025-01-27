@@ -1,18 +1,21 @@
-
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/head"></head>
 <body>
 <div class="wrapper">
     <header th:replace="fragments/header"></header>
     <main>
-        <section class="causes">
-            <h1>Volunteer Causes</h1>
-            <div class="causes-list" th:each="cause : ${causes}">
-                <div class="causes-card">
-                    <h2 th:text="${causes.title}">Causes Title</h2>
-                    <p th:text="${causes.description}">Cause Description</p>
-                    <a th:href="@{/causes/{id}(id=${causes.id})}" class="btn">Learn More</a>
+        <section>
+            <h1>All Causes</h1>
+            <div class="causes">
+                <p>No causes available at the moment.</p>
+            </div>
+            <div class="causes-list" th:each="cause : ${allCauses}">
+                <div class="cause-card">
+                    <h2 th:text="${cause.name}">Cause Title</h2>
+                    <p th:text="${cause.description}">Cause Description</p>
+                    <img th:src="${cause.imageUrl}" alt="Cause Image"/>
+                    <a th:href="@{/cause/{id}(id=${cause.id})}" class="btn">Learn More</a>
                 </div>
             </div>
         </section>

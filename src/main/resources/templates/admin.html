@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head"></head>
 <body>
@@ -26,8 +27,9 @@
         <!--/*@thymesVar id="causes" type=""*/-->
         <tbody th:each="cause : ${causes}">
         <tr>
-          <td th:text="${causes.title}">Title</td>
-          <td th:text="${causes.description}">Description</td>
+          <!--/*@thymesVar id="title" type=""*/-->
+          <td th:text="${cause.title}">Title</td>
+          <td th:text="${cause.description}">Description</td>
           <td>
             <a th:href="@{/causes/edit/{id}(id=${cause.id})}" class="btn">Edit</a>
             <!--/*@thymesVar id="id" type="aj"*/-->
