@@ -28,7 +28,7 @@
         <tbody th:each="cause : ${causes}">
         <tr>
           <!--/*@thymesVar id="title" type=""*/-->
-          <td th:text="${cause.title}">Title</td>
+          <td th:text="${cause.name}">Title</td>
           <td th:text="${cause.description}">Description</td>
           <td>
             <a th:href="@{/causes/edit/{id}(id=${cause.id})}" class="btn">Edit</a>

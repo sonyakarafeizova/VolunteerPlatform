@@ -27,7 +27,7 @@ public class UserController {
             model.addAttribute("registerData", new UserRegisterDTO());
         }
 
-        model.addAttribute("roles", UserRoles.values()); // Populate roles for dropdown (optional)
+        model.addAttribute("roles", UserRoles.values());
 
         return "register";
     }
@@ -59,6 +59,23 @@ public class UserController {
 
         return modelAndView;
     }
+    @PostMapping("/users/login")
+    public String doLogin(@Valid UserLoginDTO loginData, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "login";  // Return to login page if validation fails
+        }
+
+        // You can also implement custom authentication logic in UserService if needed
+        boolean loginSuccessful = userService.authenticateUser(loginData);
+
+        if (!loginSuccessful) {
+            redirectAttributes.addFlashAttribute("showErrorMessage", true);
+            return "redirect:/users/login-error";  // Redirect to error page if login fails
+        }
+
+        return "redirect:/users/profile";  // Redirect to profile page on successful login
+    }
+
 
 
     @GetMapping("users/login-error")

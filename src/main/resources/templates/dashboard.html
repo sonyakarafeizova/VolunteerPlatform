@@ -1,53 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/head"></head>
-<body class="bg-light">
-    <div class="wrapper">
-        <header th:replace="fragments/header"></header>
-        
-        <div class="container py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h2 class="card-title">Welcome, <span sec:authentication="name">User</span>!</h2>
-                            <p class="card-text">Your role: <span sec:authentication="principal.authorities">ROLE</span></p>
-                            
-                            <!-- Admin-only section -->
-                            <div sec:authorize="hasRole('ADMIN')" class="mt-4">
-                                <h3>Administrative Actions</h3>
-                                <div class="list-group">
-                                    <a th:href="@{/admin/users}" class="list-group-item list-group-item-action">
-                                        <i class="fas fa-users me-2"></i>Manage Users
-                                    </a>
-                                    <a th:href="@{/admin/settings}" class="list-group-item list-group-item-action">
-                                        <i class="fas fa-cog me-2"></i>System Settings
-                                    </a>
-                                </div>
-                            </div>
-                            
-                            <!-- User stats section -->
-                            <div class="row mt-4">
-                                <div class="col-md-4">
-                                    <div class="card bg-primary text-white">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Last Login</h5>
-                                            <p class="card-text" th:text="${#temporals.format(#temporals.createNow(), 'dd MMM yyyy HH:mm')}">
-                                                Date
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Add more stat cards as needed -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Welcome to Your Dashboard</h1>
 
-        <footer th:replace="fragments/footer"></footer>
-    </div>
+<h2>All Causes</h2>
+<ul>
+    <li th:each="cause : ${allCauses}">
+        <a th:href="@{/cause/{id}(id=${cause.id})}" th:text="${cause.name}"></a>
+    </li>
+</ul>
+
+<a href="/users/logout">Logout</a>
 </body>
 </html>

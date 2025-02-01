@@ -53,7 +53,7 @@ public class CauseController {
         @GetMapping("cause/{id}")
         public ModelAndView details (@PathVariable Long id){
 
-            ModelAndView modelAndView = new ModelAndView("cause-details");
+            ModelAndView modelAndView = new ModelAndView("causes-details");
 
             modelAndView.addObject("cause", causeService.getDetails(id));
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/header">
+    <meta charset="UTF-8">
+    <title>Add Cause</title>
+</head>
+<body>
+
+<h1>Add a New Cause</h1>
+
+<form th:action="@{/causes/add}" method="post" th:object="${causeData}" enctype="multipart/form-data">
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" th:field="*{name}" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" th:field="*{description}" required></textarea>
+
+    <label for="level">Level:</label>
+    <select id="level" th:field="*{level}">
+        <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"></option>
+    </select>
+
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" name="image">
+
+    <button type="submit">Add Cause</button>
+</form>
+
+<a href="/dashboard"><button>Cancel</button></a>
+
+</body>
+<footer th:replace="fragments/footer"></footer>
+</html>
