@@ -5,6 +5,7 @@ import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.dtos.UserProfileDto;
 import com.volunteerplatform.web.dto.UserLoginDTO;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
@@ -43,7 +45,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean isEmailUnique(String email) {
-        return !userRepository.existsByEmail(email);
+        return userRepository.findByEmail(email).isEmpty();
     }
 
     @Override
@@ -61,12 +63,13 @@ public class UserService implements UserDetailsService {
 
 
     public boolean authenticateUser(UserLoginDTO loginData) {
-        Optional<User> user = userRepository.findByUsername(loginData.getUsername());
-        if (user.isPresent() && passwordEncoder.matches(loginData.getPassword(), String.valueOf(user.getClass()))) {
-
-            return true;
+        Optional<User> userOptional= userRepository.findByEmail(loginData.getEmail());
+        if (userOptional.isEmpty()) {
+            return false; // User not found
         }
-        return false;
-    }
+        User user = userOptional.get();
 
+        // Check if password matches
+        return passwordEncoder.matches(loginData.getPassword(), user.getPassword());
+    }
 }

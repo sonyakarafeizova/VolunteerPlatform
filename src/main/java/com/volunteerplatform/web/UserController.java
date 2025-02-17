@@ -62,18 +62,19 @@ public class UserController {
     @PostMapping("/users/login")
     public String doLogin(@Valid UserLoginDTO loginData, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "login";  // Return to login page if validation fails
+            redirectAttributes.addFlashAttribute("loginData", loginData);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
+            return "redirect:/users/login";
         }
 
-        // You can also implement custom authentication logic in UserService if needed
         boolean loginSuccessful = userService.authenticateUser(loginData);
 
         if (!loginSuccessful) {
             redirectAttributes.addFlashAttribute("showErrorMessage", true);
-            return "redirect:/users/login-error";  // Redirect to error page if login fails
+            return "redirect:/users/login-error";
         }
 
-        return "redirect:/users/profile";  // Redirect to profile page on successful login
+        return "redirect:/users/profile";
     }
 
 
