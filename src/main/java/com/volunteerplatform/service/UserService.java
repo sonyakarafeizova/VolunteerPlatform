@@ -22,6 +22,7 @@ import java.util.Optional;
 @Transactional
 public class UserService implements UserDetailsService {
 
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
@@ -30,6 +31,9 @@ public class UserService implements UserDetailsService {
 
     public void register(UserRegisterDTO userRegisterDTO) {
         User user = this.modelMapper.map(userRegisterDTO, User.class);
+        if (user.getFullName() == null || user.getFullName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Full name is required");
+        }
 
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 

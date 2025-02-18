@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,6 +35,15 @@ public class User {
     private Set<Role> roles;
 
     public User() {
-        this.roles = new HashSet<>();
     }
+    public User(String username, String fullName, String email, int age, Level level, String password) {
+        this.username = username;
+        this.fullName = fullName;
+        this.email = email;
+        this.age = age;
+        this.level = level;
+        this.password = password;
+    }
+
+
 }

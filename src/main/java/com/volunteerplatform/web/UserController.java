@@ -69,10 +69,10 @@ public class UserController {
 
         boolean loginSuccessful = userService.authenticateUser(loginData);
 
-        if (!loginSuccessful) {
-            redirectAttributes.addFlashAttribute("showErrorMessage", true);
-            return "redirect:/users/login-error";
-        }
+//        if (!loginSuccessful) {
+//            redirectAttributes.addFlashAttribute("showErrorMessage", true);
+//            return "redirect:/users/login-error";
+//        }
 
         return "redirect:/users/profile";
     }

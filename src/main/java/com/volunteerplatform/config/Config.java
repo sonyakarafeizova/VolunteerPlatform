@@ -1,5 +1,7 @@
 package com.volunteerplatform.config;
 
+import com.volunteerplatform.model.User;
+import com.volunteerplatform.web.dto.UserRegisterDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,13 @@ public class Config {
 
    @Bean
     public ModelMapper mapper() {
-       return new ModelMapper();
+       ModelMapper modelMapper = new ModelMapper();
+
+       // Explicitly map fullName
+       modelMapper.typeMap(UserRegisterDTO.class, User.class).addMappings(mapper ->
+               mapper.map(UserRegisterDTO::getFullName, User::setFullName)
+       );
+
+       return modelMapper;
    }
 }
