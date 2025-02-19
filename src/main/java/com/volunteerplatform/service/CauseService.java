@@ -7,13 +7,14 @@ import com.volunteerplatform.model.Picture;
 import com.volunteerplatform.service.dtos.CauseDetailsCommentDTO;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
+import com.volunteerplatform.util.YoutubeLinkConverter;
 import com.volunteerplatform.web.dto.AddCauseDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -38,20 +39,20 @@ public class CauseService {
 
     @Transactional
     public CauseShortInfoDTO getRandomCause() {
-       long causeCount = causeRepository.count();
-       long randomId = random.nextInt((int) causeCount) + 1;
-       Optional<Cause> cause = causeRepository.findById(randomId);
-       if(cause.isEmpty()) {
-           throw new RuntimeException("Cause not found");
-       }
-       return mapToShortInfo(cause.get());
+        long causeCount = causeRepository.count();
+        long randomId = random.nextInt((int) causeCount) + 1;
+        Optional<Cause> cause = causeRepository.findById(randomId);
+        if (cause.isEmpty()) {
+            throw new RuntimeException("Cause not found");
+        }
+        return mapToShortInfo(cause.get());
     }
 
     private CauseShortInfoDTO mapToShortInfo(Cause cause) {
-        CauseShortInfoDTO dto=modelMapper.map(cause,CauseShortInfoDTO.class);
+        CauseShortInfoDTO dto = modelMapper.map(cause, CauseShortInfoDTO.class);
 
-        Optional<Picture>  first=cause.getPictures().stream().findFirst();
-        first.ifPresent(pic->dto.setImageUrl(pic.getUrl()));
+        Optional<Picture> first = cause.getPictures().stream().findFirst();
+        first.ifPresent(pic -> dto.setImageUrl(pic.getUrl()));
         return dto;
     }
 
@@ -77,7 +78,14 @@ public class CauseService {
     }
 
 
-    public void add(AddCauseDTO data, MultipartFile file) { 
+    public boolean add(AddCauseDTO data) throws IOException {
+        Cause toInsert = modelMapper.map(data, Cause.class);
+        toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
+        toInsert.setAuthor(userHelperService.getUser());
+
+        causeRepository.save(toInsert);
+        return false;
+
     }
 
 

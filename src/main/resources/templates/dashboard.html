@@ -1,19 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
 <body>
-<h1>Welcome to Your Dashboard</h1>
+<header th:replace="~{fragments/header}"></header>
 
-<h2>All Causes</h2>
-<ul>
-    <li th:each="cause : ${allCauses}">
-        <a th:href="@{/cause/{id}(id=${cause.id})}" th:text="${cause.name}"></a>
-    </li>
-</ul>
+<main class="container mt-5">
+    <div class="row">
+        <!-- Profile Section -->
+        <div class="col-md-4">
+            <div class="profile-card p-3">
+                <div class="text-center">
+                    <img src="/images/profile.jpg" width="100" class="rounded-circle">
+                </div>
+                <div class="text-center mt-3">
+                    <span class="bg-secondary p-1 px-4 rounded text-white" th:text="${profileData.level}">Pro</span>
+                    <h5 class="mt-4 mb-0">Full name</h5>
+                    <span th:text="${profileData.fullName}">John Doe</span>
+                    <h5 class="mt-2 mb-0">Username</h5>
+                    <span th:text="${profileData.username}"> DefaultUsername</span>
+                    <h5 class="mt-2 mb-0">Age</h5>
+                    <span th:text="${profileData.age}">33</span>
+                    <div class="mt-4">
+                        <p>User bio...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<a href="/users/logout">Logout</a>
+        <!-- Dashboard Section -->
+        <div class="col-md-8">
+            <div class="dashboard p-3 bg-light">
+                <h2>Dashboard</h2>
+                <p>Welcome, <span th:text="${profileData.fullName}">User</span>!</p>
+                <div class="stats">
+                    <p>Some dashboard statistics here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

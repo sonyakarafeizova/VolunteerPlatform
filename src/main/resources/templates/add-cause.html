@@ -18,7 +18,7 @@
 
     <label for="level">Level:</label>
     <select id="level" th:field="*{level}">
-        <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"></option>
+        <option th:each="lvl : ${level}" th:value="${lvl}" th:text="${lvl}"></option>
     </select>
 
     <label for="image">Upload Image:</label>
@@ -30,5 +30,5 @@
 <a href="/dashboard"><button>Cancel</button></a>
 
 </body>
-<footer th:replace="fragments/footer"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 </html>

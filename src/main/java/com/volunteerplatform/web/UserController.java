@@ -1,6 +1,6 @@
 package com.volunteerplatform.web;
 
-import com.volunteerplatform.model.UserRoles;
+import com.volunteerplatform.model.Level;
 import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.web.dto.UserLoginDTO;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserController {
             model.addAttribute("registerData", new UserRegisterDTO());
         }
 
-        model.addAttribute("roles", UserRoles.values());
+        model.addAttribute("levels", Level.values());
 
         return "register";
     }
@@ -47,6 +49,7 @@ public class UserController {
             return "redirect:register";
         }
         userService.register(data);
+
         return "redirect:/users/login";
     }
 
@@ -69,12 +72,13 @@ public class UserController {
 
         boolean loginSuccessful = userService.authenticateUser(loginData);
 
-//        if (!loginSuccessful) {
-//            redirectAttributes.addFlashAttribute("showErrorMessage", true);
-//            return "redirect:/users/login-error";
-//        }
+        if (!loginSuccessful) {
+            redirectAttributes.addFlashAttribute("showErrorMessage", true);
+            return "redirect:/users/login-error";
+        }
+        return "redirect:/users/dashboard";
 
-        return "redirect:/users/profile";
+        //  return "redirect:/users/profile";
     }
 
 
@@ -91,8 +95,18 @@ public class UserController {
 
 
     @GetMapping("users/profile")
-    public ModelAndView profile() {
+    public ModelAndView profile(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("profile");
+        String username = principal.getName();
+
+        modelAndView.addObject("profileData", userService.getProfileData());
+
+        return modelAndView;
+    }
+
+    @GetMapping("/users/dashboard")
+    public ModelAndView dashboard() {
+        ModelAndView modelAndView = new ModelAndView("dashboard");
 
         modelAndView.addObject("profileData", userService.getProfileData());
 

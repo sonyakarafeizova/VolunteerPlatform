@@ -15,12 +15,12 @@ import java.util.logging.Level;
 @NoArgsConstructor
 @ValidatePasswords
 public class UserRegisterDTO {
-    @NotBlank
+    @NotNull
     @Size(min = 2, max = 200)
     @UniqueUsername
     private String username;
 
-    @NotEmpty
+    @NotNull
     @Size(min = 5, max = 200)
     private String fullName;
 

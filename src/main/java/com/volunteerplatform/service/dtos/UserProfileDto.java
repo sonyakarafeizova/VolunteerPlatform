@@ -12,4 +12,7 @@ public class UserProfileDto {
     private String fullName;
     private int age;
     private Level level;
+
+    public UserProfileDto(String username, String fullName, Integer age, com.volunteerplatform.model.Level level) {
+    }
 }
