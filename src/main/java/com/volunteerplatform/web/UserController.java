@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,28 +39,33 @@ public class UserController {
 
     @PostMapping("/users/register")
     public String doRegister(
-            @Valid UserRegisterDTO data,
+            @Valid @ModelAttribute("registerData") UserRegisterDTO data,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+           Model model
     ) {
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("registerData", data);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-
-            return "redirect:register";
+            model.addAttribute("levels", Level.values());
+            return "register";
         }
-        userService.register(data);
+        if (!model.containsAttribute("registerData")) {
+            model.addAttribute("registerData", new UserRegisterDTO());
+        }
 
+        userService.register(data);
         return "redirect:/users/login";
     }
 
 
     @GetMapping("users/login")
-    public ModelAndView viewLogin() {
+    public ModelAndView viewLogin(@RequestParam(value = "error", required = false) String error) {
         ModelAndView modelAndView = new ModelAndView("login");
 
         modelAndView.addObject("loginData", new UserLoginDTO());
+
+        if (error != null) {
+            modelAndView.addObject("showErrorMessage", true);
+        }
 
         return modelAndView;
     }
@@ -73,12 +80,11 @@ public class UserController {
         boolean loginSuccessful = userService.authenticateUser(loginData);
 
         if (!loginSuccessful) {
-            redirectAttributes.addFlashAttribute("showErrorMessage", true);
-            return "redirect:/users/login-error";
+            return "redirect:/users/login?error=true";
         }
         return "redirect:/users/dashboard";
 
-        //  return "redirect:/users/profile";
+
     }
 
 
@@ -98,8 +104,7 @@ public class UserController {
     public ModelAndView profile(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("profile");
         String username = principal.getName();
-
-        modelAndView.addObject("profileData", userService.getProfileData());
+        modelAndView.addObject("profileData", userService.getProfileDataByUsername(username));
 
         return modelAndView;
     }

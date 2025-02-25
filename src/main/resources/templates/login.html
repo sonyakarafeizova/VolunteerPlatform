@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<link  rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/styles.css">
-<link rel="stylesheet" href="/css/mobile.css">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>VolunteerPlatform</title>
+    <title>VolunteerPlatform - Login</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/mobile.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+    <!-- Leaflet.js (if used elsewhere) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
           integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
           crossorigin=""/>
@@ -20,58 +20,49 @@
             integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
             crossorigin=""></script>
 </head>
+
 <body>
-<main class="p-5 align-content-center bg-blur my-register-div">
-    <h1 class="    border-bottom mb-5">Login</h1>
-    <div class="d-flex justify-content-center">
 
-        <div class="row g-3 align-items-center">
-            <form th:action="@{/users/login}"
-                  th:method="POST"
-                  th:object="${loginData}"
-            >
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 p-4 bg-white shadow rounded">
+            <h2 class="text-center border-bottom pb-3">Login</h2>
 
-               <div class="bg-danger" th:if="${showErrorMessage}" th:text="'Invalid username or password'"></div>
-                <div>
-                    <div class="col-auto">
-                        <label for="inputUsername" class="col-form-label ">Username</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text"
-                               th:field="*{username}"
-                               name="username"
+            <!-- Error Message -->
+            <div th:if="${showErrorMessage}" class="alert alert-danger text-center">
+                Invalid username or password
+            </div>
 
-                               id="inputUsername"
-                               class="form-control"
-                               aria-describedby="usernameHelpInline">
-                    </div>
+            <form th:action="@{/users/login}" method="post" th:object="${loginData}">
+                <!-- Username Field -->
+                <div class="mb-3">
+                    <label for="inputUsername" class="form-label">Username</label>
+                    <input type="text" id="inputUsername" class="form-control"
+                           th:field="*{username}" name="username" required>
                 </div>
-                <div>
-                    <div class="col-auto">
-                        <label for="inputPassword" class="col-form-label ">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="password"
-                               th:field="*{password}"
-                               name="password"
-                               id="inputPassword" class="form-control"
-                               aria-describedby="passwordHelpInline">
-                    </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Password</label>
+                    <input type="password" id="inputPassword" class="form-control"
+                           th:field="*{password}" name="password" required>
                 </div>
-                <div class="d-flex justify-content-center mt-2">
-                    <button class="btn btn-primary btn-block w-50" type="submit">Login</button>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button class="btn btn-primary" type="submit">Login</button>
                 </div>
             </form>
         </div>
-
     </div>
 </main>
-<footer class="footer bg-blur rounded">
-    <div class="container-fluid text-center">
-        <div class="h5 text-white">
-            &copy; Volunteer Platform & Team 2025. All rights reserved.
-        </div>
+
+<!-- Footer -->
+<footer class="footer bg-light text-center mt-5 p-3">
+    <div class="container">
+        <span class="text-muted">&copy; Volunteer Platform & Team 2025. All rights reserved.</span>
     </div>
 </footer>
+
 </body>
 </html>

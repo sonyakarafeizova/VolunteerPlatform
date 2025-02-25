@@ -262,3 +262,58 @@ footer {
     height: 40px;
     background-color: #0833e3
 }
+
+/* Styling for Logout Button */
+.logout-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-card {
+    background: var(--light);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: scale(1.02);
+}
+
+.profile-card img {
+    border: 3px solid var(--primary);
+    padding: 5px;
+    background: white;
+}
+
+.profile-card h5 {
+    color: var(--primary);
+    margin-top: 1rem;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--light);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 1rem 1.5rem;
+    text-transform: uppercase;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: var(--accent);
+    border-radius: 5px;
+}
+
+/* User Greeting */
+.nav-user {
+    color: var(--light);
+    font-weight: bold;
+    padding: 1rem 1.5rem;
+}
+
