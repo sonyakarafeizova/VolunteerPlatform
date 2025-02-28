@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,43 +21,38 @@ public class UserController {
 
     private final UserService userService;
 
-
+    // Register Page
     @GetMapping("/users/register")
     public String viewRegister(Model model) {
         if (!model.containsAttribute("registerData")) {
             model.addAttribute("registerData", new UserRegisterDTO());
         }
-
         model.addAttribute("levels", Level.values());
-
         return "register";
     }
 
-
+    // Register Form Submission
     @PostMapping("/users/register")
     public String doRegister(
             @Valid @ModelAttribute("registerData") UserRegisterDTO data,
             BindingResult bindingResult,
-           Model model
+            RedirectAttributes redirectAttributes
     ) {
-
         if (bindingResult.hasErrors()) {
-            model.addAttribute("levels", Level.values());
-            return "register";
-        }
-        if (!model.containsAttribute("registerData")) {
-            model.addAttribute("registerData", new UserRegisterDTO());
+            redirectAttributes.addFlashAttribute("registerData", data);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
+            redirectAttributes.addFlashAttribute("levels", Level.values());
+            return "redirect:/users/register";
         }
 
         userService.register(data);
         return "redirect:/users/login";
     }
 
-
-    @GetMapping("users/login")
+    // Login Page
+    @GetMapping("/users/login")
     public ModelAndView viewLogin(@RequestParam(value = "error", required = false) String error) {
         ModelAndView modelAndView = new ModelAndView("login");
-
         modelAndView.addObject("loginData", new UserLoginDTO());
 
         if (error != null) {
@@ -69,8 +61,12 @@ public class UserController {
 
         return modelAndView;
     }
+
+    // Login Form Submission
     @PostMapping("/users/login")
-    public String doLogin(@Valid UserLoginDTO loginData, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String doLogin(@Valid @ModelAttribute("loginData") UserLoginDTO loginData,
+                          BindingResult bindingResult,
+                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginData", loginData);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
@@ -78,43 +74,36 @@ public class UserController {
         }
 
         boolean loginSuccessful = userService.authenticateUser(loginData);
-
         if (!loginSuccessful) {
             return "redirect:/users/login?error=true";
         }
+
         return "redirect:/users/dashboard";
-
-
     }
 
-
-
-    @GetMapping("users/login-error")
+    // Login Error Page
+    @GetMapping("/users/login-error")
     public ModelAndView viewLoginError() {
         ModelAndView modelAndView = new ModelAndView("login");
-
         modelAndView.addObject("showErrorMessage", true);
         modelAndView.addObject("loginData", new UserLoginDTO());
-
         return modelAndView;
     }
 
-
-    @GetMapping("users/profile")
+    // Profile Page
+    @GetMapping("/users/profile")
     public ModelAndView profile(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("profile");
         String username = principal.getName();
-        modelAndView.addObject("profileData", userService.getProfileDataByUsername(username));
-
+        modelAndView.addObject("profileData", userService.getProfileData());
         return modelAndView;
     }
 
+    // Dashboard Page
     @GetMapping("/users/dashboard")
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("dashboard");
-
         modelAndView.addObject("profileData", userService.getProfileData());
-
         return modelAndView;
     }
 }

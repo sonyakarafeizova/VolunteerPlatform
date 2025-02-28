@@ -7,12 +7,6 @@
 <body>
 
 <h1>Add a New Cause</h1>
-<form id="addCauseForm">
-    <input type="text" id="causeTitle" placeholder="Cause Title" required>
-    <textarea id="causeDescription" placeholder="Cause Description" required></textarea>
-    <button type="submit">Add Cause</button>
-</form>
-<div id="causesList"></div>
 
 <form th:action="@{/causes/add}" method="post" th:object="${causeData}" enctype="multipart/form-data">
 
@@ -24,6 +18,7 @@
 
     <label for="level">Level:</label>
     <select id="level" th:field="*{level}">
+        <!--/*@thymesVar id="level" type="aj"*/-->
         <option th:each="lvl : ${level}" th:value="${lvl}" th:text="${lvl}"></option>
     </select>
 

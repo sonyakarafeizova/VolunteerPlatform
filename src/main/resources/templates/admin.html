@@ -28,12 +28,14 @@
         <tbody th:each="cause : ${causes}">
         <tr>
           <!--/*@thymesVar id="title" type=""*/-->
-          <td th:text="${cause.name}">Title</td>
-          <td th:text="${cause.description}">Description</td>
+          <!--/*@thymesVar id="title" type="aj"*/-->
+          <td >Title</td>
+          <td >Description</td>
           <td>
-            <a th:href="@{/causes/edit/{id}(id=${cause.id})}" class="btn">Edit</a>
+
+            <a  class="btn">Edit</a>
             <!--/*@thymesVar id="id" type="aj"*/-->
-            <a th:href="@{/causes/delete/{id}(id=${cause.id})}" class="btn btn-danger">Delete</a>
+            <a  class="btn btn-danger">Delete</a>
           </td>
         </tr>
         </tbody>

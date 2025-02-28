@@ -7,8 +7,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.volunteerplatform.model.Level;
 
-import java.util.logging.Level;
 
 @Getter
 @Setter

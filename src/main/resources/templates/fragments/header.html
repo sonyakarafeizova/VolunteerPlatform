@@ -1,52 +1,61 @@
 <!DOCTYPE html>
-<header th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml">
+<header th:fragment="header" xmlns:sec="">
     <nav class="main-nav">
         <ul>
-            <!-- Always Visible -->
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/causes}">Causes</a></li>
-
-            <!-- If NOT Logged In -->
+            <li>
+                <a th:href="@{/}"  th:text="#{nav_bar_login_home}">Home</a>
+            </li>
             <th:block sec:authorize="!isAuthenticated()">
-                <li><a th:href="@{/users/login}" th:text="#{nav_bar_login}">Login</a></li>
-                <li><a th:href="@{/users/register}" th:text="#{nav_bar_login_register}">Register</a></li>
-                <li><a th:href="@{/about}" th:text="#{nav_bar_login_about}">About</a></li>
+
+                <li>
+                    <a th:href="@{/users/login}" th:text="#{nav_bar_login}">Login</a>
+                </li>
+                <li>
+                    <a th:href="@{/users/register}" th:text="#{nav_bar_login_register}">Register</a>
+                </li>
+                <li>
+                    <a th:href="@{/about}" th:text="#{nav_bar_login_about}">About</a>
+                </li>
             </th:block>
 
-            <!-- If Logged In -->
+
             <th:block sec:authorize="isAuthenticated()">
-                <li><a th:href="@{/users/dashboard}">Dashboard</a></li>
-                <li><a th:href="@{/users/profile}">Profile</a></li>
+                <li>
+                    <a th:href="@{/add-cause}">Add new cause</a>
+                </li>
+                <li>
+                    <a th:href="@{/users/profile}">Profile</a>
+                </li>
 
-                <!-- Show Admin Option If User is Admin -->
                 <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin}">Admin</a>
+                    <a href="/">Admin</a>
                 </li>
-
-                <!-- Display Full Name of Logged-in User -->
                 <li>
-                    <span class="nav-user">Welcome, <span th:text="${#authentication.principal.fullName}">User</span>!</span>
-                </li>
-
-                <!-- Logout Form Styled as a Link -->
-                <li>
-                    <form th:method="POST" th:action="@{/users/logout}" class="logout-form">
-                        <button type="submit" class="logout-btn">Logout</button>
+                    <form
+                            th:method="POST"
+                            th:action="@{/users/logout}"
+                    >
+                        <button type="submit">Logout</button>
                     </form>
                 </li>
             </th:block>
 
-            <!-- Language Selector -->
             <li class="nav-item">
                 <form th:method="get">
                     <label class="text-white" for="lang" th:text="#{nav_bar_language}">Language</label>
-                    <select id="lang" name="lang" onchange="this.form.submit()">
+                    <select
+                            id="lang"
+                            name="lang"
+                            onchange="this.form.submit()">
                         <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
                         <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
                         <option value="de_DE" th:selected="${#locale.toString()} == 'de_DE'">Deutsch</option>
+
                     </select>
                 </form>
+
             </li>
+
         </ul>
     </nav>
 </header>

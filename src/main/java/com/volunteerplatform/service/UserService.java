@@ -73,14 +73,13 @@ public class UserService implements UserDetailsService {
 
 
     public boolean authenticateUser(UserLoginDTO loginData) {
-        Optional<User> userOptional= userRepository.findByUsername(loginData.getUsername());
+        Optional<User> userOptional= userRepository.findByEmail(loginData.getEmail());
         if (userOptional.isEmpty()) {
-            return false;
+            return false; // User not found
         }
         User user = userOptional.get();
 
+        // Check if password matches
         return passwordEncoder.matches(loginData.getPassword(), user.getPassword());
     }
-
-
 }
