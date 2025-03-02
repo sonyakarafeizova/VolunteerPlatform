@@ -31,11 +31,8 @@
                     <a href="/">Admin</a>
                 </li>
                 <li>
-                    <form
-                            th:method="POST"
-                            th:action="@{/users/logout}"
-                    >
-                        <button type="submit">Logout</button>
+                    <form th:method="POST" th:action="@{/users/logout}" class="logout-form">
+                        <button type="submit" class="logout-btn">Logout</button>
                     </form>
                 </li>
             </th:block>

@@ -1,6 +1,9 @@
 package com.volunteerplatform.web;
 
+import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.model.Level;
+import com.volunteerplatform.model.User;
+import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.web.dto.UserLoginDTO;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
@@ -9,19 +12,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+    private final CauseService causeService;
 
-    // Register Page
+
     @GetMapping("/users/register")
     public String viewRegister(Model model) {
         if (!model.containsAttribute("registerData")) {
@@ -31,7 +39,7 @@ public class UserController {
         return "register";
     }
 
-    // Register Form Submission
+
     @PostMapping("/users/register")
     public String doRegister(
             @Valid @ModelAttribute("registerData") UserRegisterDTO data,
@@ -49,7 +57,7 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-    // Login Page
+
     @GetMapping("/users/login")
     public ModelAndView viewLogin(@RequestParam(value = "error", required = false) String error) {
         ModelAndView modelAndView = new ModelAndView("login");
@@ -62,7 +70,7 @@ public class UserController {
         return modelAndView;
     }
 
-    // Login Form Submission
+
     @PostMapping("/users/login")
     public String doLogin(@Valid @ModelAttribute("loginData") UserLoginDTO loginData,
                           BindingResult bindingResult,
@@ -81,7 +89,7 @@ public class UserController {
         return "redirect:/users/dashboard";
     }
 
-    // Login Error Page
+
     @GetMapping("/users/login-error")
     public ModelAndView viewLoginError() {
         ModelAndView modelAndView = new ModelAndView("login");
@@ -90,20 +98,34 @@ public class UserController {
         return modelAndView;
     }
 
-    // Profile Page
+
     @GetMapping("/users/profile")
     public ModelAndView profile(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("profile");
         String username = principal.getName();
+
+        User user = userService.findByUsername(username);
+
+
+        List<Cause> userCauses = causeService.findByUser(user);
+
+
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("causes", userCauses);
         modelAndView.addObject("profileData", userService.getProfileData());
+
         return modelAndView;
+
     }
 
-    // Dashboard Page
+
     @GetMapping("/users/dashboard")
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView("dashboard");
         modelAndView.addObject("profileData", userService.getProfileData());
         return modelAndView;
     }
+
+
+
 }

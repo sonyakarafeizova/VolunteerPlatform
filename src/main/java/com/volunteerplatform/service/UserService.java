@@ -79,7 +79,12 @@ public class UserService implements UserDetailsService {
         }
         User user = userOptional.get();
 
-        // Check if password matches
+
         return passwordEncoder.matches(loginData.getPassword(), user.getPassword());
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }

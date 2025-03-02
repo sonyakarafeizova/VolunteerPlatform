@@ -19,7 +19,16 @@
             <h5 class="mt-2 mb-0">Age</h5>
             <span th:text="${profileData.age}">33</span>
             <div class="px-4 mt-5">
-              <p class="fonts"> User bio </p>
+              <h3>My Causes</h3>
+              <ul th:if="${not #lists.isEmpty(causes)}" class="profile-causes">
+
+                <li th:each="cause : ${causes}">
+                  <a th:href="@{/causes/{id}(id=${cause.id})}" th:text="${cause.title}">Cause Title</a>
+                </li>
+              </ul>
+
+              <p th:if="${#lists.isEmpty(causes)}" class="no-causes">No causes found.</p>
+
             </div>
             <ul class="social-list">
               <li><i class="fab fa-facebook-square"></i></li>
@@ -29,7 +38,7 @@
             </ul>
             <div class="buttons">
               <a class="btn btn-outline-primary px-4 text-white" th:href="@{/}">Back</a>
-              <!--                            <button class="btn btn-primary px-4 ms-3">Contact</button>-->
+
             </div>
           </div>
         </div>

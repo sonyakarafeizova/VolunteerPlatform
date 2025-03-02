@@ -19,7 +19,7 @@ public class Config {
     public ModelMapper mapper() {
        ModelMapper modelMapper = new ModelMapper();
 
-       // Explicitly map fullName
+
        modelMapper.typeMap(UserRegisterDTO.class, User.class).addMappings(mapper ->
                mapper.map(UserRegisterDTO::getFullName, User::setFullName)
        );

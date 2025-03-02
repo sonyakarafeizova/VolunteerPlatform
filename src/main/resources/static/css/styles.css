@@ -1,11 +1,11 @@
 /* General Styles */
 :root {
-    --primary: #4a90e2; /* Light blue for primary elements */
-    --dark: #2c3e50;    /* Deep blue for text and dark elements */
-    --light: #f7f9fc;   /* Soft light blue/white for backgrounds */
+    --primary: #4a90e2;
+    --dark: #2c3e50;
+    --light: #f7f9fc;
     --shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    --lightGray: rgba(230, 236, 245, 0.8); /* Subtle light blue-gray */
-    --accent: #57d9ff; /* Bright accent blue */
+    --lightGray: rgba(230, 236, 245, 0.8);
+    --accent: #57d9ff;
 }
 
 /* Global Styles */
@@ -187,15 +187,15 @@ footer {
 }
 
 /* Language Selector */
-/* Style the form inside the navigation bar */
+
 .main-nav .nav-item form {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Space between label and dropdown */
+    gap: 0.5rem;
     margin: 0;
     padding: 0;
-    font-size: 0.9rem; /* Slightly smaller font size */
-    color: var(--light); /* Match text color with navigation */
+    font-size: 0.9rem;
+    color: var(--light);
 }
 
 /* Style the label */
@@ -261,4 +261,61 @@ footer {
     color: #fff;
     height: 40px;
     background-color: #0833e3
+}
+/*Logout-Button*/
+
+.logout-form {
+    display: inline;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--light);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    font-size: 1rem;
+}
+
+.logout-btn:hover {
+    background: var(--accent);
+    color: var(--light);
+    border-radius: 5px;
+}
+
+/*Profile_Causes*/
+
+.profile-causes {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-causes li {
+    margin-bottom: 10px;
+    background: var(--lightGray);
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.profile-causes li:hover {
+    background: var(--accent);
+}
+
+.profile-causes a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.no-causes {
+    font-size: 1.2rem;
+    color: var(--dark);
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
 }

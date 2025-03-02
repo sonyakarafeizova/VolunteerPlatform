@@ -38,4 +38,5 @@ public class HomeController {
     public ModelAndView accessDenied() {
         return new ModelAndView("about");
     }
+
 }

@@ -4,6 +4,7 @@ import com.volunteerplatform.data.CauseRepository;
 import com.volunteerplatform.data.PictureRepository;
 import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.model.Picture;
+import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.dtos.CauseDetailsCommentDTO;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -101,5 +103,13 @@ public class CauseService {
 
 
         return dto;
+    }
+
+    public List<Cause> findByUser(User user) {
+        List<Cause> causes = causeRepository.findByAuthor(user);
+        if (causes.isEmpty()) {
+           return Collections.emptyList();
+        }
+        return causes;
     }
 }

@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<header th:replace="~{fragments/header}"></header>
+
 <h1>Add a New Cause</h1>
 
 <form th:action="@{/causes/add}" method="post" th:object="${causeData}" enctype="multipart/form-data">
