@@ -1,37 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/header}">
-    <meta charset="UTF-8">
-    <title>Add Cause</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
 <body>
 
 <header th:replace="~{fragments/header}"></header>
 
-<h1>Add a New Cause</h1>
+<div class="container mt-5">
+    <h2 class="text-center">Add a New Cause</h2>
 
-<form th:action="@{/causes/add}" method="post" th:object="${causeData}" enctype="multipart/form-data">
+    <form th:action="@{/add-cause}"
+          method="post"
+          th:object="${causeData}"
+          enctype="multipart/form-data"
+          class="w-50 mx-auto p-4 border rounded bg-light shadow">
 
-    <label for="title">Title:</label>
-    <input type="text" id="title" th:field="*{name}" required>
 
-    <label for="description">Description:</label>
-    <textarea id="description" th:field="*{description}" required></textarea>
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" th:field="*{name}"
+                   class="form-control" required minlength="5">
+        </div>
 
-    <label for="level">Level:</label>
-    <select id="level" th:field="*{level}">
-        <!--/*@thymesVar id="level" type="aj"*/-->
-        <option th:each="lvl : ${level}" th:value="${lvl}" th:text="${lvl}"></option>
-    </select>
 
-    <label for="image">Upload Image:</label>
-    <input type="file" id="image" name="image">
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" th:field="*{description}"
+                      class="form-control" required minlength="10"></textarea>
+        </div>
 
-    <button type="submit">Add Cause</button>
-</form>
 
-<a href="/dashboard"><button>Cancel</button></a>
+        <div class="form-group">
+            <label for="level">Level:</label>
+            <select id="level" th:field="*{level}" class="custom-select">
+                <option th:each="lvl : ${level}" th:value="${lvl}" th:text="${lvl}"></option>
+            </select>
+        </div>
+
+
+        <div class="form-group">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" class="form-control-file">
+        </div>
+
+
+        <div class="d-flex justify-content-between">
+            <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Add Cause</button>
+        </div>
+
+    </form>
+</div>
+
+<footer th:replace="~{fragments/footer}"></footer>
 
 </body>
-<footer th:replace="~{fragments/footer}"></footer>
 </html>

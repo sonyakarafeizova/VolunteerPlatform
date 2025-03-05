@@ -29,6 +29,7 @@ public class CauseService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final PictureRepository pictureRepository;
+    private final CauseHelperService causeHelperService;
     private final Random random = new Random();
 
     @Transactional

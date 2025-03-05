@@ -17,6 +17,7 @@ public class CommentController {
 
     @PostMapping("comments/create")
     public ModelAndView create(CreateCommentDTO createCommentDTO) {
+
         commentService.create(createCommentDTO);
 
         return new ModelAndView("redirect:/cause/" + createCommentDTO.getCauseId());
