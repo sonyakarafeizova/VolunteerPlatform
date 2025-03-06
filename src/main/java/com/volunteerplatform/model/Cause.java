@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,9 @@ public class Cause {
 
     @OneToMany(targetEntity = Picture.class, mappedBy = "cause")
     private Set<Picture> pictures;
+
+    @Column(nullable = false)
+    private LocalDateTime created;
 
     public Cause() {
         this.comments=new HashSet<>();

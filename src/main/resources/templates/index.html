@@ -7,6 +7,7 @@
     <!-- Navigation -->
     <header th:replace="~{fragments/header}"></header>
 
+
     <!-- Top Container -->
     <section class="top-container">
         <div class="showcase">
@@ -16,9 +17,8 @@
         </div>
         <div class="top-box top-box-a">
             <h4>Weather in Sofia</h4>
-            <h4><span th:text="${sofiaTemperature}">15</span><span>&#8451;</span></h4>
-            <img id="box-a-img" src="https://static-00.iconduck.com/assets.00/sun-symbol-emoji-2048x2048-wityey4r.png"
-                 height="150px" alt="">
+            <h4><span id="box-a-temp">Loading...</span></h4>
+            <img id="box-a-img" src="" height="150px" alt="Weather Icon">
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -30,7 +30,7 @@
     <!-- Boxes Section -->
     <section class="boxes">
         <a th:href="@{/causes/health}" class="box">
-            <img src="/images/education.jpg" alt="Education">
+            <img src="/images/health.jpg" alt="Health">
             <h3>Health</h3>
             <p>Support health-related projects.</p>
         </a>

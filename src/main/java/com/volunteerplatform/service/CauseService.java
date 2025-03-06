@@ -14,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +83,7 @@ public class CauseService {
     }
 
 
-    public boolean add(AddCauseDTO data) throws IOException {
+    public boolean add(AddCauseDTO data, MultipartFile file) throws IOException {
         Cause toInsert = modelMapper.map(data, Cause.class);
         toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
         toInsert.setAuthor(userHelperService.getUser());
@@ -109,8 +111,14 @@ public class CauseService {
     public List<Cause> findByUser(User user) {
         List<Cause> causes = causeRepository.findByAuthor(user);
         if (causes.isEmpty()) {
-           return Collections.emptyList();
+            return Collections.emptyList();
         }
         return causes;
     }
+    @Transactional
+    public int removeCausesOlderThanMonths(int months) {
+        LocalDateTime thresholdDate = LocalDateTime.now().minusMonths(months);
+        return causeRepository.deleteByCreatedBefore(thresholdDate);
+    }
+
 }

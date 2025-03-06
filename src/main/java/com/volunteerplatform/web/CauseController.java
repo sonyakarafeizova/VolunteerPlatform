@@ -9,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -56,13 +54,12 @@ public class CauseController {
 
     @PostMapping("/add-cause")
     public String doAddCause(
-            @Valid AddCauseDTO data,
+            @Valid AddCauseDTO data,@RequestParam MultipartFile file,
             BindingResult bindingResult, RedirectAttributes redirectAttributes)
         throws IOException{
-        causeService.add(data);
+        causeService.add(data,file);
         return "redirect:causes";
     }
-
 
 
 
@@ -76,4 +73,5 @@ public class CauseController {
 
             return modelAndView;
         }
+
     }
