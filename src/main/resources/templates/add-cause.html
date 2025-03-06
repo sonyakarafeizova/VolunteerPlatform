@@ -32,7 +32,8 @@
         <div class="form-group">
             <label for="level">Level:</label>
             <select id="level" th:field="*{level}" class="custom-select">
-                <option th:each="lvl : ${level}" th:value="${lvl}" th:text="${lvl}"></option>
+                <option value="">Select Level</option> <!-- Default Option -->
+                <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"></option>
             </select>
         </div>
 
