@@ -2,18 +2,30 @@ package com.volunteerplatform.service;
 
 import com.volunteerplatform.data.CauseRepository;
 import com.volunteerplatform.data.PictureRepository;
+import com.volunteerplatform.model.Picture;
+import com.volunteerplatform.web.dto.UploadPictureDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-
+@RequiredArgsConstructor
 public class PictureService {
+
     private final PictureRepository pictureRepository;
     private final UserHelperService userHelperService;
     private final CauseRepository causeRepository;
+    private final CloudinaryService cloudinaryService;
+    private final CauseHelperService causeHelperService;
 
-    public PictureService(PictureRepository pictureRepository, UserHelperService userHelperService, CauseRepository causeRepository) {
-        this.pictureRepository = pictureRepository;
-        this.userHelperService = userHelperService;
-        this.causeRepository = causeRepository;
+    public void create(UploadPictureDTO uploadPictureDTO){
+        String path=cloudinaryService.upload(uploadPictureDTO.getPicture(),"");
+        Picture picture=new Picture();
+        picture.setUrl(path);
+        picture.setTitle(uploadPictureDTO.getTitle());
+        picture.setCause(causeHelperService.getByIdOrThrow(uploadPictureDTO.getCauseId()));
+        picture.setAuthor(userHelperService.getUser());
+
+        pictureRepository.save(picture);
     }
+
 }

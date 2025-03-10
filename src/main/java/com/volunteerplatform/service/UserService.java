@@ -44,11 +44,6 @@ public class UserService implements UserDetailsService {
         return modelMapper.map(userHelperService.getUser(), UserProfileDto.class);
     }
 
-    public UserProfileDto getProfileDataByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .map(user -> new UserProfileDto(user.getUsername(), user.getFullName(), user.getAge(), user.getLevel()))
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
 
     public boolean isUsernameUnique(String username) {
         return userRepository.findByUsername(username).isEmpty();

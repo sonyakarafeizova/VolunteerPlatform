@@ -4,7 +4,6 @@ import com.volunteerplatform.model.Level;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,11 +53,18 @@ public class CauseController {
 
     @PostMapping("/add-cause")
     public String doAddCause(
-            @Valid AddCauseDTO data,@RequestParam MultipartFile file,
-            BindingResult bindingResult, RedirectAttributes redirectAttributes)
-        throws IOException{
-        causeService.add(data,file);
-        return "redirect:causes";
+           @ModelAttribute AddCauseDTO data,
+           @RequestParam("image") MultipartFile file,
+            BindingResult bindingResult,
+           RedirectAttributes redirectAttributes) throws IOException{
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid form submission!");
+            return "redirect:/add-cause";
+        }
+
+        causeService.add(data, file);
+        redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
+        return "redirect:/";
     }
 
 

@@ -9,7 +9,7 @@
     <h2 class="text-center">Add a New Cause</h2>
 
     <form th:action="@{/add-cause}"
-          method="post"
+          th:method="POST"
           th:object="${causeData}"
           enctype="multipart/form-data"
           class="w-50 mx-auto p-4 border rounded bg-light shadow">

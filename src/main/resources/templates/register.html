@@ -70,10 +70,10 @@
                 <!-- Level Selection (Dropdown) -->
                 <div>
                     <div class="col-auto">
-                        <select th:field="*{level}" class="form-control">
+                        <label for="level">Level:</label>
+                        <select id="level" th:field="*{level}" class="custom-select">
                             <option value="">Select Level</option> <!-- Default Option -->
-                            <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"
-                                    th:selected="${lvl == registerData.level}"></option>
+                            <option th:each="lvl : ${levels}" th:value="${lvl}" th:text="${lvl}"></option>
                         </select>
 
                     </div>

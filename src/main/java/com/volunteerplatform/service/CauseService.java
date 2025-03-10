@@ -88,8 +88,18 @@ public class CauseService {
         toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
         toInsert.setAuthor(userHelperService.getUser());
 
-        causeRepository.save(toInsert);
-        return false;
+        // Save the cause first
+        Cause savedCause = causeRepository.save(toInsert);
+
+        // Handle the image
+        if (file != null && !file.isEmpty()) {
+            Picture picture = new Picture();
+            picture.setUrl("uploads/" + file.getOriginalFilename()); // Example, replace with actual storage logic
+            picture.setCause(savedCause);
+            pictureRepository.save(picture);
+        }
+
+        return true;
 
     }
 

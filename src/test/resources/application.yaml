@@ -20,4 +20,10 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+        #Cloudinary Properties
+        cloudinary:
+          api-key: 919629362597691
+          api-secret: c6UQMKHfGp3r3yjgiWROfnLekcM
+          cloud-name: dfjgcibib
+
 

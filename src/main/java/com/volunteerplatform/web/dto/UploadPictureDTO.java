@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class UploadPictureDTO {
-    private Long routeId;
+    private Long causeId;
     private String title;
     private MultipartFile picture;
 }
