@@ -13,4 +13,5 @@ public class AddCauseDTO {
     private String description;
     private Level level;
     private String videoUrl;
+   private String imageUrl;
 }

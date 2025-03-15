@@ -8,7 +8,6 @@ import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.dtos.CauseDetailsCommentDTO;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
-import com.volunteerplatform.util.YoutubeLinkConverter;
 import com.volunteerplatform.web.dto.AddCauseDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -17,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +30,13 @@ public class CauseService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final PictureRepository pictureRepository;
-    private final CauseHelperService causeHelperService;
+
     private final Random random = new Random();
 
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
+
     @Transactional
-    public List<CauseShortInfoDTO> getAll() {
+    public List<CauseShortInfoDTO> getAllCauses() {
         return causeRepository.findAll()
                 .stream()
                 .map(this::mapToShortInfo)
@@ -62,17 +63,6 @@ public class CauseService {
     }
 
 
-    public Cause createCause(Cause cause) {
-        return causeRepository.save(cause);
-    }
-
-    public List<CauseShortInfoDTO> getAllCauses() {
-        return causeRepository.findAll()
-                .stream()
-                .map(this::mapToShortInfo)
-                .toList();
-    }
-
     public Cause getCauseById(Long id) {
         Optional<Cause> cause = causeRepository.findById(id);
         return cause.orElse(null);
@@ -85,22 +75,47 @@ public class CauseService {
 
     public boolean add(AddCauseDTO data, MultipartFile file) throws IOException {
         Cause toInsert = modelMapper.map(data, Cause.class);
-        toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
+       // toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
         toInsert.setAuthor(userHelperService.getUser());
 
-        // Save the cause first
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = saveFile(file);
+            toInsert.setImageUrl(imageUrl);
+        }
         Cause savedCause = causeRepository.save(toInsert);
 
-        // Handle the image
         if (file != null && !file.isEmpty()) {
+
             Picture picture = new Picture();
-            picture.setUrl("uploads/" + file.getOriginalFilename()); // Example, replace with actual storage logic
+            picture.setUrl(toInsert.getImageUrl());
             picture.setCause(savedCause);
             pictureRepository.save(picture);
         }
-
         return true;
+    }
 
+    private String saveFile(MultipartFile file) throws IOException {
+
+//        Path uploadPath = Paths.get(UPLOAD_DIR);
+//        if (!Files.exists(uploadPath)) {
+//            Files.createDirectories(uploadPath);
+//        }
+//
+//
+//        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+//        Path filePath = uploadPath.resolve(fileName);
+//
+//
+//        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get("uploads/" + fileName);
+
+        Files.createDirectories(filePath.getParent()); // Ensure directory exists
+        Files.write(filePath, file.getBytes()); // Save the file
+
+
+
+        return "/uploads/" + fileName;
     }
 
 

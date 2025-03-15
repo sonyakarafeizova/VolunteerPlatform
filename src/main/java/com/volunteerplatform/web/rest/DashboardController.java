@@ -17,7 +17,7 @@ public class DashboardController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        List<CauseShortInfoDTO> causes = causeService.getAll();
+        List<CauseShortInfoDTO> causes = causeService.getAllCauses();
         model.addAttribute("allCauses", causes);
         return "dashboard";
     }

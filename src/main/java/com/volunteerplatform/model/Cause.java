@@ -28,6 +28,9 @@ public class Cause {
     @Column(name = "video_url")
     private String videoUrl;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToOne(optional = false)
     private User author;
 

@@ -14,7 +14,7 @@ public class CauseDetailsDTO {
     private String description;
     private String videoUrl;
     private String authorName;
-    private List<String> imageUrls;
+    private List<String> imageUrl;
     private List<CauseDetailsCommentDTO> comments;
 
 

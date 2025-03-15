@@ -16,11 +16,7 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
 
-        //double sofiaTemp = new Random().nextDouble();
-
-      //  model.addAttribute("sofiaTemperature", sofiaTemp);
         model.addAttribute("causes", causeService.getAllCauses());
-
 
         return "index";
     }

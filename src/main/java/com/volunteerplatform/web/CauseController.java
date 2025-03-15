@@ -24,7 +24,7 @@ public class CauseController {
 
     @GetMapping("/causes")
     public String causes(Model model) {
-        List<CauseShortInfoDTO> causes = causeService.getAll();
+        List<CauseShortInfoDTO> causes = causeService.getAllCauses();
 
         model.addAttribute("allCauses", causes);
 
