@@ -23,7 +23,8 @@
               <ul th:if="${not #lists.isEmpty(causes)}" class="profile-causes">
 
                 <li th:each="cause : ${causes}">
-                  <a th:href="@{/causes/{id}(id=${cause.id})}" th:text="${cause.title}">Cause Title</a>
+                  <a th:href="@{/causes/{id}(id=${cause.id})}" class="btn btn-primary">
+                    <span th:text="${cause.title}">Cause Title</span></a>
                 </li>
               </ul>
 

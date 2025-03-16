@@ -126,6 +126,8 @@ public class CauseService {
                 .orElseThrow(() -> new IllegalArgumentException("Cause with id " + id + " not found"));
 
         CauseDetailsDTO dto = modelMapper.map(cause, CauseDetailsDTO.class);
+
+        dto.setCreated(cause.getCreated());
         dto.setComments(cause.getComments().stream()
                 .map(comment -> modelMapper.map(comment, CauseDetailsCommentDTO.class))
                 .toList());

@@ -27,6 +27,10 @@
                     <a th:href="@{/users/profile}">Profile</a>
                 </li>
 
+                <li>
+                    <a th:href="@{/causes}">All Causes</a>
+                </li>
+
                 <li sec:authorize="hasRole('ADMIN')">
                     <a href="/">Admin</a>
                 </li>

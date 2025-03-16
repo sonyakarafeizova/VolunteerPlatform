@@ -12,12 +12,13 @@
             </div>
             <div class="causes-list" th:each="cause : ${allCauses}">
                 <div class="cause-card">
-                    <h2 >Cause Title</h2>
-                    <p >Cause Description</p>
-                    <img  alt="Cause Image"/>
-                    <a  class="btn">Learn More</a>
+                    <h2 th:text="${cause.title}">Cause Title</h2>
+                    <p th:text="${cause.description}">Cause Description</p>
+                    <img th:src="${cause.imageUrl}" alt="Cause Image"/>
+                    <a th:href="@{/cause/{id}(id=${cause.id})}" class="btn btn-primary">Learn More</a>
                 </div>
             </div>
+
         </section>
     </main>
     <footer th:replace="~{fragments/footer}"></footer>

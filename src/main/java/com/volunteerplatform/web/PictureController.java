@@ -17,4 +17,5 @@ public class PictureController {
 
         return new ModelAndView("redirect:/cause/"+uploadPictureDTO.getCauseId());
     }
+
 }

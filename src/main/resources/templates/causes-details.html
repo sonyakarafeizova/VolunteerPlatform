@@ -6,14 +6,12 @@
 <div class="wrapper">
     <header th:replace="~{fragments/header}"></header>
     <main>
-        <section class="cause-info-center">
-            <!--/*@thymesVar id="cause" type=""*/-->
-            <!--/*@thymesVar id="name" type=""*/-->
-            <h1 id="cause-name"></h1>
-            <p >Full causes description</p>
-            <p><strong>Location:</strong> <span >Location</span></p>
-            <p><strong>Date:</strong> <span >Event Date</span></p>
-            <a href="/apply" class="btn">Apply Now</a>
+        <section>
+            <h1 th:text="${cause.title}">Cause Title</h1>
+            <p th:text="${cause.description}">Cause Description</p>
+            <img th:src="${cause.imageUrl}" alt="Cause Image"/>
+            <p><strong>Created on:</strong> <span th:text="${#temporals.format(cause.created, 'dd MMM yyyy HH:mm')}"></span></p>
+            <a href="/causes" class="btn btn-secondary">Back to Causes</a>
         </section>
     </main>
     <footer th:replace="~{fragments/footer}"></footer>

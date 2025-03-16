@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Getter
 @Setter
@@ -15,8 +16,10 @@ public class CauseDetailsDTO {
     private String description;
     private String videoUrl;
     private String authorName;
+    private LocalDateTime created;
     private List<String> imageUrl;
     private List<CauseDetailsCommentDTO> comments;
+
 
 
 }
