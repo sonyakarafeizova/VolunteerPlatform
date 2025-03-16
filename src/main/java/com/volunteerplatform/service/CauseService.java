@@ -75,19 +75,21 @@ public class CauseService {
 
     public boolean add(AddCauseDTO data, MultipartFile file) throws IOException {
         Cause toInsert = modelMapper.map(data, Cause.class);
-       // toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
+        // toInsert.setVideoUrl(YoutubeLinkConverter.convert(data.getVideoUrl()));
         toInsert.setAuthor(userHelperService.getUser());
 
         if (file != null && !file.isEmpty()) {
             String imageUrl = saveFile(file);
             toInsert.setImageUrl(imageUrl);
         }
+        toInsert.setCreated(LocalDateTime.now());
         Cause savedCause = causeRepository.save(toInsert);
 
         if (file != null && !file.isEmpty()) {
 
             Picture picture = new Picture();
             picture.setUrl(toInsert.getImageUrl());
+            picture.setAuthor(userHelperService.getUser());
             picture.setCause(savedCause);
             pictureRepository.save(picture);
         }
@@ -112,7 +114,6 @@ public class CauseService {
 
         Files.createDirectories(filePath.getParent()); // Ensure directory exists
         Files.write(filePath, file.getBytes()); // Save the file
-
 
 
         return "/uploads/" + fileName;
@@ -140,6 +141,7 @@ public class CauseService {
         }
         return causes;
     }
+
     @Transactional
     public int removeCausesOlderThanMonths(int months) {
         LocalDateTime thresholdDate = LocalDateTime.now().minusMonths(months);

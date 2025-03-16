@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AddCauseDTO {
-    private String name;
+    private String title;
     private String description;
     private Level level;
     private String videoUrl;

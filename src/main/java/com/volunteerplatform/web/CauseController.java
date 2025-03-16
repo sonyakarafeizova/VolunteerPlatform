@@ -64,7 +64,7 @@ public class CauseController {
 
         causeService.add(data, file);
         redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
-        return "redirect:/";
+        return "redirect:/dashboard";
     }
 
 

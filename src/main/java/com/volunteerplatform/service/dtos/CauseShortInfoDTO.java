@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CauseShortInfoDTO {
     private long id;
-    private String name;
+    private String title;
     private String description;
     private String imageUrl;
 }

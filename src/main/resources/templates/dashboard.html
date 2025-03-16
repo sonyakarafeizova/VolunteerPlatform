@@ -21,8 +21,11 @@
                     <h5 class="mt-2 mb-0">Age</h5>
                     <span th:text="${profileData.age}">33</span>
                     <div class="mt-4">
-                        <p>Causes</p>
-                        <span th:text="${allCauses}">DefaultCauses</span>
+                        <ul>
+                            <li th:each="cause : ${allCauses}">
+                                <a th:href="@{/cause/{id}(id=${cause.id})}" th:text="${cause.title}">Cause Name</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

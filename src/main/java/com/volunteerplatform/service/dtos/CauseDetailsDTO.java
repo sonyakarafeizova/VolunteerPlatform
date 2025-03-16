@@ -9,8 +9,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class CauseDetailsDTO {
+
     private Long id;
-    private String name;
+    private String title;
     private String description;
     private String videoUrl;
     private String authorName;
