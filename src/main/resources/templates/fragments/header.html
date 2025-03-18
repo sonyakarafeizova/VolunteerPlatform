@@ -2,11 +2,13 @@
 <header th:fragment="header" xmlns:sec="">
     <nav class="main-nav">
         <ul>
-            <li>
-                <a th:href="@{/}"  th:text="#{nav_bar_login_home}">Home</a>
-            </li>
-            <th:block sec:authorize="!isAuthenticated()">
 
+            <li>
+                <a th:href="@{/}" th:text="#{nav_bar_login_home}">Home</a>
+            </li>
+
+            <!-- Links visible for unauthenticated users -->
+            <th:block sec:authorize="!isAuthenticated()">
                 <li>
                     <a th:href="@{/users/login}" th:text="#{nav_bar_login}">Login</a>
                 </li>
@@ -18,7 +20,7 @@
                 </li>
             </th:block>
 
-
+            <!-- Links visible for authenticated users -->
             <th:block sec:authorize="isAuthenticated()">
                 <li>
                     <a th:href="@{/add-cause}">Add new cause</a>
@@ -26,13 +28,11 @@
                 <li>
                     <a th:href="@{/users/profile}">Profile</a>
                 </li>
-
                 <li>
                     <a th:href="@{/causes}">All Causes</a>
                 </li>
-
                 <li sec:authorize="hasRole('ADMIN')">
-                    <a href="/">Admin</a>
+                    <a th:href="@{/admin}">Admin</a> <!-- Change / to /admin or the actual admin URL -->
                 </li>
                 <li>
                     <form th:method="POST" th:action="@{/users/logout}" class="logout-form">
@@ -41,20 +41,16 @@
                 </li>
             </th:block>
 
+            <!-- Language Selector -->
             <li class="nav-item">
                 <form th:method="get">
                     <label class="text-white" for="lang" th:text="#{nav_bar_language}">Language</label>
-                    <select
-                            id="lang"
-                            name="lang"
-                            onchange="this.form.submit()">
+                    <select id="lang" name="lang" onchange="this.form.submit()">
                         <option value="en_US" th:selected="${#locale.toString()} == 'en_US'">English</option>
                         <option value="bg_BG" th:selected="${#locale.toString()} == 'bg_BG'">Български</option>
                         <option value="de_DE" th:selected="${#locale.toString()} == 'de_DE'">Deutsch</option>
-
                     </select>
                 </form>
-
             </li>
 
         </ul>

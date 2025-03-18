@@ -29,23 +29,22 @@ public class User {
 
     @Column(unique = true)
     private String email;
+
     @Enumerated(EnumType.STRING)
     private Level level;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
     public User() {
         this.roles = new HashSet<>();
     }
-//    public User(String username, String fullName, String email, int age, Level level, String password) {
-//        this.username = username;
-//        this.fullName = fullName;
-//        this.email = email;
-//        this.age = age;
-//        this.level = level;
-//        this.password = password;
-//    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.volunteerplatform.config;
 
+import com.volunteerplatform.service.session.AppUserDetailsService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AppUserDetailsService appUserDetailsService) throws Exception {
         return http
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.disable())
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
@@ -39,12 +40,12 @@ public class SecurityConfig {
                             logout.invalidateHttpSession(true);
                         }
                 )
-//                 TODO make it work or demonstrate it
-//                .exceptionHandling(
-//                        exceptionHandling -> {
-//                            exceptionHandling.accessDeniedPage("/access-denied");
-//                        }
-//                )
+                .userDetailsService(appUserDetailsService)
                 .build();
     }
+//    @Bean
+//    public UserDetailsService userDetailsService(UserRepository userRepository) {
+//        return new AppUserDetailsService(userRepository);
+//    }
+
 }
