@@ -62,7 +62,7 @@ public class CauseController {
             return "redirect:/add-cause";
         }
 
-        causeService.add(data, file);
+        causeService.createCause(data);
         redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
         return "redirect:/dashboard";
     }
