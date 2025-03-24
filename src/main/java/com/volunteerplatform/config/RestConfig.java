@@ -19,7 +19,7 @@ public class RestConfig {
                 .builder()
                 .baseUrl(causeApiConfig.getBaseUrl())
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-
+        //        .requestInterceptor(requestInterceptor)
                 .build();
     }
 }

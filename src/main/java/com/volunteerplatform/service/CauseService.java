@@ -58,9 +58,9 @@ public class CauseService {
                 .uri("/causes")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {
-                });
+                .body(new ParameterizedTypeReference<List<CauseShortInfoDTO>>() {});
     }
+
 
 
     public CauseDetailsDTO getCauseById(Long id) {
@@ -71,12 +71,12 @@ public class CauseService {
                 .body(CauseDetailsDTO.class);
     }
 
-@Transactional
     public void createCause(AddCauseDTO addCauseDTO) {
-        LOGGER.info("Creating new cause...");
+        LOGGER.debug("Creating new cause...");
 
         causeRestClient.post()
-                .uri("/causes/causes")
+              //  .accept(MediaType.APPLICATION_JSON)
+                .uri("/causes")
                 .body(addCauseDTO)
                 .retrieve();
     }
@@ -84,7 +84,7 @@ public class CauseService {
 
     public void deleteCauseFromApi(Long id) {
         causeRestClient.delete()
-                .uri("/causes/causes/{id}", id)
+                .uri("/causes/{id}", id)
                 .retrieve();
     }
 
