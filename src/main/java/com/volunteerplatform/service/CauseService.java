@@ -17,13 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -58,7 +55,7 @@ public class CauseService {
                 .uri("/causes")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<List<CauseShortInfoDTO>>() {});
+                .body(new ParameterizedTypeReference<>() {});
     }
 
 
@@ -71,11 +68,11 @@ public class CauseService {
                 .body(CauseDetailsDTO.class);
     }
 
+
     public void createCause(AddCauseDTO addCauseDTO) {
         LOGGER.debug("Creating new cause...");
 
         causeRestClient.post()
-              //  .accept(MediaType.APPLICATION_JSON)
                 .uri("/causes")
                 .body(addCauseDTO)
                 .retrieve();
@@ -148,17 +145,6 @@ public class CauseService {
 //        }
 //        return true;
 //    }
-
-    private String uploadFileToExternalApi(MultipartFile file) throws IOException {
-        String uploadUrl = "https://localhost:8081";
-
-        return causeRestClient.post()
-                .uri(uploadUrl)
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(Map.of("file", file.getResource()))
-                .retrieve()
-                .body(String.class);  // Предполага се, че API-то връща URL на качения файл
-    }
 
 
     @Transactional(readOnly = true)
