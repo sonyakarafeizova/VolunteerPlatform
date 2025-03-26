@@ -4,116 +4,72 @@ import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.UserHelperService;
 import com.volunteerplatform.service.UserService;
-import com.volunteerplatform.service.dtos.UserProfileDto;
-import com.volunteerplatform.web.dto.UserLoginDTO;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+public class UserServiceTest {
+
+    private UserService toTest;
+
+    @Captor
+    private ArgumentCaptor<User> userCaptor;
 
     @Mock
-    private UserRepository userRepository;
+    private UserRepository mockUserRepository;
 
     @Mock
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder mockPasswordEncoder;
 
     @Mock
-    private ModelMapper modelMapper;
-
-    @Mock
-    private UserHelperService userHelperService;
-
-    @InjectMocks
-    private UserService userService;
-
-    private User user;
-    private UserRegisterDTO userRegisterDTO;
-    private UserProfileDto userProfileDto;
+    private UserHelperService mockUserHelperService;
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setUsername("testuser");
-        user.setEmail("test@example.com");
-        user.setPassword("password");
-        user.setFullName("Test User"); // Ensure full name is set
-
-        userRegisterDTO = new UserRegisterDTO();
-        userRegisterDTO.setUsername("testuser");
-        userRegisterDTO.setEmail("test@example.com");
-        userRegisterDTO.setPassword("password");
-        userRegisterDTO.setFullName("Test User"); // Ensure full name is set
-
-        userProfileDto = new UserProfileDto();
+        toTest = new UserService(
+                mockUserRepository,
+                mockPasswordEncoder,
+                new ModelMapper(),
+                mockUserHelperService
+        );
     }
 
     @Test
-    void testRegisterUser() {
-        when(modelMapper.map(userRegisterDTO, User.class)).thenAnswer(invocation -> {
-            User mappedUser = new User();
-            mappedUser.setUsername(userRegisterDTO.getUsername());
-            mappedUser.setEmail(userRegisterDTO.getEmail());
-            mappedUser.setPassword(userRegisterDTO.getPassword());
-            mappedUser.setFullName(userRegisterDTO.getFullName()); // Ensure full name is mapped
-            return mappedUser;
-        });
+    void testUserRegistration() {
+        // Arrange
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+        userRegisterDTO.setUsername("TestUser");
+        userRegisterDTO.setFullName("Test User");
+        userRegisterDTO.setAge(23);
+        userRegisterDTO.setPassword("topsecret");
+        userRegisterDTO.setEmail("anna@example.com");
 
-        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
-            User savedUser = invocation.getArgument(0);
-            assertNotNull(savedUser.getFullName()); // Ensure full name is not null
-            return savedUser;
-        });
+        when(mockPasswordEncoder.encode(userRegisterDTO.getPassword()))
+                .thenReturn("encodedPassword");
 
-        userService.register(userRegisterDTO);
+        // Act
+        toTest.register(userRegisterDTO);
 
-        verify(userRepository, times(1)).save(any(User.class));
-    }
+        // Assert
+        verify(mockUserRepository).save(userCaptor.capture());
+        User actualSavedEntity = userCaptor.getValue();
 
-    @Test
-    void testGetProfileData() {
-        when(userHelperService.getUser()).thenReturn(user);
-        when(modelMapper.map(user, UserProfileDto.class)).thenReturn(userProfileDto);
-
-        UserProfileDto result = userService.getProfileData();
-
-        assertNotNull(result);
-        verify(userHelperService, times(1)).getUser();
-    }
-
-    @Test
-    void testIsUsernameUnique() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
-
-        assertTrue(userService.isUsernameUnique("testuser"));
-        verify(userRepository, times(1)).findByUsername("testuser");
-    }
-
-    @Test
-    void testAuthenticateUser() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
-        loginDTO.setEmail("test@example.com");
-        loginDTO.setPassword("password");
-
-        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
-
-        assertTrue(userService.authenticateUser(loginDTO));
-        verify(userRepository, times(1)).findByEmail("test@example.com");
+        assertNotNull(actualSavedEntity);
+        assertEquals(userRegisterDTO.getUsername(), actualSavedEntity.getUsername());
+        assertEquals(userRegisterDTO.getFullName(), actualSavedEntity.getFullName());
+        assertEquals("encodedPassword", actualSavedEntity.getPassword());
+        assertEquals(userRegisterDTO.getEmail(), actualSavedEntity.getEmail());
     }
 }

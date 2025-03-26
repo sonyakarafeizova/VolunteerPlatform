@@ -26,3 +26,6 @@ spring:
           api-secret: c6UQMKHfGp3r3yjgiWROfnLekcM
           cloud-name: dfjgcibib
 
+causes:
+  api:
+    baseUrl: "http://localhost:8081"
