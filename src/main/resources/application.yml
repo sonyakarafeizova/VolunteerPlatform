@@ -33,6 +33,7 @@ spring:
         show_sql: true
         format_sql: true
     defer-datasource-initialization: true
+
   thymeleaf:
     check-template-location: true
     cache: false
@@ -41,6 +42,7 @@ spring:
     resources:
       static-locations: file:./src/main/resources/static/
       cache-period: 0
+
 
       #Cloudinary Properties
       cloudinary:
@@ -51,15 +53,6 @@ spring:
 causes:
   api:
     baseUrl: "http://localhost:8081"
-#
-#      static-locations: file:./src/main/resources/static/
-#      cache-period: 0
-#  thymeleaf:
-#    check-template-location: true
-#    cache: false
-#    prefix: file:./src/main/resources/templates/
-#    suffix: .html
-#    resources:
-#
-#      static-locations: file:./src/main/resources/static/
-#      cache-period: 0
+
+
+

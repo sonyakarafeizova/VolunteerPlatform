@@ -14,12 +14,16 @@ public class RestConfig {
     }
 
     @Bean("causesRestClient")
-    public RestClient causesRestClient(CauseApiConfig causeApiConfig) {
+    public RestClient causesRestClient(CauseApiConfig causeApiConfig
+                                       ) {
         return RestClient
                 .builder()
                 .baseUrl(causeApiConfig.getBaseUrl())
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-        //        .requestInterceptor(requestInterceptor)
                 .build();
     }
+
+
 }
+
+

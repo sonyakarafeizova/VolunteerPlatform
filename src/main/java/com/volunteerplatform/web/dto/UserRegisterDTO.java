@@ -7,7 +7,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.volunteerplatform.model.Level;
+import com.volunteerplatform.model.enums.Level;
 
 
 @Getter

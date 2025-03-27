@@ -1,5 +1,6 @@
 package com.volunteerplatform.model;
 
+import com.volunteerplatform.model.enums.UserRoles;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,18 @@ import lombok.Setter;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
-    private UserRoles name;
+    private UserRoles role;
 
-    public Role(UserRoles name) {
+    public Role(UserRoles role) {
         this.id = id;
-        this.name = name;
+        this.role = role;
+    }
+
+
+    public void setRole(UserRoles role) {
+        this.role = role;
     }
 }

@@ -29,3 +29,4 @@ spring:
 causes:
   api:
     baseUrl: "http://localhost:8081"
+

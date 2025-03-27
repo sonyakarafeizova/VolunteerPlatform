@@ -4,7 +4,7 @@ import com.volunteerplatform.data.RoleRepository;
 import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.Role;
 import com.volunteerplatform.model.User;
-import com.volunteerplatform.model.UserRoles;
+import com.volunteerplatform.model.enums.UserRoles;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -44,8 +44,8 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     private void seedAdminUser() {
         if (userRepository.count() == 0) {
-            Role adminRole = roleRepository.findByName(UserRoles.ADMIN).orElseThrow();
-            System.out.println("Admin role found: " + adminRole.getName());
+            Role adminRole = roleRepository.findByRole(UserRoles.ADMIN).orElseThrow();
+            System.out.println("Admin role found: " + adminRole.getRole());
 
             User admin = new User();
             admin.setUsername("admin");
@@ -53,7 +53,7 @@ public class DatabaseSeeder implements CommandLineRunner {
             admin.setEmail("admin@example.com");
             admin.setAge(30);
             admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setRoles(Set.of(roleRepository.findByName(UserRoles.ADMIN).orElseThrow()));
+            admin.setRoles(Set.of(roleRepository.findByRole(UserRoles.ADMIN).orElseThrow()));
 
             userRepository.save(admin);
            //System.out.println("✅ Admin user added to database.");

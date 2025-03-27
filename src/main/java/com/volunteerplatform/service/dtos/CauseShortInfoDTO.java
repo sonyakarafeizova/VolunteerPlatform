@@ -1,6 +1,6 @@
 package com.volunteerplatform.service.dtos;
 
-import com.volunteerplatform.model.Level;
+import com.volunteerplatform.model.enums.Level;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

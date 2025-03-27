@@ -37,8 +37,12 @@ public class AppUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> mapToGrantedAuthorities(User user) {
-        return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_"+ role.getName().name()))
+        return user
+                .getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toUnmodifiableList());
     }
 }
+
+
+

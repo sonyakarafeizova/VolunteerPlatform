@@ -15,6 +15,6 @@ public class UserProfileDto {
     private int age;
     private Level level;
 
-    public UserProfileDto(String username, String fullName, Integer age, com.volunteerplatform.model.Level level) {
+    public UserProfileDto(String username, String fullName, Integer age, com.volunteerplatform.model.enums.Level level) {
     }
 }

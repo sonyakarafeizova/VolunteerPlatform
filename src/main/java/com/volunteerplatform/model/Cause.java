@@ -1,5 +1,6 @@
 package com.volunteerplatform.model;
 
+import com.volunteerplatform.model.enums.Level;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

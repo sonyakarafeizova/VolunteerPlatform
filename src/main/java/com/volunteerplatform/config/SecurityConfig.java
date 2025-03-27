@@ -21,6 +21,10 @@ public class SecurityConfig {
                                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                     .requestMatchers("/", "/users/login", "/users/login-error", "/users/register", "/about").permitAll()
                                     .requestMatchers("/api/comments/").permitAll()
+                                    .requestMatchers("/users/dashboard", "/users/profile").authenticated()
+                                    .requestMatchers("/users/**").hasRole("USER")
+                                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                                    .requestMatchers("/{userId}/roles", "/{userId}/remove-roles").hasRole("ADMIN")
                                     .anyRequest().authenticated();
                         }
                 )

@@ -1,6 +1,6 @@
 package com.volunteerplatform.web;
 
-import com.volunteerplatform.model.Level;
+import com.volunteerplatform.model.enums.Level;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
