@@ -14,8 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -77,9 +77,11 @@ public class UserService {
     @PreAuthorize("hasRole('ADMIN')")
     public void assignRolesToUser(Long userId, Set<UserRoles> roles) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
         Set<Role> roleSet = roles.stream()
                 .map(role -> roleRepository.findByRole(role).orElseThrow(() -> new RuntimeException("Role not found")))
                 .collect(Collectors.toSet());
+
         user.setRoles(roleSet);
         userRepository.save(user);
     }
@@ -99,15 +101,19 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
     }
 
-    public void updateUserRole(Long id, UserRoles roleName) {
-        User user = getUserById(id);
-        Role role = roleRepository.findByRole(roleName).orElseThrow(() -> new RuntimeException("Role not found"));
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
-
+    @Transactional
+    public void updateUserRole(Long id, UserRoles role) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        Role roleEntity=roleRepository.findByRole(role).orElseThrow(()->new RuntimeException("Role not found"));
+        user.setRoles(Set.of(roleEntity));
         userRepository.save(user);
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        userRepository.delete(user);
     }
 }

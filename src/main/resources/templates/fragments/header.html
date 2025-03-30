@@ -31,9 +31,14 @@
                 <li>
                     <a th:href="@{/causes}">All Causes</a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin}">Admin</a> <!-- Change / to /admin or the actual admin URL -->
+
+                <li  sec:authorize="hasRole('ROLE_ADMIN')">
+
+                    <a th:href="@{/admin}">Admin</a>
+                    <a th:href="@{/admin-users}">Users</a>
+
                 </li>
+
                 <li>
                     <form th:method="POST" th:action="@{/users/logout}" class="logout-form">
                         <button type="submit" class="logout-btn">Logout</button>

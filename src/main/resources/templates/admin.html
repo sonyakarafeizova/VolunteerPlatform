@@ -39,10 +39,12 @@
             <a th:href="@{/admin/edit/{id}(id=${cause.id})}" class="btn btn-primary btn-sm">Edit</a>
 
 
-            <a th:href="@{/admin/delete/{id}(id=${cause.id})}" class="btn btn-danger btn-sm"
-               onclick="return confirm('Are you sure you want to delete this cause?');">
+            <a th:href="@{/admin/users/delete/{id}(id=${user.id})}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Are you sure you want to delete this user?');">
               Delete
             </a>
+
           </td>
         </tr>
         </tbody>

@@ -11,7 +11,8 @@ public class CauseApiConfig {
         return baseUrl;
     }
 
-    public void setBaseUrl(String baseUrl) {
+    public CauseApiConfig setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
+        return this;
     }
 }

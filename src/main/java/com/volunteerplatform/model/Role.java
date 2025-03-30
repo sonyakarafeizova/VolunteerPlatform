@@ -21,12 +21,12 @@ public class Role {
     private UserRoles role;
 
     public Role(UserRoles role) {
-        this.id = id;
         this.role = role;
     }
 
 
-    public void setRole(UserRoles role) {
-        this.role = role;
-    }
+//    public Role setRole(UserRoles role) {
+//        this.role = role;
+//        return this;
+//    }
 }

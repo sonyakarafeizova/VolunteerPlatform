@@ -7,10 +7,10 @@
     <header th:replace="~{fragments/header}"></header>
     <main>
         <section>
-            <h1 th:text="${cause.title}">Cause Title</h1>
-            <p th:text="${cause.description}">Cause Description</p>
-            <img th:src="${cause.imageUrl}" alt="Cause Image"/>
-            <p><strong>Created on:</strong> <span th:text="${#temporals.format(cause.created, 'dd MMM yyyy HH:mm')}"></span></p>
+            <h1 th:text="${causes.title}">Cause Title</h1>
+            <p th:text="${causes.description}">Cause Description</p>
+            <img th:src="${causes.imageUrl}" alt="Cause Image"/>
+            <p><strong>Created on:</strong> <span th:text="${#temporals.format(causes.created, 'dd MMM yyyy HH:mm')}"></span></p>
             <a href="/causes" class="btn btn-secondary">Back to Causes</a>
         </section>
     </main>

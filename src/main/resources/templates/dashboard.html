@@ -23,7 +23,7 @@
                     <div class="mt-4">
                         <ul>
                             <li th:each="cause : ${allCauses}">
-                                <a th:href="@{/cause/{id}(id=${cause.id})}" th:text="${cause.title}">Cause Name</a>
+                                <a th:href="@{/causes/{id}(id=${cause.id})}" th:text="${cause.title}">Cause Name</a>
                             </li>
                         </ul>
                     </div>
@@ -37,7 +37,7 @@
                 <h2>Dashboard</h2>
                 <p>Welcome, <span th:text="${profileData.fullName}">User</span>!</p>
                 <div class="stats">
-                    <p>Some dashboard statistics here...</p>
+
                 </div>
             </div>
         </div>

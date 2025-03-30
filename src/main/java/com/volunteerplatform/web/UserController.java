@@ -77,7 +77,8 @@ public class UserController {
     @PostMapping("/users/login")
     public String doLogin(@Valid @ModelAttribute("loginData") UserLoginDTO loginData,
                           BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes) {
+                          RedirectAttributes redirectAttributes,
+                          Principal principal) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginData", loginData);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
@@ -88,8 +89,12 @@ public class UserController {
         if (!loginSuccessful) {
             return "redirect:/users/login?error=true";
         }
+        User user = userService.findByUsername(principal.getName());
+        if (user.getRoles().contains(UserRoles.ADMIN)) {
+            return "redirect:/admin/dashboard";
+        }
 
-        return "redirect:/users/dashboard";
+        return "redirect:/users/profile";
     }
 
 
@@ -125,12 +130,15 @@ public class UserController {
 
 
     @GetMapping("/users/dashboard")
-    public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView("dashboard");
-        modelAndView.addObject("profileData", userService.getProfileData());
-        return modelAndView;
-    }
+    public String dashboard(Principal principal) {
+        User user = userService.findByUsername(principal.getName());
 
+        if (user.getRoles().contains(UserRoles.ADMIN)) {
+            return "redirect:/admin-users";
+        }
+
+        return "redirect:/users/profile";
+    }
 
     @PutMapping("/users/profile")
     public User updateProfile(@RequestBody User updatedUser) {
@@ -148,7 +156,7 @@ public class UserController {
         userService.assignRolesToUser(userId, roles);
     }
 
-    // Admin endpoint for removing roles from a user
+
     @PutMapping("/users/{userId}/remove-roles")
     public void removeRoles(@PathVariable Long userId, @RequestBody Set<UserRoles> roles) {
         userService.removeRolesFromUser(userId, roles);

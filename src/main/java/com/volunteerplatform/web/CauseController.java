@@ -2,6 +2,7 @@ package com.volunteerplatform.web;
 
 import com.volunteerplatform.model.enums.Level;
 import com.volunteerplatform.service.CauseService;
+import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,6 @@ public class CauseController {
         modelAndView.addObject("cause", new CauseShortInfoDTO());
         modelAndView.addObject("levels", Level.values());
 
-
         return modelAndView;
 
     }
@@ -66,18 +66,13 @@ public class CauseController {
         redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
         return "redirect:/dashboard";
     }
+    @GetMapping("/causes/{id}")
+    public String getCauseDetails(@PathVariable Long id, Model model) {
+        CauseDetailsDTO causeDetails = causeService.getCauseById(id);
+        model.addAttribute("causes", causeDetails);
+        return "causes-details";
 
+    }
 
-
-
-        @GetMapping("cause/{id}")
-        public ModelAndView details (@PathVariable Long id){
-
-            ModelAndView modelAndView = new ModelAndView("causes-details");
-
-            modelAndView.addObject("cause", causeService.getDetails(id));
-
-            return modelAndView;
-        }
 
     }

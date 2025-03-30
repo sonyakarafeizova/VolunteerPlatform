@@ -7,6 +7,9 @@
 <div class="container mt-5">
     <h2 class="text-center">Manage Users</h2>
 
+    <p><strong>Current User:</strong> <span th:text="${#authentication.name}"></span></p>
+    <p><strong>Roles:</strong> <span th:text="${#authentication.authorities}"></span></p>
+
     <table class="table table-striped">
         <thead class="table-dark">
         <tr>
@@ -20,13 +23,29 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.username}">Username</td>
             <td th:text="${user.fullName}">Full Name</td>
-            <td th:text="${user.roles}">Role</td>
             <td>
-                <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Edit Role</a>
+                <form th:action="@{/admin/users/edit/{id}(id=${user.id})}" method="post">
+                    <label th:for="'role-select-' + ${user.id}" class="form-label">Role:</label>
+                    <select th:id="'role-select-' + ${user.id}" name="role" class="form-select">
+                        <option th:each="role : ${roles}"
+                                th:value="${role}"
+                                th:text="${role}"
+                                th:selected="${user.roles.contains(role)}">
+                        </option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
+                </form>
+            </td>
+            <td>
+                <!-- Delete user link with confirmation prompt -->
+                <form th:action="@{/admin/users/delete/{id}(id=${user.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
             </td>
         </tr>
         </tbody>
     </table>
+
 </div>
 
 <footer th:replace="~{fragments/footer}"></footer>
