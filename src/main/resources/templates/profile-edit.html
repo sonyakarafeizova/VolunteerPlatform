@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/header}"></header>
+
+<main class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Edit Profile</h2>
+
+        <form th:action="@{/users/{id}/profile-edit(id=${userProfileDto.id})}"
+               th:method="put"
+              th:object="${userProfileDto}">
+          <input type="hidden" name="_method" value="PUT"/>
+
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" class="form-control"
+                 th:field="*{fullName}" required/>
+
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" class="form-control"
+                 th:field="*{username}" required/>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control"
+                 th:field="*{email}" required/>
+
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age" class="form-control"
+                 th:field="*{age}"/>
+
+          <label for="level">Level</label>
+          <select id="level" name="level" class="form-control" th:field="*{level}">
+            <option value="">Select Level</option>
+            <option th:each="lvl : ${T(com.volunteerplatform.model.enums.Level).values()}"
+                    th:value="${lvl}" th:text="${lvl}"></option>
+          </select>
+
+          <button type="submit" class="btn btn-primary mt-3" >Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

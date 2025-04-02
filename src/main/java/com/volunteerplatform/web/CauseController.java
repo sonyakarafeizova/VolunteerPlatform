@@ -25,8 +25,8 @@ public class CauseController {
 
     @GetMapping("/causes")
     public String causes(Model model) {
-        List<CauseShortInfoDTO> causes = causeService.getAllCauses();
 
+        List<CauseShortInfoDTO> causes = causeService.getAllCauses();
         model.addAttribute("allCauses", causes);
 
         return "causes";
@@ -36,7 +36,6 @@ public class CauseController {
     public ModelAndView addCause() {
 
         ModelAndView modelAndView = new ModelAndView("add-cause");
-
         modelAndView.addObject("cause", new CauseShortInfoDTO());
         modelAndView.addObject("levels", Level.values());
 
@@ -53,10 +52,10 @@ public class CauseController {
 
     @PostMapping("/add-cause")
     public String doAddCause(
-           @ModelAttribute AddCauseDTO data,
-           @RequestParam("image") MultipartFile file,
+            @ModelAttribute AddCauseDTO data,
+            @RequestParam("image") MultipartFile file,
             BindingResult bindingResult,
-           RedirectAttributes redirectAttributes) throws IOException{
+            RedirectAttributes redirectAttributes) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid form submission!");
             return "redirect:/add-cause";
@@ -66,6 +65,7 @@ public class CauseController {
         redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
         return "redirect:/dashboard";
     }
+
     @GetMapping("/causes/{id}")
     public String getCauseDetails(@PathVariable Long id, Model model) {
         CauseDetailsDTO causeDetails = causeService.getCauseById(id);
@@ -74,5 +74,11 @@ public class CauseController {
 
     }
 
-
+    @GetMapping("/causes/{id}/delete")
+    public String deleteCause(@PathVariable("id") Long id) {
+        causeService.deleteCauseFromApi(id);
+        return "redirect:/causes";
     }
+
+
+}

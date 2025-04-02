@@ -43,11 +43,34 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
+    private String profileImage;
 
     public User() {
         this.roles = new HashSet<>();
     }
 
+    public User setLevel(Level level) {
+        this.level = level;
+        return this;
+    }
 
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
+    }
 
+    public User setFullName(String fullName) {
+        this.fullName = fullName;
+        return this;
+    }
+
+    public User setAge(Integer age) {
+        this.age = age;
+        return this;
+    }
+
+    public User setEmail(String email) {
+        this.email = email;
+        return this;
+    }
 }

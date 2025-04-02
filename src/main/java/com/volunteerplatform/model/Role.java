@@ -24,9 +24,8 @@ public class Role {
         this.role = role;
     }
 
-
-//    public Role setRole(UserRoles role) {
-//        this.role = role;
-//        return this;
-//    }
+    public Role setRole(UserRoles role) {
+        this.role = role;
+        return this;
+    }
 }

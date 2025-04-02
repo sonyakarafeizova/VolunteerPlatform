@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head th:replace="~{fragments/head}"></head>
 <body>
 <div class="wrapper">
@@ -8,7 +10,6 @@
         <section>
             <h1>All Causes</h1>
             <div class="causes">
-                <p>No causes available at the moment.</p>
             </div>
             <div class="causes-list" th:each="cause : ${allCauses}">
                 <div class="cause-card">
@@ -16,6 +17,12 @@
                     <p th:text="${cause.description}">Cause Description</p>
                     <img th:src="${cause.imageUrl}" alt="Cause Image"/>
                     <a th:href="@{/causes/{id}(id=${cause.id})}" class="btn btn-primary">Learn More</a>
+
+                    <!-- Delete button visible only for users with the ADMIN role -->
+                    <li sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:href="@{/causes/{id}/delete(id=${cause.id})}" class="btn btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this cause?');">Delete</a>
+                    </li>
                 </div>
             </div>
 

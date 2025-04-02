@@ -1,27 +1,25 @@
 package com.volunteerplatform.web;
 
-import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.model.User;
-import com.volunteerplatform.model.enums.Level;
-import com.volunteerplatform.model.enums.UserRoles;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserService;
-import com.volunteerplatform.web.dto.UserLoginDTO;
-import com.volunteerplatform.web.dto.UserRegisterDTO;
+import com.volunteerplatform.service.dtos.CauseDetailsDTO;
+import com.volunteerplatform.service.dtos.UserProfileDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
+
+import static com.volunteerplatform.model.enums.UserRoles.ADMIN;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,82 +28,28 @@ public class UserController {
 
     private final UserService userService;
     private final CauseService causeService;
-    private final UserRepository userRepository;
 
 
-    @GetMapping("/users/register")
-    public String viewRegister(Model model) {
-        if (!model.containsAttribute("registerData")) {
-            model.addAttribute("registerData", new UserRegisterDTO());
-        }
-        model.addAttribute("levels", Level.values());
-        return "register";
+    @GetMapping("/users/{id}/profile")
+    public String viewProfile(@PathVariable("id") Long id, Model model) {
+        UserProfileDto profileData = userService.getUserProfileById(id);
+        CauseDetailsDTO causes = causeService.getCauseById(id);
+        model.addAttribute("profileData", profileData);
+        model.addAttribute("causes", causes);
+        return "profile";
     }
 
 
-    @PostMapping("/users/register")
-    public String doRegister(
-            @Valid @ModelAttribute("registerData") UserRegisterDTO data,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
-    ) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("registerData", data);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerData", bindingResult);
-            redirectAttributes.addFlashAttribute("levels", Level.values());
-            return "redirect:/users/register";
-        }
-
-        userService.register(data);
-        return "redirect:/users/login";
-    }
-
-
-    @GetMapping("/users/login")
-    public ModelAndView viewLogin(@RequestParam(value = "error", required = false) String error) {
-        ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("loginData", new UserLoginDTO());
-
-        if (error != null) {
-            modelAndView.addObject("showErrorMessage", true);
-        }
-
-        return modelAndView;
-    }
-
-
-    @PostMapping("/users/login")
-    public String doLogin(@Valid @ModelAttribute("loginData") UserLoginDTO loginData,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes,
-                          Principal principal) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("loginData", loginData);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
-            return "redirect:/users/login";
-        }
-
-        boolean loginSuccessful = userService.authenticateUser(loginData);
-        if (!loginSuccessful) {
-            return "redirect:/users/login?error=true";
-        }
+    @GetMapping("/users/dashboard")
+    public String dashboard(Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        if (user.getRoles().contains(UserRoles.ADMIN)) {
-            return "redirect:/admin/dashboard";
+
+        if (user.getRoles().contains(ADMIN)) {
+            return "redirect:/users";
         }
 
         return "redirect:/users/profile";
     }
-
-
-    @GetMapping("/users/login-error")
-    public ModelAndView viewLoginError() {
-        ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("showErrorMessage", true);
-        modelAndView.addObject("loginData", new UserLoginDTO());
-        return modelAndView;
-    }
-
 
     @GetMapping("/users/profile")
     public ModelAndView profile(Principal principal) {
@@ -128,38 +72,63 @@ public class UserController {
 
     }
 
+    @GetMapping("/users/{id}/profile-edit")
+    public String editUserInformation(@PathVariable("id") Long id, Model model) {
 
-    @GetMapping("/users/dashboard")
-    public String dashboard(Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-
-        if (user.getRoles().contains(UserRoles.ADMIN)) {
-            return "redirect:/admin-users";
+        if (!model.containsAttribute("userProfileDto")) {
+            UserProfileDto userProfileDto = userService.getUserEditDetails(id);
+            model.addAttribute("userProfileDto", userProfileDto);
         }
-
-        return "redirect:/users/profile";
+        return "profile-edit";
     }
 
     @PutMapping("/users/profile")
-    public User updateProfile(@RequestBody User updatedUser) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        currentUser.setFullName(updatedUser.getFullName());
-        currentUser.setEmail(updatedUser.getEmail());
-        currentUser.setAge(updatedUser.getAge());
+    public String updateProfile(@Valid @RequestBody UserProfileDto updatedUserDto,
+                                BindingResult bindingResult,
+                                Principal principal,
+                                RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userProfileDto", updatedUserDto);
+            redirectAttributes.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.userEditDto", bindingResult);
+            return "redirect:/users/profile-edit";
+        }
 
-        return userRepository.save(currentUser);
+        userService.updateUserProfile(updatedUserDto);
+        return "redirect:/users/profile";
     }
 
+    @PutMapping("/users/{id}/profile-edit")
+    public String update(@PathVariable("id") Long id,
+                         @Valid @ModelAttribute UserProfileDto userProfileDto,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes) {
 
-    @PutMapping("/users/{userId}/roles")
-    public void assignRoles(@PathVariable Long userId, @RequestBody Set<UserRoles> roles) {
-        userService.assignRolesToUser(userId, roles);
+        UserProfileDto existingUser = userService.getUserEditDetails(id);
+        if (!bindingResult.hasFieldErrors("username") &&
+                !userProfileDto.getUsername().equalsIgnoreCase(existingUser.getUsername()) &&
+                userService.usernameExists(userProfileDto.getUsername())) {
+            bindingResult.addError(new FieldError("userProfileDto", "username",
+                    "This username is already taken!"));
+        }
+
+        if (!bindingResult.hasFieldErrors("email") &&
+                !userProfileDto.getEmail().equals(existingUser.getEmail()) &&
+                userService.emailExists(userProfileDto.getEmail())) {
+            bindingResult.addError(new FieldError("userProfileDto", "email",
+                    "This email is already taken!"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("userProfileDto", userProfileDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userProfileDto", bindingResult);
+            return "redirect:/users/" + id + "/profile-edit";
+        }
+
+        userService.updateUserProfile(userProfileDto);
+        return "redirect:/users/" + id + "/profile";
     }
-
-
-    @PutMapping("/users/{userId}/remove-roles")
-    public void removeRoles(@PathVariable Long userId, @RequestBody Set<UserRoles> roles) {
-        userService.removeRolesFromUser(userId, roles);
-    }
-
 }
+
+
+
