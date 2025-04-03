@@ -15,7 +15,7 @@ public class PictureController {
     public ModelAndView uploadPicture(UploadPictureDTO uploadPictureDTO){
         pictureService.create(uploadPictureDTO);
 
-        return new ModelAndView("redirect:/cause/"+uploadPictureDTO.getCauseId());
+        return new ModelAndView("redirect:/causes/"+uploadPictureDTO.getCauseId());
     }
 
 }

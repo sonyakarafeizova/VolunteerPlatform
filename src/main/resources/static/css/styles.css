@@ -324,4 +324,28 @@ footer {
     margin-left: 2em;
 }
 
+.container {
+    max-width: 800px; /* За да не е твърде широко */
+    margin: 0 auto;  /* Центриране по хоризонтала */
+    text-align: center; /* Центриране на текста */
+}
+textarea {
+    width: 100%;  /* По-удобно за писане */
+    max-width: 500px; /* Намалява максималната ширина */
+    height: 100px;  /* По-малка височина */
+    margin: 0 auto;  /* Центриране */
+    display: block; /* За да работи margin auto */
+}
+#postComment {
+    display: block;
+    margin: 10px auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
 

@@ -3,6 +3,7 @@ package com.volunteerplatform.web;
 import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.CauseService;
+import com.volunteerplatform.service.CloudinaryService;
 import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.UserProfileDto;
@@ -28,6 +29,8 @@ public class UserController {
 
     private final UserService userService;
     private final CauseService causeService;
+
+    private CloudinaryService cloudinaryService;
 
 
     @GetMapping("/users/{id}/profile")
@@ -128,6 +131,7 @@ public class UserController {
         userService.updateUserProfile(userProfileDto);
         return "redirect:/users/" + id + "/profile";
     }
+
 }
 
 

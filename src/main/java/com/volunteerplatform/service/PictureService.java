@@ -22,7 +22,7 @@ public class PictureService {
         Picture picture=new Picture();
         picture.setUrl(path);
         picture.setTitle(uploadPictureDTO.getTitle());
-        picture.setCause(causeHelperService.getByIdOrThrow(uploadPictureDTO.getCauseId()));
+        picture.setCause(causeHelperService.getCauseDetailsById(uploadPictureDTO.getCauseId()));
         picture.setAuthor(userHelperService.getUser());
 
         pictureRepository.save(picture);

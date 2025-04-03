@@ -17,6 +17,7 @@ public class UserProfileDto {
     private String email;
     private int age;
     private Level level;
+    private String profileImage;
     public UserProfileDto(User user) {
         this.id = user.getId();
         this.fullName = user.getFullName();

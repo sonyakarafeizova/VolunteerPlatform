@@ -14,6 +14,8 @@
                th:method="put"
               th:object="${userProfileDto}">
           <input type="hidden" name="_method" value="PUT"/>
+          <img src="@{'/uploads/' + ${profileData.profilePicture}}" alt="Profile Picture" class="rounded-circle" width="100">
+
 
           <label for="fullName">Full Name</label>
           <input type="text" id="fullName" name="fullName" class="form-control"

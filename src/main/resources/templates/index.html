@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="">
 <head th:replace="~{fragments/head}"></head>
 <body >
 
@@ -13,7 +13,9 @@
         <div class="showcase">
             <h1>Welcome to Our Volunteer Platform!</h1>
             <p>We connect volunteers with causes that make a difference.</p>
+            <th:block sec:authorize="!isAuthenticated()">
             <a th:href="@{/users/register}" class="btn">Join Us</a>
+            </th:block>
         </div>
         <div class="top-box top-box-a">
             <h4>Weather in Sofia</h4>

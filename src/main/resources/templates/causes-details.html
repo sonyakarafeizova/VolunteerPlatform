@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="~{fragments/head}"></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cause Details</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
 <body>
 <div class="wrapper">
     <header th:replace="~{fragments/header}"></header>
     <main>
-        <section>
-            <h1 th:text="${causes.title}">Cause Title</h1>
-            <p th:text="${causes.description}">Cause Description</p>
-            <img th:src="${causes.imageUrl}" alt="Cause Image"/>
-            <p><strong>Created on:</strong> <span th:text="${#temporals.format(causes.created, 'dd MMM yyyy HH:mm')}"></span></p>
-            <a href="/causes" class="btn btn-secondary">Back to Causes</a>
-        </section>
+        <div class="container">
+            <section>
+                <h1 th:text="${causes.title}">Cause Title</h1>
+                <p th:text="${causes.description}">Cause Description</p>
+                <img th:src="${causes.imageUrl}" alt="Cause Image" class="img-fluid"/>
+                <p><strong>Created on:</strong>
+                    <span th:text="${causes.created}"></span>
+                </p>
+                <a href="/causes" class="btn btn-secondary">Back to Causes</a>
+            </section>
+
+            <!-- Comments Section -->
+            <section class="comments">
+                <h2>Comments</h2>
+                <div id="comments">
+                    <div class="form-group" th:each="comment : ${causes.comments}">
+                        <h4 th:text="${comment.content}">Comment</h4>
+                        <label th:text="${comment.authorName}">Author</label>
+
+                        <form th:action="@{/comments/delete/{causeId}/{id} (id=${comment.id}, causeId=${causes.id})}" th:method="POST">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Add Comment Form -->
+                <div>
+
+                    <input type="hidden" id="causeId" th:value="${causes.id}">
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" class="form-control" rows="3"></textarea>
+                    </div>
+                    <button id="postComment" class="btn btn-primary">Post Comment</button>
+                </div>
+            </section>
+        </div>
+        <script th:src="@{/js/comments.js}"></script>
     </main>
     <footer th:replace="~{fragments/footer}"></footer>
+
 </div>
+
+
 </body>
 </html>

@@ -20,13 +20,13 @@ public class CommentController {
 
         commentService.create(createCommentDTO);
 
-        return new ModelAndView("redirect:/cause/" + createCommentDTO.getCauseId());
+        return new ModelAndView("redirect:/causes/" + createCommentDTO.getCauseId());
     }
 
     @PostMapping("comments/delete/{causeId}/{id}")
     public ModelAndView delete(@PathVariable Long causeId, @PathVariable Long id) {
         commentService.delete(id);
 
-        return new ModelAndView("redirect:/cause/" + causeId);
+        return new ModelAndView("redirect:/causes/" + causeId);
     }
 }
