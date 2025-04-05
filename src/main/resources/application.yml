@@ -43,12 +43,10 @@ spring:
       static-locations: file:./src/main/resources/static/
       cache-period: 0
 
-
-      #Cloudinary Properties
-      cloudinary:
-        api-key: 919629362597691
-        api-secret: c6UQMKHfGp3r3yjgiWROfnLekcM
-        cloud-name: dfjgcibib
+cloudinary:
+  api-key: 919629362597691
+  api-secret: c6UQMKHfGp3r3yjgiWROfnLekcM
+  cloud-name: dfjgcibib
 
 causes:
   api:

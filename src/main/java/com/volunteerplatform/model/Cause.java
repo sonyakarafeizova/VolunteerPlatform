@@ -4,6 +4,7 @@ import com.volunteerplatform.model.enums.Level;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -41,12 +42,17 @@ public class Cause {
     @OneToMany(targetEntity = Picture.class, mappedBy = "cause")
     private Set<Picture> pictures;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime created;
 
     public Cause() {
         this.comments=new HashSet<>();
         this.pictures=new HashSet<>();
+    }
+    public Cause setAuthor(User author) {
+        this.author = author;
+        return this;
     }
 
 }

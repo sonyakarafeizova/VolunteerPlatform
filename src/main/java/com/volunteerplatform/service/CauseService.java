@@ -2,6 +2,7 @@ package com.volunteerplatform.service;
 
 import com.volunteerplatform.data.CauseRepository;
 import com.volunteerplatform.data.PictureRepository;
+import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
@@ -30,9 +31,8 @@ public class CauseService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final PictureRepository pictureRepository;
+    private UserRepository userRepository;
     private final Random random = new Random();
-
-   // private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     public CauseService(@Qualifier("causesRestClient") RestClient restClient,
                          CauseRepository causeRepository,
@@ -78,6 +78,7 @@ public class CauseService {
                 .uri("/causes")
                 .body(addCauseDTO)
                 .retrieve();
+
     }
 
 
@@ -113,5 +114,8 @@ public class CauseService {
         LocalDateTime thresholdDate = LocalDateTime.now().minusMonths(months);
         return causeRepository.deleteByCreatedBefore(thresholdDate);
     }
+
+
+
 
 }

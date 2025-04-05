@@ -24,12 +24,11 @@ public class CloudinaryService {
     }
 
     public String upload(byte[] file, String folder) {
-//        Map<String, String> options = new HashMap<>();
-//        options.put("folder", folder);
 
         try {
+            System.out.println("Uploading file to Cloudinary...");
             Map data = cloudinary.uploader().upload(file, new HashMap<>());
-
+            System.out.println("Upload successful: " + data);
             return (String) data.get("secure_url");
         } catch (IOException ex) {
             ex.printStackTrace();

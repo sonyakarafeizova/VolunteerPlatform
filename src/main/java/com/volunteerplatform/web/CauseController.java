@@ -1,7 +1,10 @@
 package com.volunteerplatform.web;
 
+import com.volunteerplatform.model.Picture;
 import com.volunteerplatform.model.enums.Level;
 import com.volunteerplatform.service.CauseService;
+import com.volunteerplatform.service.CloudinaryService;
+import com.volunteerplatform.service.PictureService;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
@@ -22,6 +25,8 @@ import java.util.List;
 public class CauseController {
 
     private final CauseService causeService;
+    private final PictureService pictureService;
+    private final CloudinaryService cloudinaryService;
 
     @GetMapping("/causes")
     public String causes(Model model) {
@@ -61,6 +66,10 @@ public class CauseController {
             return "redirect:/add-cause";
         }
 
+        String imageUrl = cloudinaryService.upload(file, "causes");
+        data.setImageUrl(imageUrl);
+
+
         causeService.createCause(data);
         redirectAttributes.addFlashAttribute("successMessage", "Cause added successfully!");
         return "redirect:/dashboard";
@@ -70,6 +79,9 @@ public class CauseController {
     public String getCauseDetails(@PathVariable Long id, Model model) {
         CauseDetailsDTO causeDetails = causeService.getCauseById(id);
         model.addAttribute("causes", causeDetails);
+        List<Picture> pictures = pictureService.getPicturesByCauseId(id);
+        model.addAttribute("pictures", pictures);
+
         return "causes-details";
 
     }

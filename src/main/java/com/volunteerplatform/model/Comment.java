@@ -31,8 +31,5 @@ public class Comment {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Cause cause;
 
-    public Comment setCause(Cause cause) {
-        this.cause = cause;
-        return this;
-    }
+
 }

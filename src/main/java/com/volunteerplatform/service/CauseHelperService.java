@@ -25,12 +25,21 @@ public class CauseHelperService {
     }
 
     public Cause getCauseDetailsById(Long id) {
-        return causeRestClient
-                .get()
-                .uri("/causes/{id}",id)
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .body(Cause.class);
+        return causeRepository.findById(id)
+                .orElseGet(() -> {
+                    Cause externalCause = causeRestClient
+                            .get()
+                            .uri("/causes/{id}", id)
+                            .accept(MediaType.APPLICATION_JSON)
+                            .retrieve()
+                            .body(Cause.class);
+
+                    if (externalCause == null) {
+                        throw new RuntimeException("Cause with ID " + id + " not found in external API.");
+                    }
+
+                    return causeRepository.save(externalCause);
+                });
 
     }
 

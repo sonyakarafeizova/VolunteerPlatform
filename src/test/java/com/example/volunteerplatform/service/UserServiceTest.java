@@ -5,14 +5,12 @@ import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.UserHelperService;
 import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,15 +34,15 @@ public class UserServiceTest {
     @Mock
     private UserHelperService mockUserHelperService;
 
-    @BeforeEach
-    void setUp() {
-        toTest = new UserService(
-                mockUserRepository,
-                mockPasswordEncoder,
-                new ModelMapper(),
-                mockUserHelperService
-        );
-    }
+//    @BeforeEach
+//    void setUp() {
+//        toTest = new UserService(
+//                mockUserRepository,
+//                mockPasswordEncoder,
+//                new ModelMapper(),
+//                mockUserHelperService
+//        );
+//    }
 
     @Test
     void testUserRegistration() {

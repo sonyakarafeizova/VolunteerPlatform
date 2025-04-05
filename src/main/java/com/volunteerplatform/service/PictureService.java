@@ -7,6 +7,8 @@ import com.volunteerplatform.web.dto.UploadPictureDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PictureService {
@@ -26,6 +28,10 @@ public class PictureService {
         picture.setAuthor(userHelperService.getUser());
 
         pictureRepository.save(picture);
+    }
+
+    public List<Picture> getPicturesByCauseId(Long causeId) {
+        return pictureRepository.findAllByCauseId(causeId);
     }
 
 }
