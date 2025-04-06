@@ -26,10 +26,17 @@
                     <a th:href="@{/add-cause}">Add new cause</a>
                 </li>
                 <li>
+                    <a th:href="@{/mentorings/create}">Add new mentoring</a>
+                </li>
+                <li>
                     <a th:href="@{/users/profile}">Profile</a>
                 </li>
                 <li>
                     <a th:href="@{/causes}">All Causes</a>
+                </li>
+
+                <li>
+                    <a th:href="@{/mentoring}">Mentoring</a>
                 </li>
 
                 <li  sec:authorize="hasRole('ROLE_ADMIN')">

@@ -46,6 +46,12 @@
                     </div>
                     <button id="postComment" class="btn btn-primary">Post Comment</button>
                 </div>
+                <form th:action="@{/favourites/add}" method="post">
+                    <input type="hidden" name="causeId" th:value="${causes.id}" />
+                    <button type="submit">Add to Favourites ❤️</button>
+                </form>
+
+
             </section>
         </div>
         <script th:src="@{/js/comments.js}"></script>

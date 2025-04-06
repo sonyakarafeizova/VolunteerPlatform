@@ -1,7 +1,5 @@
 package com.volunteerplatform.web;
 
-import com.volunteerplatform.model.Cause;
-import com.volunteerplatform.service.CauseHelperService;
 import com.volunteerplatform.service.CommentService;
 import com.volunteerplatform.web.dto.CreateCommentDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,27 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class CommentController {
 
-
     private final CommentService commentService;
-    private final CauseHelperService causeHelperService;
+
 
     @PostMapping("comments/create")
     public ModelAndView create(CreateCommentDTO createCommentDTO) {
-        Cause cause = causeHelperService.getCauseDetailsById(createCommentDTO.getCauseId());
-        if (cause == null) {
-
-            return new ModelAndView("error", "message", "Cause does not exist");
-        }
-
         commentService.create(createCommentDTO);
 
-        return new ModelAndView("redirect:/causes/" + createCommentDTO.getCauseId());
+        return new ModelAndView("redirect:/mentoring/" + createCommentDTO.getMentoringId());
     }
 
-    @PostMapping("comments/delete/{causeId}/{id}")
-    public ModelAndView delete(@PathVariable Long causeId, @PathVariable Long id) {
+    @PostMapping("comments/delete/{mentoringId}/{id}")
+    public ModelAndView delete(@PathVariable Long mentoringId, @PathVariable Long id) {
         commentService.delete(id);
-
-        return new ModelAndView("redirect:/causes/" + causeId);
+        return new ModelAndView("redirect:/mentoring/" + mentoringId);
     }
 }

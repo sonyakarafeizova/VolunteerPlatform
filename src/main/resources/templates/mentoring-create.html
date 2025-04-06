@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<div class="wrapper">
+    <header th:replace="~{fragments/header}"></header>
+
+    <div class="container">
+        <h2>Create Mentoring</h2>
+        <form th:action="@{/mentoring/create}" method="post" th:object="${mentoringData}">
+            <input type="text" th:field="*{title}" placeholder="Title" required/><br/><br/>
+            <textarea th:field="*{description}" placeholder="Description" required></textarea><br/><br/>
+
+            <button class="btn" type="submit">Create</button>
+        </form>
+    </div>
+
+    <footer th:replace="~{fragments/footer}"></footer>
+</div>
+</body>
+</html>

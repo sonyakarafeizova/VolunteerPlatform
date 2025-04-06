@@ -2,6 +2,7 @@ package com.example.volunteerplatform.service;
 
 import com.volunteerplatform.data.CauseRepository;
 import com.volunteerplatform.data.PictureRepository;
+import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.Cause;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserHelperService;
@@ -43,6 +44,8 @@ public class CauseServiceTest {
 
     @Mock
     private RestClient mockRestClient;
+    @Mock
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
@@ -51,8 +54,8 @@ public class CauseServiceTest {
                 mockCauseRepository,
                 new ModelMapper(),
                 mockUserHelperService,
-                mockPictureRepository
-        );
+                mockPictureRepository,
+                userRepository);
     }
 
     @Test

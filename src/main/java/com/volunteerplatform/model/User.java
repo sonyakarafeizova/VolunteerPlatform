@@ -44,6 +44,14 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
     private String profileImage;
+    @ManyToMany
+    @JoinTable(
+            name = "users_favourite_mentorings",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "mentoring_id")
+    )
+    private Set<Mentoring> favouriteMentorings = new HashSet<>();
+
 
     public User() {
         this.roles = new HashSet<>();
@@ -73,4 +81,5 @@ public class User {
         this.email = email;
         return this;
     }
+
 }

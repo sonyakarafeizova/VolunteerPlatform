@@ -5,6 +5,7 @@ import com.volunteerplatform.model.enums.Level;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.CloudinaryService;
 import com.volunteerplatform.service.PictureService;
+import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
@@ -27,6 +28,7 @@ public class CauseController {
     private final CauseService causeService;
     private final PictureService pictureService;
     private final CloudinaryService cloudinaryService;
+    private final UserService userService;
 
     @GetMapping("/causes")
     public String causes(Model model) {
@@ -91,6 +93,7 @@ public class CauseController {
         causeService.deleteCauseFromApi(id);
         return "redirect:/causes";
     }
+
 
 
 }

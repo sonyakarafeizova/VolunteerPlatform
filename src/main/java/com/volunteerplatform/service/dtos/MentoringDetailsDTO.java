@@ -4,18 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CauseDetailsDTO {
-
-    private Long id;
-    private String title;
+public class MentoringDetailsDTO {
+    private long id;
+    private String name;
     private String description;
-    private String videoUrl;
     private String authorName;
-    private LocalDateTime created;
-    private String imageUrl;
-
+    private List<MentoringDetailsCommentDTO> comments;
 }

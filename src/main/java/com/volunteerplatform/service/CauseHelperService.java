@@ -42,26 +42,4 @@ public class CauseHelperService {
                 });
 
     }
-
-//    public Cause getByIdOrFetch(Long id) {
-//        return causeRepository.findById(id).orElseGet(() -> fetchAndSaveCause(id));
-//    }
-//
-//
-//    public CauseDetailsDTO fetchAndSaveCause(Long id) {
-//
-//        CauseDetailsDTO causeDetails = causeRestClient.get()
-//                .uri("/causes/{id}", id)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .body(CauseDetailsDTO.class);
-//
-//        if (causeDetails == null) {
-//            throw new CauseNotFoundException("Cause with id " + id + " not found in API");
-//        }
-//
-//
-//        Cause cause = modelMapper.map(causeDetails, Cause.class);
-//        return causeRepository.save(cause);
-//    }
 }

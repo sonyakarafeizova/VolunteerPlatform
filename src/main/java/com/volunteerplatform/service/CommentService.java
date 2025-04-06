@@ -17,7 +17,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
-    private final CauseHelperService causeHelperService;
+    private final MentoringService mentoringService;
+
 
 
     public void create(CreateCommentDTO createCommentDTO) {
@@ -35,8 +36,9 @@ public class CommentService {
     private Comment createInternal(CreateCommentDTO createCommentDTO) {
         Comment comment = new Comment();
 
-        comment.setCause(causeHelperService.getCauseDetailsById(createCommentDTO.getCauseId()));
-        comment.setContent(createCommentDTO.getMessage());
+
+        comment.setTextContent(createCommentDTO.getMessage());
+        comment.setMentoring(mentoringService.getMentoringById(createCommentDTO.getMentoringId()));
         comment.setAuthor(userHelperService.getUser());
         comment.setCreated(Instant.now());
 

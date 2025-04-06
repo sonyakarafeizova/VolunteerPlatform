@@ -23,13 +23,15 @@ public class Comment {
     private Instant created;
 
     @Column(name = "text_content", columnDefinition = "TEXT", nullable = false)
-    private String content;
+    private String textContent;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Cause cause;
+    @ManyToOne
+    @JoinColumn(name = "mentoring_id", nullable = false)
+    private Mentoring mentoring;
 
 
 }

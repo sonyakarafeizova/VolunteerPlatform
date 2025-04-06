@@ -36,18 +36,16 @@ public class Cause {
     @ManyToOne(optional = false)
     private User author;
 
-    @OneToMany(targetEntity = Comment.class, mappedBy = "cause")
-    private Set<Comment> comments;
 
     @OneToMany(targetEntity = Picture.class, mappedBy = "cause")
     private Set<Picture> pictures;
+
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created;
 
     public Cause() {
-        this.comments=new HashSet<>();
         this.pictures=new HashSet<>();
     }
     public Cause setAuthor(User author) {

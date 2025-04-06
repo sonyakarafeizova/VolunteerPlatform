@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CauseDetailsCommentDTO {
+public class MentoringDetailsCommentDTO {
     private Long id;
     private String content;
     private String authorName;

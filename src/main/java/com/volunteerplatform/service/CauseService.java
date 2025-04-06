@@ -21,7 +21,6 @@ import org.springframework.web.client.RestClient;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class CauseService {
@@ -31,20 +30,22 @@ public class CauseService {
     private final ModelMapper modelMapper;
     private final UserHelperService userHelperService;
     private final PictureRepository pictureRepository;
-    private UserRepository userRepository;
-    private final Random random = new Random();
+
+    private final UserRepository userRepository;
+
 
     public CauseService(@Qualifier("causesRestClient") RestClient restClient,
-                         CauseRepository causeRepository,
+                        CauseRepository causeRepository,
                         ModelMapper modelMapper,
                         UserHelperService userHelperService,
-                        PictureRepository pictureRepository) {
+                        PictureRepository pictureRepository, UserRepository userRepository) {
 
         this.causeRestClient = restClient;
         this.causeRepository = causeRepository;
         this.modelMapper = modelMapper;
         this.userHelperService = userHelperService;
         this.pictureRepository = pictureRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -53,9 +54,9 @@ public class CauseService {
                 .uri("/causes")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(new ParameterizedTypeReference<>() {
+                });
     }
-
 
 
     public CauseDetailsDTO getCauseById(Long id) {
@@ -89,7 +90,6 @@ public class CauseService {
     }
 
 
-
     @Transactional(readOnly = true)
     public CauseDetailsDTO getCauseDetails(Long id) {
 
@@ -116,6 +116,9 @@ public class CauseService {
     }
 
 
+    }
 
 
-}
+
+
+
