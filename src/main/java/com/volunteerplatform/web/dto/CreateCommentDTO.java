@@ -8,8 +8,9 @@ import java.time.Instant;
 @Getter
 @Setter
 public class CreateCommentDTO {
+    private Long authorId;
     private Long mentoringId;
-    private String message;
+    private String content;
     private String author;
     private Instant created;
 }

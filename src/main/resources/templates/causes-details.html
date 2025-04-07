@@ -4,62 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cause Details</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Твоят CSS -->
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <div class="wrapper">
     <header th:replace="~{fragments/header}"></header>
-    <main>
-        <div class="container">
-            <section>
-                <h1 th:text="${causes.title}">Cause Title</h1>
-                <p th:text="${causes.description}">Cause Description</p>
-                <img th:src="${causes.imageUrl}" alt="Cause Image" class="img-fluid"/>
-                <p><strong>Created on:</strong>
-                    <span th:text="${causes.created}"></span>
-                </p>
-                <a href="/causes" class="btn btn-secondary">Back to Causes</a>
-            </section>
 
-            <!-- Comments Section -->
-            <section class="comments">
-                <h2>Comments</h2>
-                <div id="comments">
-                    <div class="form-group" th:each="comment : ${causes.comments}">
-                        <h4 th:text="${comment.content}">Comment</h4>
-                        <label th:text="${comment.authorName}">Author</label>
+    <main class="container my-5">
+        <div class="row justify-content-center">
 
-                        <form th:action="@{/comments/delete/{causeId}/{id} (id=${comment.id}, causeId=${causes.id})}" th:method="POST">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+
+                        <h1 class="card-title mb-0 text-center" th:text="${causes.title}">Cause Title</h1>
+                    </div>
+                    <div class="card-body text-center">
+
+                        <p class="card-text" th:text="${causes.description}">Cause Description</p>
+
+                        <img th:src="${causes.imageUrl}" alt="Cause Image"
+                             class="img-fluid mb-3"
+                             style="max-height: 300px; object-fit: cover;"/>
+
+
+                        <p>
+                            <strong>Created on:</strong>
+                            <span th:text="${#dates.format(causes.created, 'dd.MM.yyyy HH:mm')}"></span>
+
+                        </p>
+
+
+                        <a href="/causes" class="btn btn-secondary btn-sm">Back to Causes</a>
                     </div>
                 </div>
-
-                <!-- Add Comment Form -->
-                <div>
-
-                    <input type="hidden" id="causeId" th:value="${causes.id}">
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" class="form-control" rows="3"></textarea>
-                    </div>
-                    <button id="postComment" class="btn btn-primary">Post Comment</button>
-                </div>
-                <form th:action="@{/favourites/add}" method="post">
-                    <input type="hidden" name="causeId" th:value="${causes.id}" />
-                    <button type="submit">Add to Favourites ❤️</button>
-                </form>
-
-
-            </section>
+            </div>
         </div>
-        <script th:src="@{/js/comments.js}"></script>
     </main>
+
     <footer th:replace="~{fragments/footer}"></footer>
-
 </div>
-
-
 </body>
 </html>

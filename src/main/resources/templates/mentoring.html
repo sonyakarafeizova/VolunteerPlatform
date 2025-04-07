@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+  <title>Списък с менторства</title>
+</head>
+<body>
+<div class="wrapper">
+  <header th:replace="~{fragments/header}"></header>
+
+  <section class="container">
+    <h2>Mentoring List</h2>
+    <div th:each="item : ${mentoring}" class="box">
+      <h3 th:text="${item.title}">Title</h3>
+      <p th:text="${item.description}">Description</p>
+
+      <form th:action="@{'/mentoring/' + ${item.id} + '/favourite'}" method="post">
+        <button type="submit" class="btn btn-primary">Add to Favourites</button>
+      </form>
+
+      <form th:action="@{'/mentoring/' + ${item.id} + '/comment'}" method="post">
+        <label for="commentContent">Comment</label>
+        <textarea id="commentContent" name="content" placeholder="Leave a comment..." required></textarea>
+        <button id="postComment" type="submit">Comment</button>
+      </form>
+
+      <div th:each="comment : ${item.comments}" class="profile-causes">
+        <p>
+          <strong th:text="${comment.author.username}">Author</strong>:
+          <span th:text="${comment.textContent}">Content</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mt-5">
+    <h2>My Favourite Mentorings</h2>
+    <div th:if="${#lists.isEmpty(favourites)}">
+      <p>No favourites yet.</p>
+    </div>
+
+    <div th:each="fav : ${favourites}">
+      <h3 th:text="${fav.title}">Fav Title</h3>
+      <p th:text="${fav.description}">Fav Description</p>
+      <form th:action="@{'/mentoring/' + ${fav.id} + '/unfavourite'}" method="post">
+        <button type="submit" class="btn btn-danger">Remove from Favourites</button>
+      </form>
+    </div>
+  </section>
+
+  <footer th:replace="~{fragments/footer}"></footer>
+</div>
+</body>
+</html>

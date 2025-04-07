@@ -18,40 +18,26 @@
             <span th:text="${profileData.username}">UI/UX Designer</span>
             <h5 class="mt-2 mb-0">Age</h5>
             <span th:text="${profileData.age}">33</span>
-            <div class="px-4 mt-5">
-              <h3>My Causes</h3>
-              <ul th:if="${not #lists.isEmpty(causes)}" class="profile-causes">
 
-                <li th:each="cause : ${causes}">
-                  <a th:href="@{/causes/{id}(id=${cause.id})}" class="btn btn-primary">
-                    <span th:text="${cause.title}">Cause Title</span></a>
-                </li>
-              </ul>
-
-              <p th:if="${#lists.isEmpty(causes)}" class="no-causes">No causes found.</p>
-
-            </div>
             <ul class="social-list">
               <li><i class="fab fa-facebook-square"></i></li>
               <li><i class="fab fa-instagram"></i></li>
               <li><i class="fab fa-linkedin"></i></li>
               <li><i class="fab fa-google"></i></li>
             </ul>
-            <div class="buttons">
-              <a class="btn btn-outline-primary px-4 text-white" th:href="@{/}">Back</a>
-
+            <div class="buttons d-flex justify-content-center">
+              <a class="btn btn-outline-primary px-4 text-white py-1 mr-3" th:href="@{/}">Back</a>
+              <a class="btn btn-outline-primary px-4 text-white py-1 mr-3" th:href="@{/users/{id}/profile-edit(id=${profileData.id})}">Edit</a>
             </div>
-            <div class="buttons">
-              <a class="btn btn-outline-primary px-4 text-white" th:href="@{/users/{id}/profile-edit(id=${profileData.id})}">Edit</a>
 
-            </div>
 
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </main>
-</body>
 <footer th:replace="~{fragments/footer}"></footer>
+</body>
 </html>

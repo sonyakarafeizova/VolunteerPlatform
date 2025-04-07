@@ -3,7 +3,7 @@ postCommentElement.addEventListener('click', createComment);
 
 function createComment() {
 
-    const causeId = document.getElementById('causeId').value;
+    const causeId = document.getElementById('mentoringId').value;
     const messageElement = document.getElementById('message');
     const message = messageElement.value;
 
@@ -11,7 +11,7 @@ function createComment() {
 
 
     if (!causeId || !message) {
-        console.error('CauseId or Message is missing');
+        console.error('MentoringId or Message is missing');
         return;
     }
 
@@ -20,7 +20,7 @@ function createComment() {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ causeId, message })
+        body: JSON.stringify({ mentoringId, message })
     })
         .then(res => res.json())
         .then(data => {

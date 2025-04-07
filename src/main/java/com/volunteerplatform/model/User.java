@@ -46,7 +46,7 @@ public class User {
     private String profileImage;
     @ManyToMany
     @JoinTable(
-            name = "users_favourite_mentorings",
+            name = "users_favourite_mentoring",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "mentoring_id")
     )

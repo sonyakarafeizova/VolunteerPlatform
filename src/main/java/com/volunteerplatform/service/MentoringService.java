@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +33,10 @@ public class MentoringService {
         mentoring.setAuthor(userHelperService.getUser());
         return mentoringRepository.save(mentoring);
     }
+    public Mentoring getById(Long id) {
+        return mentoringRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found: " + id));
+    }
 
 @Transactional
 public Comment addComment(CreateCommentDTO dto) {
@@ -44,7 +46,7 @@ public Comment addComment(CreateCommentDTO dto) {
             .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
 
     Comment comment = new Comment();
-    comment.setTextContent(dto.getMessage());
+    comment.setTextContent(dto.getContent());
     comment.setCreated(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
     comment.setApproved(false);
     comment.setAuthor(user);
@@ -59,6 +61,8 @@ public Comment addComment(CreateCommentDTO dto) {
                 .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
 
         mentoring.addToFavourites(user);
+        mentoring.getTitle();
+        mentoring.getDescription();
         mentoringRepository.save(mentoring);
     }
 
@@ -68,13 +72,16 @@ public Comment addComment(CreateCommentDTO dto) {
         mentoringRepository.save(toInsert);
         return false;
     }
+    @Transactional
+    public void removeFromFavourites(Long mentoringId, User user) {
+        Mentoring mentoring = mentoringRepository.findById(mentoringId)
+                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
 
-    public Set<Mentoring> getFavourites(User user) {
-        return user.getFavouriteMentorings();
-    }
+        User reloadedUser = userRepository.findByIdWithFavouriteMentorings(user.getId())
+                .orElse(user);
 
-    public List<Mentoring> getAllMentorings() {
-        return mentoringRepository.findAll();
+        mentoring.removeFromFavourites(reloadedUser);
+        mentoringRepository.save(mentoring);
     }
 
     public Mentoring getMentoringById(Long id) {

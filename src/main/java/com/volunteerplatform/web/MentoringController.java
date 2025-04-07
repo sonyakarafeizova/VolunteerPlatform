@@ -2,24 +2,25 @@ package com.volunteerplatform.web;
 
 
 import com.volunteerplatform.data.MentoringRepository;
-import com.volunteerplatform.model.Comment;
+import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.Mentoring;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.MentoringService;
-import com.volunteerplatform.service.dtos.MentoringDetailsDTO;
+import com.volunteerplatform.service.UserHelperService;
 import com.volunteerplatform.web.dto.CreateCommentDTO;
 import com.volunteerplatform.web.dto.MentoringCreateDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -29,21 +30,26 @@ public class MentoringController {
 
     private final MentoringService mentoringService;
     private final MentoringRepository mentoringRepository;
+    private final UserHelperService userHelperService;
+    private final UserRepository userRepository;
 
     @GetMapping
+    @Transactional
     public String listMentorings(Model model) {
-        List<Mentoring> mentoring = mentoringRepository.findAllWithComments();
-        model.addAttribute("mentoring", mentoring);
-        return "mentoring-list";
+        List<Mentoring> allMentorings = mentoringRepository.findAllWithComments();
+        model.addAttribute("mentoring", allMentorings);
+
+        User currentUser = userHelperService.getUser();
+        if (currentUser != null) {
+            currentUser=userRepository.findById(currentUser.getId()).orElse(currentUser);
+            model.addAttribute("favourites", new ArrayList<>(currentUser.getFavouriteMentorings()));
+        } else {
+            model.addAttribute("favourites", Collections.emptyList());
+        }
+
+        return "mentoring";
     }
 
-//    @GetMapping("/create")
-//    public ModelAndView createMentoring() {
-//        ModelAndView modelAndView = new ModelAndView("mentoring-create");
-//        modelAndView.addObject("mentoring", new MentoringDetailsDTO());
-//        return modelAndView;
-//
-//    }
 
     @ModelAttribute("mentoringData")
     public MentoringCreateDTO mentoringData() {
@@ -71,30 +77,45 @@ public class MentoringController {
 
 
     @PostMapping("/{id}/favourite")
-    public String addToFavourites(@PathVariable Long id,
-                                  @AuthenticationPrincipal User user) {
+    public String addToFavourites(@PathVariable Long id) {
+        User user = userHelperService.getUser();
+        if (user == null) {
+            System.out.println("User is null, cannot add to favourites");
+            return "redirect:/users/login";
+        }
+        System.out.println("Adding mentoring with id " + id + " to favourites for user " + user.getUsername());
         mentoringService.addToFavourites(id, user);
         return "redirect:/mentoring";
     }
 
     @PostMapping("/{id}/comment")
-    public ResponseEntity<MentoringDetailsDTO> postComment(@RequestParam Long mentoringId,
-                                                           @RequestParam String commentText) {
-
+    public String postComment(@PathVariable("id") Long mentoringId,
+                              @RequestParam("content") String content) {
+        User currentUser = userHelperService.getUser();
+        if (currentUser == null) {
+            return "redirect:/users/login";
+        }
 
         CreateCommentDTO dto = new CreateCommentDTO();
         dto.setMentoringId(mentoringId);
-        dto.setMessage(commentText);
-        Comment comment = mentoringService.addComment(dto);
+        dto.setAuthor(currentUser.getUsername());
+        dto.setContent(content);
 
-        MentoringDetailsDTO response = new MentoringDetailsDTO();
-        response.setId(comment.getId());
-        response.setAuthorName(comment.getAuthor().getUsername());
-        response.setDescription(comment.getTextContent());
+        mentoringService.addComment(dto);
 
-
-        return ResponseEntity.ok(response);
+        return "redirect:/mentoring";
     }
+
+    @PostMapping("/{id}/unfavourite")
+    public String removeFromFavouritesMapping(@PathVariable Long id) {
+        User user = userHelperService.getUser();
+        if (user == null) {
+            return "redirect:/users/login";
+        }
+        mentoringService.removeFromFavourites(id, user);
+        return "redirect:/mentoring";
+    }
+
 
 
 }

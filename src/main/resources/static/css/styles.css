@@ -74,11 +74,11 @@ body {
 
 /* Showcase */
 .showcase {
-    min-height: 50vh;
+    min-height: 30vh; /* Намалено от 50vh */
     background: url('static/images/volunteer1.jpg') no-repeat center center/cover;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* Центриране на съдържанието */
     justify-content: center;
     color: var(--light);
     padding: 2rem;
@@ -97,6 +97,7 @@ body {
 }
 
 /* Boxes Section */
+/* Ако не ползвате Boxes, можете да ги коментирате или изтриете
 .boxes {
     display: flex;
     flex-wrap: wrap;
@@ -135,6 +136,7 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+*/
 
 /* Info Section */
 .cause {
@@ -181,13 +183,12 @@ footer {
     color: var(--light);
     text-align: center;
     padding: 1rem 0;
-    margin-top: 40rem;
+    margin-top: 2rem; /* Намалено от 40rem */
     border-radius: 5px;
     box-shadow: var(--shadow);
 }
 
 /* Language Selector */
-
 .main-nav .nav-item form {
     display: flex;
     align-items: center;
@@ -198,72 +199,69 @@ footer {
     color: var(--light);
 }
 
-/* Style the label */
 .main-nav .nav-item form label {
     margin: 0;
     font-weight: bold;
 }
 
-/* Style the dropdown (select element) */
 .main-nav .nav-item form select {
-    border: 1px solid var(--lightGray); /* Subtle border for the dropdown */
+    border: 1px solid var(--lightGray);
     border-radius: 5px;
-    background: var(--light); /* Match the dropdown background */
-    color: var(--dark); /* Dropdown text color */
+    background: var(--light);
+    color: var(--dark);
     padding: 0.3rem 0.5rem;
     font-size: 0.9rem;
     transition: all 0.3s ease;
 }
-
 
 /* Position the form */
 .main-nav .nav-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto; /* Push the language form to the right */
+    margin-left: auto;
 }
 
 .social-list {
     display: flex;
     list-style: none;
     justify-content: center;
-    padding: 0
+    padding: 0;
 }
 
 .social-list li {
     padding: 10px;
     color: #0833e3;
-    font-size: 19px
+    font-size: 19px;
 }
 
 .buttons button:nth-child(1) {
     border: 1px solid #0833e3 !important;
     color: #ffffff;
-    height: 40px
+    height: 40px;
 }
 
 .buttons button:nth-child(1):hover {
     border: 1px solid #0833e3 !important;
     color: #fff;
     height: 40px;
-    background-color: #0833e3
+    background-color: #0833e3;
 }
 
 .buttons button:nth-child(2) {
     border: 1px solid #0833e3 !important;
     color: #ffffff;
-    height: 40px
+    height: 40px;
 }
 
 .buttons button:nth-child(2):hover {
     border: 1px solid #0833e3 !important;
     color: #fff;
     height: 40px;
-    background-color: #0833e3
+    background-color: #0833e3;
 }
-/*Logout-Button*/
 
+/* Logout-Button */
 .logout-form {
     display: inline;
 }
@@ -287,8 +285,7 @@ footer {
     border-radius: 5px;
 }
 
-/*Profile_Causes*/
-
+/* Profile_Causes */
 .profile-causes {
     list-style: none;
     padding: 0;
@@ -320,22 +317,24 @@ footer {
     margin-top: 10px;
 }
 
-.top-box-a{
+.top-box-a {
     margin-left: 2em;
 }
 
 .container {
-    max-width: 800px; /* За да не е твърде широко */
-    margin: 0 auto;  /* Центриране по хоризонтала */
-    text-align: center; /* Центриране на текста */
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
 }
+
 textarea {
-    width: 100%;  /* По-удобно за писане */
-    max-width: 500px; /* Намалява максималната ширина */
-    height: 100px;  /* По-малка височина */
-    margin: 0 auto;  /* Центриране */
-    display: block; /* За да работи margin auto */
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
 }
+
 #postComment {
     display: block;
     margin: 10px auto;
@@ -347,5 +346,93 @@ textarea {
     cursor: pointer;
 }
 
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.our-mission {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin: 0rem 2rem;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: space-around;
+
+}
+.mission-box {
+    width: 700px;
+    height: 700px;
+    background: var(--primary);
+    color: var(--light);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin: 1rem;
+    text-align: center;
 
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mission-box h2 {
+    margin-bottom: 1rem;
+}
+
+.mission-box img.mission-image {
+    max-width: 50%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.mission-box p {
+    line-height: 1.5;
+}
+
+.causes-page html,
+.causes-page body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.causes-page .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.causes-page main {
+    flex: 1;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Заставя wrapper-а да заема цялата височина на прозореца */
+}
+
+main {
+    flex: 1; /* Основното съдържание заема останалото пространство, бутейки футъра в долната част */
+}

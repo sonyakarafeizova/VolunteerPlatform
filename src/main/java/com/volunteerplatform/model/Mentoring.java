@@ -2,15 +2,17 @@ package com.volunteerplatform.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "mentorings")
+@Table(name = "mentoring")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Mentoring {
 
     @Id
@@ -32,7 +34,7 @@ public class Mentoring {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "users_favourite_mentorings",
+            name = "users_favourite_mentoring",
             joinColumns = @JoinColumn(name = "mentoring_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
@@ -44,12 +46,10 @@ public class Mentoring {
         this.author = author;
     }
 
-    public Mentoring() {
-
-    }
 
     public void addToFavourites(User user) {
         this.favouriteUsers.add(user);
+
     }
     public void removeFromFavourites(User user) {
         this.favouriteUsers.remove(user);
