@@ -1,4 +1,4 @@
-package com.volunteerplatform.web.rest;
+package com.volunteerplatform.web;
 
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserService;

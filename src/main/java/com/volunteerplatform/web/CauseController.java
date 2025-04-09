@@ -94,6 +94,4 @@ public class CauseController {
         return "redirect:/causes";
     }
 
-
-
 }

@@ -13,7 +13,7 @@ public class CauseCleanupService {
     private static final Logger log = LoggerFactory.getLogger(CauseCleanupService.class);
     private final CauseService causeService;
 
-    @Scheduled(cron = "0 0 3 * * ?") //daily at 3 AM
+    @Scheduled(cron = "0 0 3 * * ?")
     public void removeOldCauses() {
         log.info("Starting scheduled cleanup: Removing causes older than 6 months...");
         int deletedCount = causeService.removeCausesOlderThanMonths(6);

@@ -17,15 +17,8 @@ It provides a space for people to make a difference while tracking their impact.
 * Thymeleaf Template Engine
 * Bootstrap
 * MySQL
+ 
 
 
-**Functionality**
-
-* List of all causes
-* Register user
-* Login user
-* View profile details
-* Upload picture for a cause 
-* Add a cause
 
 

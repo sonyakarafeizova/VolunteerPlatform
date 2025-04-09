@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface CauseRepository extends JpaRepository<Cause, Long> {
     List<Cause> findAll();
-
     List<Cause> findByAuthor(User author);
     @Transactional
     int deleteByCreatedBefore(LocalDateTime date);

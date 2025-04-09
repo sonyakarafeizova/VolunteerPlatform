@@ -33,27 +33,28 @@ public class MentoringService {
         mentoring.setAuthor(userHelperService.getUser());
         return mentoringRepository.save(mentoring);
     }
+
     public Mentoring getById(Long id) {
         return mentoringRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Mentoring not found: " + id));
     }
 
-@Transactional
-public Comment addComment(CreateCommentDTO dto) {
-    User user = userHelperService.getUser();
+    @Transactional
+    public Comment addComment(CreateCommentDTO dto) {
+        User user = userHelperService.getUser();
 
-    Mentoring mentoring = mentoringRepository.findById(dto.getMentoringId())
-            .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
+        Mentoring mentoring = mentoringRepository.findById(dto.getMentoringId())
+                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
 
-    Comment comment = new Comment();
-    comment.setTextContent(dto.getContent());
-    comment.setCreated(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
-    comment.setApproved(false);
-    comment.setAuthor(user);
-    comment.setMentoring(mentoring);
+        Comment comment = new Comment();
+        comment.setTextContent(dto.getContent());
+        comment.setCreated(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant());
+        comment.setApproved(false);
+        comment.setAuthor(user);
+        comment.setMentoring(mentoring);
 
-    return commentRepository.save(comment);
-}
+        return commentRepository.save(comment);
+    }
 
     @Transactional
     public void addToFavourites(Long mentoringId, User user) {
@@ -72,6 +73,7 @@ public Comment addComment(CreateCommentDTO dto) {
         mentoringRepository.save(toInsert);
         return false;
     }
+
     @Transactional
     public void removeFromFavourites(Long mentoringId, User user) {
         Mentoring mentoring = mentoringRepository.findById(mentoringId)
@@ -88,4 +90,21 @@ public Comment addComment(CreateCommentDTO dto) {
         return mentoringRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Mentoring not found with id: " + id));
     }
+
+    @Transactional
+    public void deleteMentoring(Long id) {
+
+        Mentoring mentoring = mentoringRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found with id: " + id));
+
+        mentoringRepository.delete(mentoring);
+    }
+
+    @Transactional
+    public void deleteComment(Long commentId) {
+
+        commentRepository.deleteById(commentId);
+
+    }
+
 }

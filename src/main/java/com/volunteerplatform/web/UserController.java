@@ -5,7 +5,6 @@ import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.CloudinaryService;
 import com.volunteerplatform.service.UserService;
-import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.UserProfileDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,8 @@ public class UserController {
     @GetMapping("/users/{id}/profile")
     public String viewProfile(@PathVariable("id") Long id, Model model) {
         UserProfileDto profileData = userService.getUserProfileById(id);
-        CauseDetailsDTO causes = causeService.getCauseById(id);
+        User user = userService.findUserById(id);
+        List<Cause> causes = causeService.findByUser(user);
         model.addAttribute("profileData", profileData);
         model.addAttribute("causes", causes);
         return "profile";

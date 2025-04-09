@@ -35,5 +35,4 @@ public class CommentController {
         return new ModelAndView("redirect:/mentoring/" + mentoringId);
     }
 
-
 }

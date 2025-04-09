@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        # dialect: org.hibernate.dialect.HSQLDialect
+  datasource:
+    initialization-mode: never
+  sql:
+    init:
+      mode: never
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+cloudinary:
+  api-key: 919629362597691
+  api-secret: c6UQMKHfGp3r3yjgiWROfnLekcM
+  cloud-name: dfjgcibib
+
+causes:
+  api:
+    baseUrl: "http://localhost:8081"

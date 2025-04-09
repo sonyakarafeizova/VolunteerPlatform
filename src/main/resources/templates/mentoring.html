@@ -1,53 +1,104 @@
 <!DOCTYPE html>
 <html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}">
-  <title>Списък с менторства</title>
+  <title>Mentoring</title>
 </head>
 <body>
 <div class="wrapper">
   <header th:replace="~{fragments/header}"></header>
 
-  <section class="container">
-    <h2>Mentoring List</h2>
-    <div th:each="item : ${mentoring}" class="box">
-      <h3 th:text="${item.title}">Title</h3>
-      <p th:text="${item.description}">Description</p>
+  <main class="container py-4">
+    <section class="mb-5">
+      <h2 class="text-center mb-4">Mentoring List</h2>
 
-      <form th:action="@{'/mentoring/' + ${item.id} + '/favourite'}" method="post">
-        <button type="submit" class="btn btn-primary">Add to Favourites</button>
-      </form>
 
-      <form th:action="@{'/mentoring/' + ${item.id} + '/comment'}" method="post">
-        <label for="commentContent">Comment</label>
-        <textarea id="commentContent" name="content" placeholder="Leave a comment..." required></textarea>
-        <button id="postComment" type="submit">Comment</button>
-      </form>
+      <div th:each="item : ${mentoring}" class="card shadow-sm mb-4">
 
-      <div th:each="comment : ${item.comments}" class="profile-causes">
-        <p>
-          <strong th:text="${comment.author.username}">Author</strong>:
-          <span th:text="${comment.textContent}">Content</span>
-        </p>
+
+        <div class="card-body">
+          <h3 class="card-title" th:text="${item.title}">Title</h3>
+          <p class="card-text" th:text="${item.description}">Description</p>
+
+          <div class="text-center flex-wrap gap-2 mb-3">
+
+            <form th:action="@{'/mentoring/' + ${item.id} + '/favourite'}" method="post">
+              <button type="submit" class="btn btn-primary btn-sm">
+                Add to Favourites
+              </button>
+            </form>
+
+            <!-- Бутон за изтриване на менторинга -->
+            <form th:action="@{'/mentoring/' + ${item.id} + '/delete'}" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <button type="submit" class="btn btn-danger btn-sm">
+                Delete Mentoring
+              </button>
+            </form>
+          </div>
+
+
+          <form th:action="@{'/mentoring/' + ${item.id} + '/comment'}" method="post" class="mb-3">
+            <div class="mb-2">
+              <label for="commentContent" class="form-label">Leave a Comment</label>
+              <textarea id="commentContent"
+                        name="content"
+                        class="form-control"
+                        placeholder="Type your comment here..."
+                        rows="2"
+                        required></textarea>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary btn-sm" id="postComment">
+              Comment
+            </button>
+          </form>
+
+
+          <div th:if="${!#lists.isEmpty(item.comments)}" class="mt-4">
+            <h5 class="mb-3">Comments:</h5>
+
+            <ul class="list-group list-group-flush">
+              <li th:each="comment : ${item.comments}" class="list-group-item d-flex justify-content-between align-items-start">
+                <div>
+                  <strong th:text="${comment.author.username}">Author</strong>:
+                  <span th:text="${comment.textContent}">Content</span>
+                </div>
+                <div>
+
+                  <form th:action="@{'/mentoring/comment/' + ${comment.id} + '/delete'}" method="post" class="d-inline-block ms-2">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-warning btn-sm">Delete</button>
+                  </form>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- card-body -->
+      </div> <!-- card -->
+    </section>
+
+
+    <section>
+      <h2 class="text-center mb-4">My Favourite Mentorings</h2>
+
+      <div th:if="${#lists.isEmpty(favourites)}">
+        <p class="text-center text-muted">No favourites yet.</p>
       </div>
-    </div>
-  </section>
 
-  <section class="container mt-5">
-    <h2>My Favourite Mentorings</h2>
-    <div th:if="${#lists.isEmpty(favourites)}">
-      <p>No favourites yet.</p>
-    </div>
+      <div th:each="fav : ${favourites}" class="card shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="card-title" th:text="${fav.title}">Fav Title</h3>
+          <p class="card-text" th:text="${fav.description}"></p>
 
-    <div th:each="fav : ${favourites}">
-      <h3 th:text="${fav.title}">Fav Title</h3>
-      <p th:text="${fav.description}">Fav Description</p>
-      <form th:action="@{'/mentoring/' + ${fav.id} + '/unfavourite'}" method="post">
-        <button type="submit" class="btn btn-danger">Remove from Favourites</button>
-      </form>
-    </div>
-  </section>
+          <form th:action="@{'/mentoring/' + ${fav.id} + '/unfavourite'}" method="post">
+            <button type="submit" class="btn btn-danger btn-sm">Remove from Favourites</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer th:replace="~{fragments/footer}"></footer>
 </div>
+
 </body>
 </html>

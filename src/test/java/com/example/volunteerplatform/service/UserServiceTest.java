@@ -1,16 +1,19 @@
 package com.example.volunteerplatform.service;
 
+import com.volunteerplatform.data.RoleRepository;
 import com.volunteerplatform.data.UserRepository;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.service.UserHelperService;
 import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.web.dto.UserRegisterDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,20 +36,23 @@ public class UserServiceTest {
 
     @Mock
     private UserHelperService mockUserHelperService;
+    @Mock
+    private RoleRepository mockRoleRepository;
 
-//    @BeforeEach
-//    void setUp() {
-//        toTest = new UserService(
-//                mockUserRepository,
-//                mockPasswordEncoder,
-//                new ModelMapper(),
-//                mockUserHelperService
-//        );
-//    }
+    @BeforeEach
+    void setUp() {
+        toTest = new UserService(
+                mockUserRepository,
+                mockPasswordEncoder,
+                new ModelMapper(),
+                mockUserHelperService,
+                mockRoleRepository
+        );
+    }
 
     @Test
     void testUserRegistration() {
-        // Arrange
+
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setUsername("TestUser");
         userRegisterDTO.setFullName("Test User");
@@ -57,10 +63,10 @@ public class UserServiceTest {
         when(mockPasswordEncoder.encode(userRegisterDTO.getPassword()))
                 .thenReturn("encodedPassword");
 
-        // Act
+
         toTest.register(userRegisterDTO);
 
-        // Assert
+
         verify(mockUserRepository).save(userCaptor.capture());
         User actualSavedEntity = userCaptor.getValue();
 

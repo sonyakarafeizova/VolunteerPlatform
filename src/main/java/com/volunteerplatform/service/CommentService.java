@@ -22,20 +22,6 @@ public class CommentService {
     private final MentoringService mentoringService;
 
 
-//    Comment createInternal(CreateCommentDTO dto) {
-//        final var comment = new Comment();
-//        comment.setTextContent(dto.getContent());
-//        comment.setCreated(Instant.now());
-//        comment.setAuthor(userHelperService.getUserDetails(dto.getAuthorId()));
-//        comment.setApproved(false); // ensure unapproved by default
-//        comment.setMentoring(mentoringService.getMentoringById(dto.getMentoringId()));
-//
-//        return commentRepository.save(comment);
-//    }
-//}
-
-
-
     @Transactional
     public void create(CreateCommentDTO createCommentDTO) {
         createInternal(createCommentDTO);

@@ -116,6 +116,15 @@ public class MentoringController {
         return "redirect:/mentoring";
     }
 
-
+    @DeleteMapping("/{id}/delete")
+    public String deleteMentoring(@PathVariable Long id) {
+        mentoringService.deleteMentoring(id);
+        return "redirect:/mentoring";
+    }
+    @DeleteMapping("/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Long commentId) {
+        mentoringService.deleteComment(commentId);
+        return "redirect:/mentoring";
+    }
 
 }

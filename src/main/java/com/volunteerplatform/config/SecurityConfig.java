@@ -46,9 +46,5 @@ public class SecurityConfig {
                 .userDetailsService(appUserDetailsService)
                 .build();
     }
-//    @Bean
-//    public UserDetailsService userDetailsService(UserRepository userRepository) {
-//        return new AppUserDetailsService(userRepository);
-//    }
 
 }
