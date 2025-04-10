@@ -39,7 +39,6 @@ public class UserService {
         if (user.getFullName() == null || user.getFullName().trim().isEmpty()) {
             throw new IllegalArgumentException("Full name is required");
         }
-
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         userRepository.save(user);

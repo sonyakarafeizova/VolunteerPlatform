@@ -19,8 +19,9 @@
             <!-- Title Input -->
             <div class="mb-3">
                 <label for="title" class="form-label">Title:</label>
-                <input type="text" id="title" th:field="*{title}"
-                       class="form-control" required minlength="5">
+                <input type="text" id="title" th:field="*{title}" class="form-control"/>
+                <div class="text-danger" th:if="${#fields.hasErrors('title')}"
+                     th:errors="*{title}">Title Error</div>
             </div>
 
             <!-- Description Textarea -->

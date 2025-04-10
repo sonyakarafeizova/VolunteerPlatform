@@ -1,8 +1,8 @@
 package com.example.volunteerplatform.web;
 
 import com.volunteerplatform.VolunteerPlatformApplication;
-import com.volunteerplatform.model.Role;
 import com.volunteerplatform.model.User;
+import com.volunteerplatform.model.Role;
 import com.volunteerplatform.model.enums.UserRoles;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserService;
@@ -37,7 +37,7 @@ public class UserControllerTest {
     private CauseService causeService;
 
     @Test
-    @WithMockUser(username="adminUser",roles={"ADMIN"})
+    @WithMockUser(username="adminUser", roles={"ADMIN"})
     public void testDashboard_WithAdminRole() throws Exception {
         User adminUser = new User();
         adminUser.setUsername("adminUser");
@@ -53,11 +53,12 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username="normalUser",roles={"USER"})
+    @WithMockUser(username="normalUser", roles={"USER"})
     public void testDashboard_WithNormalUser() throws Exception {
-        User normal = new User();
-        normal.setUsername("normalUser");
-        when(userService.findByUsername("normalUser")).thenReturn(normal);
+        User normalUser = new User();
+        normalUser.setUsername("normalUser");
+
+        when(userService.findByUsername("normalUser")).thenReturn(normalUser);
 
         mockMvc.perform(get("/users/dashboard"))
                 .andExpect(status().is3xxRedirection())
@@ -65,14 +66,13 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username="testUser",roles={"USER"})
+    @WithMockUser(username="testUser", roles={"USER"})
     public void testProfile() throws Exception {
-
         User dbUser = new User();
-        dbUser.setUsername("testUser");
         dbUser.setId(1L);
-        when(userService.findByUsername("testUser")).thenReturn(dbUser);
+        dbUser.setUsername("testUser");
 
+        when(userService.findByUsername("testUser")).thenReturn(dbUser);
         when(causeService.findByUser(dbUser)).thenReturn(Collections.emptyList());
         when(userService.getProfileData()).thenReturn(new UserProfileDto());
 
@@ -85,9 +85,10 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username="ghostUser")
+    @WithMockUser(username="ghostUser", roles={"USER"})
     public void testProfile_UserNotFound_ShouldThrow() throws Exception {
         when(userService.findByUsername("ghostUser")).thenReturn(null);
+
         mockMvc.perform(get("/users/profile"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(result -> {
@@ -98,9 +99,8 @@ public class UserControllerTest {
                 });
     }
 
-
     @Test
-    @WithMockUser(username="editor",roles={"USER"})
+    @WithMockUser(username="editor", roles={"USER"})
     public void testViewProfile() throws Exception {
         UserProfileDto userProfileDto = new UserProfileDto();
         userProfileDto.setId(10L);

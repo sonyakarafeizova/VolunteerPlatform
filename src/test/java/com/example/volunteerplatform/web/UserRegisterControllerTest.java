@@ -11,9 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,10 +26,8 @@ public class UserRegisterControllerTest {
     @MockBean
     private UserService userService;
 
-
     @Test
     public void testViewRegister() throws Exception {
-
         mockMvc.perform(get("/users/register"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("registerData"))
@@ -39,10 +35,8 @@ public class UserRegisterControllerTest {
                 .andExpect(view().name("register"));
     }
 
-
     @Test
     public void testDoRegister_Success() throws Exception {
-
         when(userService.isEmailUnique("new@example.com")).thenReturn(true);
         when(userService.isUsernameUnique("newUser")).thenReturn(true);
 
@@ -58,7 +52,6 @@ public class UserRegisterControllerTest {
 
         verify(userService).register(any(UserRegisterDTO.class));
     }
-
 
     @Test
     public void testDoRegister_BindingErrors() throws Exception {
@@ -76,7 +69,6 @@ public class UserRegisterControllerTest {
 
     @Test
     public void testDoRegister_UsernameNotUnique() throws Exception {
-
         when(userService.isUsernameUnique("takenUser")).thenReturn(false);
 
         mockMvc.perform(post("/users/register")

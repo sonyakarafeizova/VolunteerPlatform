@@ -9,6 +9,7 @@ import com.volunteerplatform.service.UserService;
 import com.volunteerplatform.service.dtos.CauseDetailsDTO;
 import com.volunteerplatform.service.dtos.CauseShortInfoDTO;
 import com.volunteerplatform.web.dto.AddCauseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,17 +60,23 @@ public class CauseController {
 
     @PostMapping("/add-cause")
     public String doAddCause(
-            @ModelAttribute AddCauseDTO data,
-            @RequestParam("image") MultipartFile file,
+            @Valid @ModelAttribute("causeData")AddCauseDTO data,
             BindingResult bindingResult,
+            @RequestParam("image") MultipartFile file,
+            Model model,
             RedirectAttributes redirectAttributes) throws IOException {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Invalid form submission!");
-            return "redirect:/add-cause";
-        }
 
-        String imageUrl = cloudinaryService.upload(file, "causes");
-        data.setImageUrl(imageUrl);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Invalid form submission! Please check your input.");
+            return "redirect:/error-add-cause";
+        }
+        if (file != null && !file.isEmpty()) {
+            String imageUrl = cloudinaryService.upload(file, "causes");
+            data.setImageUrl(imageUrl);
+        } else {
+
+            data.setImageUrl(null);
+        }
 
 
         causeService.createCause(data);

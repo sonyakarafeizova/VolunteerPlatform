@@ -3,12 +3,12 @@ package com.volunteerplatform.service;
 import com.volunteerplatform.data.CommentRepository;
 import com.volunteerplatform.data.MentoringRepository;
 import com.volunteerplatform.data.UserRepository;
+import com.volunteerplatform.exception.MentoringNotFoundException;
 import com.volunteerplatform.model.Comment;
 import com.volunteerplatform.model.Mentoring;
 import com.volunteerplatform.model.User;
 import com.volunteerplatform.web.dto.CreateCommentDTO;
 import com.volunteerplatform.web.dto.MentoringCreateDTO;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -28,15 +28,15 @@ public class MentoringService {
     private final UserHelperService userHelperService;
     private final ModelMapper modelMapper;
 
-    public Mentoring createMentoring(MentoringCreateDTO dto) {
-        Mentoring mentoring = modelMapper.map(dto, Mentoring.class);
-        mentoring.setAuthor(userHelperService.getUser());
-        return mentoringRepository.save(mentoring);
-    }
+//    public Mentoring createMentoring(MentoringCreateDTO dto) {
+//        Mentoring mentoring = modelMapper.map(dto, Mentoring.class);
+//        mentoring.setAuthor(userHelperService.getUser());
+//        return mentoringRepository.save(mentoring);
+//    }
 
     public Mentoring getById(Long id) {
         return mentoringRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found: " + id));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found: " + id));
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class MentoringService {
         User user = userHelperService.getUser();
 
         Mentoring mentoring = mentoringRepository.findById(dto.getMentoringId())
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found"));
 
         Comment comment = new Comment();
         comment.setTextContent(dto.getContent());
@@ -59,7 +59,7 @@ public class MentoringService {
     @Transactional
     public void addToFavourites(Long mentoringId, User user) {
         Mentoring mentoring = mentoringRepository.findById(mentoringId)
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found"));
 
         mentoring.addToFavourites(user);
         mentoring.getTitle();
@@ -77,7 +77,7 @@ public class MentoringService {
     @Transactional
     public void removeFromFavourites(Long mentoringId, User user) {
         Mentoring mentoring = mentoringRepository.findById(mentoringId)
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found"));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found"));
 
         User reloadedUser = userRepository.findByIdWithFavouriteMentorings(user.getId())
                 .orElse(user);
@@ -88,14 +88,14 @@ public class MentoringService {
 
     public Mentoring getMentoringById(Long id) {
         return mentoringRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found with id: " + id));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found with id: " + id));
     }
 
     @Transactional
     public void deleteMentoring(Long id) {
 
         Mentoring mentoring = mentoringRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Mentoring not found with id: " + id));
+                .orElseThrow(() -> new MentoringNotFoundException("Mentoring not found with id: " + id));
 
         mentoringRepository.delete(mentoring);
     }

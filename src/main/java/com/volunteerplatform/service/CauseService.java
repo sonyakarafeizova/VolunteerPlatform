@@ -92,6 +92,9 @@ public class CauseService {
 
     @Transactional(readOnly = true)
     public CauseDetailsDTO getCauseDetails(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Cause not be null");
+        }
 
         return causeRestClient.get()
                 .uri("/causes/{id}")
@@ -102,6 +105,7 @@ public class CauseService {
     }
 
     public List<Cause> findByUser(User user) {
+
         List<Cause> causes = causeRepository.findByAuthor(user);
         if (causes.isEmpty()) {
             return Collections.emptyList();
