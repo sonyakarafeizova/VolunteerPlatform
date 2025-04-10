@@ -1,21 +1,24 @@
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}"></head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<!-- Header -->
 <header th:replace="~{fragments/header}"></header>
-<main class="p-5 align-content-center bg-blur my-register-div">
+
+<main class="flex-fill p-5 align-content-center bg-blur my-register-div">
   <div class="container mt-5">
     <div class="row d-flex justify-content-center">
       <div class="col-md-7">
         <div class="profile-card p-3 py-4">
-          <div class="text-center"><img src="/images/profile.png" width="100" class="rounded-circle"></div>
+          <div class="text-center">
+            <img src="/images/profile.png" width="100" class="rounded-circle" alt="Profile Picture">
+          </div>
           <div class="text-center mt-3">
             <span class="bg-secondary p-1 px-4 rounded text-white" th:text="${profileData.level}">Pro</span>
             <h5 class="mt-4 mb-0">Full name</h5>
-            <span th:text="${profileData.fullName}">UI/UX Designer</span>
+            <span th:text="${profileData.fullName}">Ivan Ivanov</span>
             <h5 class="mt-2 mb-0">Username</h5>
-            <span th:text="${profileData.username}">UI/UX Designer</span>
+            <span th:text="${profileData.username}">ivanov</span>
             <h5 class="mt-2 mb-0">Age</h5>
             <span th:text="${profileData.age}">33</span>
 
@@ -25,19 +28,19 @@
               <li><i class="fab fa-linkedin"></i></li>
               <li><i class="fab fa-google"></i></li>
             </ul>
+
             <div class="buttons d-flex justify-content-center">
               <a class="btn btn-outline-primary px-4 text-white py-1 mr-3" th:href="@{/}">Back</a>
               <a class="btn btn-outline-primary px-4 text-white py-1 mr-3" th:href="@{/users/{id}/profile-edit(id=${profileData.id})}">Edit</a>
             </div>
-
-
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </main>
+
+
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

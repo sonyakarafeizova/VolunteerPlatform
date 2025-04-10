@@ -9,10 +9,10 @@
     <!-- Top Container -->
     <section class="top-container">
         <div class="showcase">
-            <h1>Welcome to Our Volunteer Platform!</h1>
-            <p>We connect volunteers with causes that make a difference.</p>
+            <h1 th:text="#{welcome_message}">Welcome to Our Volunteer Platform!</h1>
+            <p th:text="#{welcome_subtitle}">We connect volunteers with causes that make a difference.</p>
             <th:block sec:authorize="!isAuthenticated()">
-                <a th:href="@{/users/register}" class="btn">Join Us</a>
+                <a th:href="@{/users/register}" class="btn" th:text="#{join_us}">Join Us</a>
             </th:block>
         </div>
         <div class="top-box top-box-a">
@@ -31,15 +31,11 @@
     <!-- Info Section:  Our Mission -->
     <section class="our-mission">
         <div class="mission-box">
-            <h3>Our Mission</h3>
+            <h3 th:text="#{our_mission_title}">Our Mission</h3>
 
             <img src="/images/community.jpg" alt="Community" class="mission-image">
-            <p>
-                We are dedicated to bridging the gap between individuals who want to make
-                a difference and organizations that need help. By volunteering your time
-                and skills, you can empower communities, protect the environment, and bring
-                hope to those in need. Our goal is to create a global network of compassionate
-                people committed to meaningful change and positive social impact.
+            <p th:text="#{our_mission_text}">
+                We are dedicated to bridging the gap between individuals who want to make a difference and organizations that need help...
             </p>
         </div>
     </section>

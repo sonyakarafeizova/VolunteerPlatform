@@ -27,7 +27,7 @@
               </button>
             </form>
 
-            <!-- Бутон за изтриване на менторинга -->
+
             <form th:action="@{'/mentoring/' + ${item.id} + '/delete'}" method="post">
               <input type="hidden" name="_method" value="delete" />
               <button type="submit" class="btn btn-danger btn-sm">

@@ -1,77 +1,58 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<link  rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/styles.css">
-<link rel="stylesheet" href="/css/mobile.css">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>VolunteerPlatform</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/mobile.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-            crossorigin=""></script>
-</head>
-<body>
-<main class="p-5 align-content-center bg-blur my-register-div">
-    <h1 class="    border-bottom mb-5">Login</h1>
-    <div class="d-flex justify-content-center">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body class="d-flex flex-column min-vh-100">
 
-        <div class="row g-3 align-items-center">
-            <form th:action="@{/users/login}"
-                  th:method="POST"
-                  th:object="${loginData}"
-            >
+<header th:replace="~{fragments/header}"></header>
 
-               <div class="bg-danger" th:if="${showErrorMessage}" th:text="'Invalid username or password'"></div>
-                <div>
-                    <div class="col-auto">
-                        <label for="inputUsername" class="col-form-label ">Username</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text"
-                               th:field="*{username}"
-                               name="username"
+<!-- Main Content -->
+<main class="flex-fill d-flex align-items-center justify-content-center">
+    <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+        <h1 class="text-center mb-4">Login</h1>
 
-                               id="inputUsername"
-                               class="form-control"
-                               aria-describedby="usernameHelpInline">
-                    </div>
-                </div>
-                <div>
-                    <div class="col-auto">
-                        <label for="inputPassword" class="col-form-label ">Password</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="password"
-                               th:field="*{password}"
-                               name="password"
-                               id="inputPassword" class="form-control"
-                               aria-describedby="passwordHelpInline">
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center mt-2">
-                    <button class="btn btn-primary btn-block w-50" type="submit">Login</button>
-                </div>
-            </form>
+
+        <div class="alert alert-danger" role="alert"
+             th:if="${showErrorMessage}"
+             th:text="'Invalid username or password'">
         </div>
 
+        <!-- Login Form -->
+        <form th:action="@{/users/login}"
+              th:method="POST"
+              th:object="${loginData}">
+
+            <!-- Username Field -->
+            <div class="mb-3">
+                <label for="inputUsername" class="form-label">Username</label>
+                <input type="text"
+                       th:field="*{username}"
+                       id="inputUsername"
+                       class="form-control"
+                       placeholder="Enter your username">
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-4">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password"
+                       th:field="*{password}"
+                       id="inputPassword"
+                       class="form-control"
+                       placeholder="Enter your password">
+            </div>
+
+            <!-- Login Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
+            </div>
+
+        </form>
     </div>
 </main>
-<footer class="footer bg-blur rounded">
-    <div class="container-fluid text-center">
-        <div class="h5 text-white">
-            &copy; Volunteer Platform & Team 2025. All rights reserved.
-        </div>
-    </div>
-</footer>
+
+<!-- Footer -->
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

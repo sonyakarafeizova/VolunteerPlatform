@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{fragments/head}"></head>
 <body>
 <div class="wrapper">
     <!-- Navigation -->
     <header th:replace="~{fragments/header}"></header>
 
-    <div class="info">
-        <div></div>
-        <div>
-        <h4>About Us</h4>
-        <p>
-            Welcome to our Volunteer Platform, where we bring together compassionate individuals and organizations
-            to create a positive impact in our communities. Our mission is to make volunteering accessible, meaningful,
-            and rewarding for everyone.
-        </p>
-        <p>
-            We believe in the power of collective action to address social challenges and uplift those in need. Whether
-            you’re looking to contribute your time, skills, or resources, our platform connects you with opportunities
-            that match your passions and talents.
-        </p>
-        <p>
-            From supporting local causes to participating in global initiatives, our volunteers are making a difference
-            every day. Together, we strive to build a kinder, more inclusive world where everyone has the chance to
-            thrive.
-        </p>
-        <p>
-            Join us in this journey of compassion and collaboration. Explore our platform, find a cause close to your heart,
-            and become a part of a vibrant community dedicated to change.
-        </p>
-        </div>
-        <div></div>
-    </div>
+    <!-- Main Content -->
+    <main class="container my-5">
+
+        <!-- About Us Heading & Intro Section -->
+        <section class="mb-4 text-center">
+            <h2 class="mb-3">About Us</h2>
+            <p class="lead">
+                Welcome to our Volunteer Platform, where we bring together compassionate individuals and organizations
+                to create a positive impact in our communities.
+            </p>
+        </section>
+
+        <!-- Detailed Information Section -->
+        <section class="row justify-content-center">
+            <div class="col-md-8">
+
+                <p>
+                    Our mission is to make volunteering accessible, meaningful, and rewarding for everyone. We believe
+                    in the power of collective action to address social challenges and uplift those in need.
+                </p>
+                <p>
+                    Whether you’re looking to contribute your time, skills, or resources, our platform connects you
+                    with opportunities that match your passions and talents.
+                </p>
+                <p>
+                    From supporting local causes to participating in global initiatives, our volunteers are making
+                    a difference every day. Together, we strive to build a kinder, more inclusive world where everyone
+                    has the chance to thrive.
+                </p>
+                <p>
+                    Join us in this journey of compassion and collaboration. Explore our platform, find a cause
+                    close to your heart, and become a part of a vibrant community dedicated to change.
+                </p>
+
+                <!-- Call To Action Button (Optional) -->
+                <div class="mt-4">
+                    <a href="#" class="btn btn-primary btn-lg" th:href="@{/causes}">
+                        Browse Causes
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    <!-- Main Content Ends -->
 
 </div>
-<!-- Wrapper Ends -->
-</body>
+
+<!-- Footer -->
 <footer th:replace="~{fragments/footer}"></footer>
+
+</body>
 </html>

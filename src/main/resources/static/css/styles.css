@@ -1,4 +1,6 @@
-/* General Styles */
+/* ======================================
+   GENERAL & GLOBAL STYLES
+====================================== */
 :root {
     --primary: #4a90e2;
     --dark: #2c3e50;
@@ -8,11 +10,17 @@
     --accent: #57d9ff;
 }
 
-/* Global Styles */
 html {
     box-sizing: border-box;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     color: var(--dark);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
 }
 
 body {
@@ -22,12 +30,33 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: var(--dark);
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
-/* Navigation */
+/* Wrapper & Mai */
+.wrapper,
+.causes-page .wrapper,
+.login-page .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main,
+.causes-page main,
+.login-page main {
+    flex: 1;
+}
+
+/* ======================================
+   NAVIGATION
+====================================== */
 .main-nav ul {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -55,140 +84,14 @@ body {
     border-radius: 5px;
 }
 
-/* Buttons */
-.btn {
-    background: var(--primary);
-    color: var(--light);
-    padding: 0.7rem 1.5rem;
-    text-decoration: none;
-    font-size: 1rem;
-    border-radius: 5px;
-    display: inline-block;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.btn:hover {
-    background: var(--accent);
-    transform: scale(1.05);
-}
-
-/* Showcase */
-.showcase {
-    min-height: 30vh; /* Намалено от 50vh */
-    background: url('static/images/volunteer1.jpg') no-repeat center center/cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Центриране на съдържанието */
-    justify-content: center;
-    color: var(--light);
-    padding: 2rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-}
-
-.showcase h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.showcase p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-/* Boxes Section */
-/* Ако не ползвате Boxes, можете да ги коментирате или изтриете
-.boxes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 2rem 0;
-    gap: 1rem;
-}
-
-.box {
-    flex: 1 1 calc(33.333% - 1rem);
-    background: var(--light);
-    padding: 1rem;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.box img {
-    max-width: 80%;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
-.box h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--primary);
-}
-
-.box p {
-    color: var(--dark);
-}
-
-.box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-*/
-
-/* Info Section */
-.cause {
-    background: var(--primary);
-    color: var(--light);
-    text-align: center;
-    padding: 2rem;
-    border-radius: 10px;
-    margin: 2rem 0;
-    box-shadow: var(--shadow);
-}
-
-.cause h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.cause p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-}
-
-/* Gallery Section */
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
-.gallery img {
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-}
-
-.gallery img:hover {
-    transform: scale(1.05);
-}
-
-/* Footer */
-footer {
-    background: var(--dark);
-    color: var(--light);
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: 2rem; /* Намалено от 40rem */
-    border-radius: 5px;
-    box-shadow: var(--shadow);
-}
-
 /* Language Selector */
+.main-nav .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
 .main-nav .nav-item form {
     display: flex;
     align-items: center;
@@ -214,54 +117,38 @@ footer {
     transition: all 0.3s ease;
 }
 
-/* Position the form */
-.main-nav .nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
+/* ======================================
+   BUTTONS
+====================================== */
+.btn {
+    background: var(--primary);
+    color: var(--light);
+    padding: 0.7rem 1.5rem;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    display: inline-block;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.social-list {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    padding: 0;
+.btn:hover {
+    background: var(--accent);
+    transform: scale(1.05);
 }
 
-.social-list li {
-    padding: 10px;
-    color: #0833e3;
-    font-size: 19px;
-}
-
-.buttons button:nth-child(1) {
+/* Допълнителни бутони (напр. в .buttons) */
+.buttons button {
     border: 1px solid #0833e3 !important;
     color: #ffffff;
     height: 40px;
+    transition: background 0.3s ease;
 }
 
-.buttons button:nth-child(1):hover {
-    border: 1px solid #0833e3 !important;
-    color: #fff;
-    height: 40px;
+.buttons button:hover {
     background-color: #0833e3;
 }
 
-.buttons button:nth-child(2) {
-    border: 1px solid #0833e3 !important;
-    color: #ffffff;
-    height: 40px;
-}
-
-.buttons button:nth-child(2):hover {
-    border: 1px solid #0833e3 !important;
-    color: #fff;
-    height: 40px;
-    background-color: #0833e3;
-}
-
-/* Logout-Button */
+/* Logout бутон */
 .logout-form {
     display: inline;
 }
@@ -285,7 +172,169 @@ footer {
     border-radius: 5px;
 }
 
-/* Profile_Causes */
+/* ======================================
+   SHOWCASE & INFO SECTION
+====================================== */
+.showcase {
+    min-height: 30vh;
+    background: url('static/images/volunteer1.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    padding: 2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+}
+
+.showcase h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.showcase p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.cause {
+    background: var(--primary);
+    color: var(--light);
+    text-align: center;
+    padding: 2rem;
+    border-radius: 10px;
+    margin: 2rem 0;
+    box-shadow: var(--shadow);
+}
+
+.cause h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cause p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.gallery img {
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* ======================================
+   FOOTER
+====================================== */
+footer {
+    background: var(--dark);
+    color: var(--light);
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+}
+
+/* ======================================
+   FORM ELEMENTS & TEXTAREA
+====================================== */
+textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+}
+
+#postComment {
+    display: block;
+    margin: 10px auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* ======================================
+   CARDS
+====================================== */
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ======================================
+   MISSION SECTION
+====================================== */
+.our-mission {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    margin: 0 2rem;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.mission-box {
+    width: 700px;
+    height: 700px;
+    background: var(--primary);
+    color: var(--light);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mission-box h2 {
+    margin-bottom: 1rem;
+}
+
+.mission-box img.mission-image {
+    max-width: 50%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.mission-box p {
+    line-height: 1.5;
+}
+
+/* ======================================
+   PROFILE / CAUSES
+====================================== */
 .profile-causes {
     list-style: none;
     padding: 0;
@@ -317,122 +366,61 @@ footer {
     margin-top: 10px;
 }
 
-.top-box-a {
-    margin-left: 2em;
-}
-
+/* ======================================
+   CONTAINERS & LAYOUT
+====================================== */
 .container {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
 }
 
-textarea {
-    width: 100%;
-    max-width: 500px;
-    height: 100px;
-    margin: 0 auto;
-    display: block;
+/* Weather */
+.top-box.top-box-a {
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 220px;
+    margin: 1rem auto;
 }
 
-#postComment {
-    display: block;
-    margin: 10px auto;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+.top-box.top-box-a h4 {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.top-box.top-box-a #box-a-temp {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.top-box.top-box-a img {
+    margin-top: 0.5rem;
+    width: 80px;
+    height: auto;
+}
+
+
+.social-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+
+.social-list li {
+    margin: 0 10px;
+    color: #0833e3;
+    font-size: 1.5rem;
     cursor: pointer;
 }
 
-.card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: center;
+.social-list li:hover {
+    color: #0056b3;
+    transform: scale(1.1);
 }
 
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.our-mission {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    margin: 0rem 2rem;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: space-around;
-
-}
-.mission-box {
-    width: 700px;
-    height: 700px;
-    background: var(--primary);
-    color: var(--light);
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    padding: 2rem;
-    margin: 1rem;
-    text-align: center;
-
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.mission-box h2 {
-    margin-bottom: 1rem;
-}
-
-.mission-box img.mission-image {
-    max-width: 50%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 1rem;
-}
-
-.mission-box p {
-    line-height: 1.5;
-}
-
-.causes-page html,
-.causes-page body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.causes-page .wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.causes-page main {
-    flex: 1;
-}
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Заставя wrapper-а да заема цялата височина на прозореца */
-}
-
-main {
-    flex: 1; /* Основното съдържание заема останалото пространство, бутейки футъра в долната част */
-}
