@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+</head>
+<body>
+<h1>404 - Not Found</h1>
+<p th:text="${errorMessage}">The resource you are looking for was not found.</p>
+<a th:href="@{/}">Go back to Home</a>
+</body>
+</html>

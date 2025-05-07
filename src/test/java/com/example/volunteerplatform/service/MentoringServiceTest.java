@@ -3,6 +3,7 @@ package com.example.volunteerplatform.service;
 import com.volunteerplatform.data.CommentRepository;
 import com.volunteerplatform.data.MentoringRepository;
 import com.volunteerplatform.data.UserRepository;
+import com.volunteerplatform.exception.MentoringNotFoundException;
 import com.volunteerplatform.model.Comment;
 import com.volunteerplatform.model.Mentoring;
 import com.volunteerplatform.model.User;
@@ -10,7 +11,6 @@ import com.volunteerplatform.service.MentoringService;
 import com.volunteerplatform.service.UserHelperService;
 import com.volunteerplatform.web.dto.CreateCommentDTO;
 import com.volunteerplatform.web.dto.MentoringCreateDTO;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,7 +79,7 @@ public class MentoringServiceTest {
     @Test
     void testGetById_NotFound_ShouldThrow() {
         when(mentoringRepository.findById(999L)).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class, () -> mentoringService.getById(999L));
+        assertThrows(MentoringNotFoundException.class, () -> mentoringService.getById(999L));
     }
 
     @Test
@@ -112,14 +112,14 @@ public class MentoringServiceTest {
 
         when(mentoringRepository.findById(999L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> mentoringService.addComment(dto));
+        assertThrows(MentoringNotFoundException.class, () -> mentoringService.addComment(dto));
         verify(commentRepository, never()).save(any(Comment.class));
     }
 
     @Test
     void testAddToFavourites_NotFound_ShouldThrow() {
         when(mentoringRepository.findById(10L)).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class,
+        assertThrows(MentoringNotFoundException.class,
                 () -> mentoringService.addToFavourites(10L, new User()));
         verify(mentoringRepository, never()).save(any(Mentoring.class));
     }
@@ -144,7 +144,7 @@ public class MentoringServiceTest {
     @Test
     void testGetMentoringById_NotFound() {
         when(mentoringRepository.findById(999L)).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class,
+        assertThrows(MentoringNotFoundException.class,
                 () -> mentoringService.getMentoringById(999L));
     }
 
@@ -162,13 +162,12 @@ public class MentoringServiceTest {
     @Test
     void testDeleteMentoring_NotFound_ShouldThrow() {
         when(mentoringRepository.findById(99L)).thenReturn(Optional.empty());
-        assertThrows(EntityNotFoundException.class,
+        assertThrows(MentoringNotFoundException.class,
                 () -> mentoringService.deleteMentoring(99L));
     }
 
     @Test
     void testDeleteComment() {
-
         mentoringService.deleteComment(100L);
         verify(commentRepository).deleteById(100L);
     }

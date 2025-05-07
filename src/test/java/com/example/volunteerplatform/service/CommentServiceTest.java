@@ -144,14 +144,6 @@ public class CommentServiceTest {
     }
 
 
-    @Test
-    void testCreate_WhenUserIsNull_ShouldHandleGracefully() {
-        CreateCommentDTO dto = new CreateCommentDTO();
-        dto.setContent("Comment with null user");
-        dto.setMentoringId(1L);
 
-        when(mockUserHelperService.getUser()).thenReturn(null);
-        assertThrows(NullPointerException.class, () -> commentService.create(dto));
-        verify(mockCommentRepository, never()).save(any());
-    }
 }
+

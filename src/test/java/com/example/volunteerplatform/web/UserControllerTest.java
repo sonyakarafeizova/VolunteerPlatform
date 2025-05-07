@@ -1,8 +1,8 @@
 package com.example.volunteerplatform.web;
 
 import com.volunteerplatform.VolunteerPlatformApplication;
-import com.volunteerplatform.model.User;
 import com.volunteerplatform.model.Role;
+import com.volunteerplatform.model.User;
 import com.volunteerplatform.model.enums.UserRoles;
 import com.volunteerplatform.service.CauseService;
 import com.volunteerplatform.service.UserService;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Collections;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -90,13 +89,9 @@ public class UserControllerTest {
         when(userService.findByUsername("ghostUser")).thenReturn(null);
 
         mockMvc.perform(get("/users/profile"))
-                .andExpect(status().isInternalServerError())
-                .andExpect(result -> {
-                    Exception ex = result.getResolvedException();
-                    assertNotNull(ex);
-                    assertTrue(ex instanceof RuntimeException);
-                    assertEquals("User not found", ex.getMessage());
-                });
+                .andExpect(status().isNotFound())
+                .andExpect(model().attributeExists("errorMessage"))
+                .andExpect(view().name("error/404"));
     }
 
     @Test
